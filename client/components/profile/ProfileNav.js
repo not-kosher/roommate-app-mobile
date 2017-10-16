@@ -1,13 +1,15 @@
 import { StackNavigator } from 'react-navigation';
 
+import Profile from './Profile';
+
 const ProfileNav = StackNavigator(
   {
-    //route config
-
+    // route config
+    Profile: { screen: Profile },
   },
   {
-    //navigator config
-  }
+    // navigator config
+  },
 );
 
 export default ProfileNav;

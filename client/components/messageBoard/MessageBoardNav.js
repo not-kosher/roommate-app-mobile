@@ -1,14 +1,17 @@
 import { TabNavigator } from 'react-navigation';
 
-const MessageBoardNav = StackNavigator(
-  {
-    //route config
+import Notifications from './Notifications';
+import GeneralMessages from './GeneralMessages';
 
+const MessageBoardNav = TabNavigator(
+  {
+    // route config
+    Notifications: { screen: Notifications },
+    GeneralMessages: { screen: GeneralMessages },
   },
   {
-    //navigator config
-  }
+    // navigator config
+  },
 );
-
 
 export default MessageBoardNav;

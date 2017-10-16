@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-} from 'react-native';
 
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 
-export default class App extends Component {
+class App extends Component {
   constructor() {
-    //temporary for testing
+    super();
+    // temporary for testing
     this.state = {
-      user: 'Tyler'
+      user: 'Tyler',
     };
   }
 
   render() {
-    return (
-      if (this.state.user) {
+    if (this.state.user) {
+      return <HouseNav />;
+    }
 
-      }
-    );
+    return <LoginNav />;
   }
 }
+
+export default App;

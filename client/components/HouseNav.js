@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
 import { View, StyleSheet } from 'react-native';
@@ -31,9 +31,9 @@ const HouseNav = DrawerNavigator(
     // drawer config
     // initialRouteName:
 
-    contentComponent: DrawerContent,
     // drawerWidth:
     // drawerBackgroundColor
+    contentComponent: DrawerContent,
   },
 );
 

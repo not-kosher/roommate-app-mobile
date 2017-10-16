@@ -1,13 +1,15 @@
 import { StackNavigator } from 'react-navigation';
 
+import Login from './Login';
+
 const LoginNav = StackNavigator(
   {
-    //route config
-
+    // route config
+    Login: { screen: Login },
   },
   {
-    //navigator config
-  }
+    // navigator config
+  },
 );
 
 export default LoginNav;

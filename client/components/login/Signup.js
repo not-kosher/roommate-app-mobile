@@ -5,9 +5,24 @@ import {
   Text,
   View,
 } from 'react-native';
+import {
+  AWS_COGNITO_USER_POOL_ID,
+  AWS_COGNITO_CLIENT_ID,
+} from 'react-native-dotenv';
+
+import {
+  AuthenticationDetails,
+  CognitoUser,
+  CognitoUserPool,
+  CognitoUserAttribute
+} from 'react-native-aws-cognito-js';
+
+const awsCognitoSettings = {
+  UserPoolId: AWS_COGNITO_USER_POOL_ID,
+  ClientId: AWS_COGNITO_CLIENT_ID,
+};
 
 class Signup extends Component {
-
   constructor() {
     super();
     this.state = {

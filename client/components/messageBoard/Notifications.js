@@ -14,7 +14,12 @@ const NotificationsView = () => (
 
 // make Notifications into stack for title bar
 const Notifications = StackNavigator({
-  Notifications: { screen: NotificationsView },
+  Notifications: {
+    screen: NotificationsView,
+    navigationOptions: {
+      title: 'Notifications',
+    },
+  },
 });
 
 export default Notifications;

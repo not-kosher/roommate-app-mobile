@@ -1,6 +1,7 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Notifications from './Notifications';
 import GeneralMessages from './GeneralMessages';
@@ -8,8 +9,8 @@ import GeneralMessages from './GeneralMessages';
 Notifications.navigationOptions = {
   tabBarLabel: 'Notifications',
   tabBarIcon: ({ tintColor, focused }) => (
-    <MaterialCommunityIcons
-      name={focused ? 'fridge-filled' : 'fridge'}
+    <MaterialIcons
+      name={focused ? 'notifications' : 'notifications-none'}
       size={26}
       style={{ color: tintColor }}
     />

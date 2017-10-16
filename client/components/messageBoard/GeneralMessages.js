@@ -13,7 +13,12 @@ const GeneralMessagesView = () => (
 );
 
 const GeneralMessages = StackNavigator({
-  GeneralMessages: { screen: GeneralMessagesView },
+  GeneralMessages: {
+    screen: GeneralMessagesView,
+    navigationOptions: {
+      title: 'Messages',
+    },
+  },
 });
 
 export default GeneralMessages;

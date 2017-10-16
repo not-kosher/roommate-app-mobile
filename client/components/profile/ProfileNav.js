@@ -5,7 +5,12 @@ import Profile from './Profile';
 const ProfileNav = StackNavigator(
   {
     // route config
-    Profile: { screen: Profile },
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        title: 'My Profile',
+      },
+    },
   },
   {
     // navigator config

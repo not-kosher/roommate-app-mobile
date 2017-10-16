@@ -23,7 +23,12 @@ const DrawerContent = props => (
 const HouseNav = DrawerNavigator(
   {
     // route config
-    MessageBoardNav: { screen: MessageBoardNav },
+    MessageBoardNav: {
+      screen: MessageBoardNav,
+      navigationOptions: {
+        title: 'Message Board',
+      },
+    },
     RoomiesNav: { screen: RoomiesNav },
     ProfileNav: { screen: ProfileNav },
   },

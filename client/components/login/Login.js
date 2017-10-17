@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Alert,
 } from 'react-native';
 import {
   AWS_COGNITO_USER_POOL_ID,
@@ -12,6 +13,8 @@ import {
 
 import {
   CognitoUserPool,
+  CognitoUser,
+  AuthenticationDetails,
 } from 'react-native-aws-cognito-js';
 
 const awsCognitoSettings = {
@@ -32,18 +35,39 @@ class Login extends Component {
 
   handleLogin() {
     console.log('Logging in');
+    const userPool = new CognitoUserPool(awsCognitoSettings);
+    const authDetails = new AuthenticationDetails({
+      Username: this.state.username,
+      Password: this.state.password,
+    });
+    const cognitoUser = new CognitoUser({
+      Username: this.state.username,
+      Pool: userPool,
+    });
+    cognitoUser.authenticateUser(authDetails, {
+      onSuccess: (results) => {
+        // generate session token with results and attach to aws config
+        // only if needing to access other aws services
+        console.log('You logged in successfully', results.user);
+      },
+      onFailure: (err) => {
+        Alert.alert(err);
+      },
+    });
   }
 
   render() {
     return (
       <View>
         <TextInput
-          placeholder="username"
+          placeholder="Username"
           onChangeText={username => this.setState({ username })}
+          value={this.state.username}
         />
         <TextInput
-          placeholder="password"
+          placeholder="Password"
           onChangeText={password => this.setState({ password })}
+          value={this.state.password}
         />
         <TouchableOpacity onPress={this.handleLogin}>
           <View>

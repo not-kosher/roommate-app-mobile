@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Alert,
 } from 'react-native';
 import {
   AWS_COGNITO_USER_POOL_ID,
@@ -34,7 +35,7 @@ class Signup extends Component {
     const userPool = new CognitoUserPool(awsCognitoSettings);
     userPool.signUp(this.state.username, this.state.password, null, null, (err, results) => {
       if (err) {
-        alert(err);
+        Alert.alert(err);
       } else {
         console.log('The user is', results.user);
       }
@@ -45,12 +46,14 @@ class Signup extends Component {
     return (
       <View>
         <TextInput
-          placeholder="username"
+          placeholder="Username"
           onChangeText={username => this.setState({ username })}
+          value={this.state.username}
         />
         <TextInput
-          placeholder="password"
+          placeholder="Password"
           onChangeText={password => this.setState({ password })}
+          value={this.state.password}
         />
         <TouchableOpacity onPress={this.handleSignup}>
           <View>

@@ -5,10 +5,10 @@ import {
   Text,
   View,
 } from 'react-native';
-// import {
-//   AWS_COGNITO_USER_POOL_ID,
-//   AWS_COGNITO_CLIENT_ID,
-// } from 'react-native-dotenv';
+import {
+  AWS_COGNITO_USER_POOL_ID,
+  AWS_COGNITO_CLIENT_ID,
+} from 'react-native-dotenv';
 
 import {
   CognitoUserPool,
@@ -31,7 +31,7 @@ class Signup extends Component {
   }
 
   handleSubmit() {
-    // console.log('Help me', this.state.username, this.state.password);
+    console.log('Help me', this.state.username, this.state.password);
     const userPool = new CognitoUserPool(awsCognitoSettings);
     userPool.signUp(this.state.username, this.state.password, null, null, (err, results) => {
       if (err) {

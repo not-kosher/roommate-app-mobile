@@ -7,7 +7,7 @@ class App extends Component {
     super();
     // temporary for testing
     this.state = {
-      user: 'Tyler',
+      user: '',
     };
   }
 

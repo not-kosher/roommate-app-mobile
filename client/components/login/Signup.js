@@ -5,10 +5,10 @@ import {
   Text,
   View,
 } from 'react-native';
-// import {
-//   AWS_COGNITO_USER_POOL_ID,
-//   AWS_COGNITO_CLIENT_ID,
-// } from 'react-native-dotenv';
+import {
+  AWS_COGNITO_USER_POOL_ID,
+  AWS_COGNITO_CLIENT_ID,
+} from 'react-native-dotenv';
 
 import {
   CognitoUserPool,

@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import {
-  View,
-  Text,
-} from 'react-native';
+import { View } from 'react-native';
 
 import HouseNavBack from '../HouseNavBack';
+import MessageList from './MessageList';
 
 class GeneralMessagesView extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      messages: [],
+      messages: ['message 1', 'message 2', 'message 3'],
     };
   }
 
   render() {
     return (
       <View>
-        <Text>General Messages</Text>
+        <MessageList messages={this.state.messages} />
       </View>
     );
   }

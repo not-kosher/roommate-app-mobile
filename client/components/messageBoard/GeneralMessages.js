@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import {
@@ -8,11 +8,23 @@ import {
 
 import HouseNavBack from '../HouseNavBack';
 
-const GeneralMessagesView = () => (
-  <View>
-    <Text>GeneralMessages</Text>
-  </View>
-);
+class GeneralMessagesView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      messages: [],
+    };
+  }
+
+  render() {
+    return (
+      <View>
+        <Text>General Messages</Text>
+      </View>
+    );
+  }
+}
 
 const GeneralMessages = StackNavigator({
   GeneralMessages: {

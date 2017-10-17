@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Alert,
 } from 'react-native';
 import {
   AWS_COGNITO_USER_POOL_ID,
@@ -35,7 +34,7 @@ class Signup extends Component {
     const userPool = new CognitoUserPool(awsCognitoSettings);
     userPool.signUp(this.state.username, this.state.password, null, null, (err, results) => {
       if (err) {
-        Alert.alert(err);
+        alert(err);
       } else {
         console.log('The user is', results.user);
       }

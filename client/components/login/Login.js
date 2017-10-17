@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Alert,
 } from 'react-native';
 import {
   AWS_COGNITO_USER_POOL_ID,
@@ -45,13 +44,13 @@ class Login extends Component {
       Pool: userPool,
     });
     cognitoUser.authenticateUser(authDetails, {
+      onFailure: (err) => {
+        alert(err);
+      },
       onSuccess: (results) => {
         // generate session token with results and attach to aws config
         // only if needing to access other aws services
         console.log('You logged in successfully', results.user);
-      },
-      onFailure: (err) => {
-        Alert.alert(err);
       },
     });
   }

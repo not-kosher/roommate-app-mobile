@@ -20,22 +20,21 @@ const awsCognitoSettings = {
 };
 
 class Signup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: '',
       password: '',
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
   }
 
-  handleSubmit() {
-    console.log('Help me', this.state.username, this.state.password);
+  handleSignup() {
     const userPool = new CognitoUserPool(awsCognitoSettings);
     userPool.signUp(this.state.username, this.state.password, null, null, (err, results) => {
       if (err) {
-        console.log('ya dun fudged up', err);
+        alert(err);
       } else {
         console.log('The user is', results.user);
       }
@@ -53,9 +52,14 @@ class Signup extends Component {
           placeholder="password"
           onChangeText={password => this.setState({ password })}
         />
-        <TouchableOpacity onPress={this.handleSubmit}>
+        <TouchableOpacity onPress={this.handleSignup}>
           <View>
             <Text>Sign Up</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+          <View>
+            <Text>or Log in as existing user</Text>
           </View>
         </TouchableOpacity>
       </View>

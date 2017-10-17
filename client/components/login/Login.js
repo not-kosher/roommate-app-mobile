@@ -48,9 +48,11 @@ class Login extends Component {
         alert(err);
       },
       onSuccess: (results) => {
-        // generate session token with results and attach to aws config
+        // get session token from results and attach to aws config
         // only if needing to access other aws services
-        console.log('You logged in successfully', results.user);
+        // or store in async storage or redux?
+        console.log('You logged in successfully');
+        // do something when logged in
       },
     });
   }

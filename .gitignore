@@ -2,8 +2,11 @@
 #
 .DS_Store
 
-#Notes
+# Notes
 *.notes
+
+# dotenv
+.env
 
 # Xcode
 #

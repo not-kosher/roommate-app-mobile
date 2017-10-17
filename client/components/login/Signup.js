@@ -12,8 +12,6 @@ import {
 
 import {
   CognitoUserPool,
-  CognitoUser,
-  AuthenticationDetails,
 } from 'react-native-aws-cognito-js';
 
 const awsCognitoSettings = {
@@ -21,7 +19,7 @@ const awsCognitoSettings = {
   ClientId: AWS_COGNITO_CLIENT_ID,
 };
 
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,29 +27,17 @@ class Login extends Component {
       password: '',
     };
 
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
   }
 
-  handleLogin() {
-    console.log('Logging in');
+  handleSignup() {
     const userPool = new CognitoUserPool(awsCognitoSettings);
-    const authDetails = new AuthenticationDetails({
-      Username: this.state.username,
-      Password: this.state.password,
-    });
-    const cognitoUser = new CognitoUser({
-      Username: this.state.username,
-      Pool: userPool,
-    });
-    cognitoUser.authenticateUser(authDetails, {
-      onFailure: (err) => {
+    userPool.signUp(this.state.username, this.state.password, null, null, (err, results) => {
+      if (err) {
         alert(err);
-      },
-      onSuccess: (results) => {
-        // generate session token with results and attach to aws config
-        // only if needing to access other aws services
-        console.log('You logged in successfully', results.user);
-      },
+      } else {
+        console.log('The user is', results.user);
+      }
     });
   }
 
@@ -68,14 +54,14 @@ class Login extends Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <TouchableOpacity onPress={this.handleLogin}>
+        <TouchableOpacity onPress={this.handleSignup}>
           <View>
-            <Text>Log In</Text>
+            <Text>Sign Up</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
           <View>
-            <Text>or Sign in as a new user</Text>
+            <Text>or Log in as existing user</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -83,4 +69,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Signup;

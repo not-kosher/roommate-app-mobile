@@ -1,11 +1,17 @@
 import { StackNavigator } from 'react-navigation';
 
 import Login from './Login';
+import Signup from './Signup';
 
 const LoginNav = StackNavigator(
   {
     // route config
-    Login: { screen: Login },
+    Signup: { 
+      screen: Signup,
+    },
+    Login: {
+      screen: Login,
+    }
   },
   {
     // navigator config

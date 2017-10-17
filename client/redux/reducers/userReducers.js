@@ -7,8 +7,9 @@ const userReducer = (state = initialState, action) => {
     case 'UPDATE_USERNAME':
       return { ...state, username: action.payload };
 
-    default:
-      return console.log('FAILED: No user reducer found');
+    default: {
+      return state;
+    }
   }
 };
 

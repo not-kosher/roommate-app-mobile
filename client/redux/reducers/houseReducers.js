@@ -7,8 +7,9 @@ const houseReducer = (state = initialState, action) => {
     case 'UPDATE_HOUSE_ID':
       return { ...state, houseId: action.payload };
 
-    default:
-      return console.log('FAILED: No house reducer found');
+    default: {
+      return state;
+    }
   }
 };
 

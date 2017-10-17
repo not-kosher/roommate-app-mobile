@@ -7,8 +7,9 @@ const notificationReducer = (state = initialState, action) => {
     case 'ADD_NOTIFICATION':
       return { ...state, notifications: state.notifications.push(action.payload) };
 
-    default:
-      return console.log('FAILED: No notification reducer found');
+    default: {
+      return state;
+    }
   }
 };
 

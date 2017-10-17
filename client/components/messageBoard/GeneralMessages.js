@@ -6,6 +6,8 @@ import {
   Text,
 } from 'react-native';
 
+import HouseNavBack from '../HouseNavBack';
+
 const GeneralMessagesView = () => (
   <View>
     <Text>GeneralMessages</Text>
@@ -15,9 +17,10 @@ const GeneralMessagesView = () => (
 const GeneralMessages = StackNavigator({
   GeneralMessages: {
     screen: GeneralMessagesView,
-    navigationOptions: {
+    navigationOptions: ({ navigation }) => ({
       title: 'Messages',
-    },
+      headerLeft: <HouseNavBack navigation={navigation} />,
+    }),
   },
 });
 

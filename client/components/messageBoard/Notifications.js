@@ -6,6 +6,8 @@ import {
   Text,
 } from 'react-native';
 
+import HouseNavBack from '../HouseNavBack';
+
 const NotificationsView = () => (
   <View>
     <Text>Notifications</Text>
@@ -16,9 +18,10 @@ const NotificationsView = () => (
 const Notifications = StackNavigator({
   Notifications: {
     screen: NotificationsView,
-    navigationOptions: {
+    navigationOptions: ({ navigation }) => ({
       title: 'Notifications',
-    },
+      headerLeft: <HouseNavBack navigation={navigation} />,
+    }),
   },
 });
 

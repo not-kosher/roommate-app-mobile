@@ -31,8 +31,12 @@ GeneralMessages.navigationOptions = {
 const MessageBoardNav = TabNavigator(
   {
     // route config
-    Notifications: { screen: Notifications },
-    GeneralMessages: { screen: GeneralMessages },
+    Notifications: {
+      screen: Notifications,
+    },
+    GeneralMessages: {
+      screen: GeneralMessages,
+    },
   },
   {
     // navigator config

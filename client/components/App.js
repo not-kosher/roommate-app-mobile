@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 
@@ -8,7 +7,7 @@ class App extends Component {
     super();
     // temporary for testing
     this.state = {
-      user: 'Tyler',
+      user: '',
     };
   }
 

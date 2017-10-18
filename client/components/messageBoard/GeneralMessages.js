@@ -2,18 +2,26 @@ import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import { GiftedChat } from 'react-native-gifted-chat';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import HouseNavBack from '../HouseNavBack';
+import socket from '../../socket';
 
 class GeneralMessagesView extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      messages: ['message 1', 'message 2', 'message 3'],
+      messages: [],
     };
   }
 
   componentWillMount() {
+    socket.emit('joinHouse', 'testHouseId');
+  }
+
+  componentDidMount() {
     this.setState({
       messages: [
         {
@@ -58,5 +66,17 @@ const GeneralMessages = StackNavigator({
     }),
   },
 });
+
+// inject redux into props
+const mapStateToProps = (store) => {
+  return {
+    userId: store.user.userId,
+    firstName: store.user.firstName,
+    lastName: store.user.lastName,
+    // photoUrl:
+  };
+};
+
+// inject actions into props? not here
 
 export default GeneralMessages;

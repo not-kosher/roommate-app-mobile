@@ -1,8 +1,10 @@
 import React from 'react';
+import { Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import Profile from './Profile';
 import HouseNavBack from '../HouseNavBack';
+import Profile from './Profile';
+import EditProfile from './EditProfile';
 
 const ProfileNav = StackNavigator(
   {
@@ -12,6 +14,13 @@ const ProfileNav = StackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: 'My Profile',
         headerLeft: <HouseNavBack navigation={navigation} />,
+        headerRight: <Button title="Edit" onPress={() => navigation.navigate('EditProfile')} />,
+      }),
+    },
+    EditProfile: {
+      screen: EditProfile,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Edit Profile',
       }),
     },
   },

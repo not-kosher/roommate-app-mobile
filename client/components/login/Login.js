@@ -10,12 +10,12 @@ import {
   AWS_COGNITO_USER_POOL_ID,
   AWS_COGNITO_CLIENT_ID,
 } from 'react-native-dotenv';
-
 import {
   CognitoUserPool,
   CognitoUser,
   AuthenticationDetails,
 } from 'react-native-aws-cognito-js';
+
 import { updateUsername } from '../../redux/actions/userActions';
 
 const awsCognitoSettings = {

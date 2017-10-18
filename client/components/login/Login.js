@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   TextInput,
   TouchableOpacity,
@@ -15,6 +16,7 @@ import {
   CognitoUser,
   AuthenticationDetails,
 } from 'react-native-aws-cognito-js';
+import { updateUsername } from '../../redux/actions/userActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -25,8 +27,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      usernameInput: '',
+      passwordInput: '',
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -36,11 +38,11 @@ class Login extends Component {
     console.log('Logging in');
     const userPool = new CognitoUserPool(awsCognitoSettings);
     const authDetails = new AuthenticationDetails({
-      Username: this.state.username,
-      Password: this.state.password,
+      Username: this.state.usernameInput,
+      Password: this.state.passwordInput,
     });
     const cognitoUser = new CognitoUser({
-      Username: this.state.username,
+      Username: this.state.usernameInput,
       Pool: userPool,
     });
     cognitoUser.authenticateUser(authDetails, {
@@ -51,7 +53,8 @@ class Login extends Component {
         // get session token from results and attach to aws config
         // only if needing to access other aws services
         // or store in async storage or redux?
-        console.log('You logged in successfully');
+        this.props.updateUsername(this.state.usernameInput);
+        console.log('You logged in successfully', this.props.username);
         // do something when logged in
       },
     });
@@ -62,13 +65,13 @@ class Login extends Component {
       <View>
         <TextInput
           placeholder="Username"
-          onChangeText={username => this.setState({ username })}
-          value={this.state.username}
+          onChangeText={usernameInput => this.setState({ usernameInput })}
+          value={this.state.usernameInput}
         />
         <TextInput
           placeholder="Password"
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
+          onChangeText={passwordInput => this.setState({ passwordInput })}
+          value={this.state.passwordInput}
         />
         <TouchableOpacity onPress={this.handleLogin}>
           <View>
@@ -85,4 +88,18 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (store) => {
+  return {
+    username: store.user.username,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUsername: (username) => {
+      dispatch(updateUsername(username));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

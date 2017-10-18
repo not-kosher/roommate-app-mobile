@@ -1,15 +1,14 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import houseReducer from './houseReducers';
-import userReducer from './userReducers';
-import notificationReducer from './notificationReducers';
+import house from './houseReducers';
+import user from './userReducers';
+import notification from './notificationReducers';
 
 const Reducers = combineReducers({
-  houseReducer,
-  userReducer,
-  notificationReducer,
-  form: formReducer,
+  house,
+  user,
+  notification,
 });
 
 export default Reducers;

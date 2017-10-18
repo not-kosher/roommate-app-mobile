@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { updateUsername } from '../../redux/actions/userActions';
+import { updateUser } from '../../redux/actions/userActions';
 
 class EditProfile extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       imageUrl: this.props.imageUrl,
       firstName: this.props.firstName,
@@ -24,14 +24,15 @@ class EditProfile extends Component {
   }
 
   saveProfile() {
-    console.log(this.state);
+    this.props.updateUser(this.state);
+    console.log('Updated user', this.props);
   }
 
   render() {
     return (
       <View>
         <Text>Edit Profile</Text>
-        <Image source={{ uri: this.state.imageUrl }} />
+        <Image source={{ uri: this.state.imageUrl }} style={{ height: 50, width: 50 }} />
         <TextInput
           placeholder="Image URL"
           value={this.state.imageUrl}
@@ -74,8 +75,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsername: (username) => {
-      dispatch(updateUsername(username));
+    updateUser: (user) => {
+      dispatch(updateUser(user));
     },
   };
 };

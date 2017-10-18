@@ -11,7 +11,7 @@ export const retrieveUser = (username) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.log('Error retrieving user', err);
       });
   };
 };

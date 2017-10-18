@@ -15,8 +15,9 @@ import {
   CognitoUser,
   AuthenticationDetails,
 } from 'react-native-aws-cognito-js';
+import axios from '../../lib/customAxios';
 
-import { updateUsername } from '../../redux/actions/userActions';
+import { retrieveUser } from '../../redux/actions/userActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -41,27 +42,37 @@ class Signup extends Component {
         alert(err);
       } else {
         // create user in db
+        axios.post('/api/users/addUser', {
+          username: this.state.usernameInput,
+        })
+          .then((result) => {
+            console.log('Created user', result);
 
-        // log in new user
-        const authDetails = new AuthenticationDetails({
-          Username: this.state.usernameInput,
-          Password: this.state.passwordInput,
-        });
-        const cognitoUser = new CognitoUser({
-          Username: this.state.usernameInput,
-          Pool: userPool,
-        });
-        cognitoUser.authenticateUser(authDetails, {
-          onFailure: (err) => {
-            alert(err);
-          },
-          onSuccess: (results) => {
-            // grab user information from db for the user
-            // update redux with username and userid
-            this.props.updateUsername(this.state.usernameInput);
-            // add user id to async store
-          },
-        });
+            // log in new user
+            const authDetails = new AuthenticationDetails({
+              Username: this.state.usernameInput,
+              Password: this.state.passwordInput,
+            });
+            const cognitoUser = new CognitoUser({
+              Username: this.state.usernameInput,
+              Pool: userPool,
+            });
+            cognitoUser.authenticateUser(authDetails, {
+              onFailure: (failure) => {
+                alert(failure);
+              },
+              onSuccess: (success) => {
+                console.log('Logged in', success);
+                // grab user information from db for the user
+                // update redux with username and userid
+                this.props.retrieveUser(this.state.usernameInput);
+                // add user id to async store
+              },
+            });
+          })
+          .catch((error) => {
+            console.log('Error creating user', error);
+          });
       }
     });
   }
@@ -102,8 +113,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsername: (username) => {
-      dispatch(updateUsername(username));
+    retrieveUser: (username) => {
+      dispatch(retrieveUser(username));
     },
   };
 };

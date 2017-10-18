@@ -23,8 +23,8 @@ class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      usernameInput: '',
+      passwordInput: '',
     };
 
     this.handleSignup = this.handleSignup.bind(this);
@@ -32,7 +32,7 @@ class Signup extends Component {
 
   handleSignup() {
     const userPool = new CognitoUserPool(awsCognitoSettings);
-    userPool.signUp(this.state.username, this.state.password, null, null, (err, results) => {
+    userPool.signUp(this.state.usernameInput, this.state.passwordInput, null, null, (err, results) => {
       if (err) {
         alert(err);
       } else {
@@ -46,13 +46,13 @@ class Signup extends Component {
       <View>
         <TextInput
           placeholder="Username"
-          onChangeText={username => this.setState({ username })}
-          value={this.state.username}
+          onChangeText={usernameInput => this.setState({ usernameInput })}
+          value={this.state.usernameInput}
         />
         <TextInput
           placeholder="Password"
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
+          onChangeText={passwordInput => this.setState({ passwordInput })}
+          value={this.state.passwordInput}
         />
         <TouchableOpacity onPress={this.handleSignup}>
           <View>

@@ -34,7 +34,7 @@ const HouseNav = DrawerNavigator(
   },
   {
     // drawer config
-    // initialRouteName:
+    initialRouteName: 'ProfileNav',
 
     // drawerWidth:
     // drawerBackgroundColor

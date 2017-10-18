@@ -40,7 +40,9 @@ class Signup extends Component {
       if (err) {
         alert(err);
       } else {
-        // do something once successfully signed up
+        // create user in db
+
+        // log in new user
         const authDetails = new AuthenticationDetails({
           Username: this.state.usernameInput,
           Password: this.state.passwordInput,
@@ -54,11 +56,10 @@ class Signup extends Component {
             alert(err);
           },
           onSuccess: (results) => {
-            // get session token from results and attach to aws config
-            // only if needing to access other aws services
-            // or store in async storage or redux?
+            // grab user information from db for the user
+            // update redux with username and userid
             this.props.updateUsername(this.state.usernameInput);
-            // do something when logged in
+            // add user id to async store
           },
         });
       }

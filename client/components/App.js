@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 
 class App extends Component {
-  constructor() {
-    super();
-    // temporary for testing
-    this.state = {
-      user: '',
-    };
-  }
-
   render() {
-    if (this.state.user) {
+    if (this.props.username) {
       return <HouseNav />;
     }
 
@@ -20,4 +13,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (store) => {
+  return {
+    username: store.user.username,
+  };
+};
+
+export default connect(mapStateToProps, null)(App);

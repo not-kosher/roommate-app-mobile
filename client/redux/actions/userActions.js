@@ -1,3 +1,21 @@
+import axios from '../../lib/customAxios';
+
+export const retrieveUser = (username) => {
+  return (dispatch) => {
+    axios.get(`/api/users/${username}`)
+      .then(({ data }) => {
+        console.log('Successfully retrieved user data', data);
+        dispatch({
+          type: 'UPDATE_USER',
+          user: data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 export const updateUsername = (username) => {
   return {
     type: 'UPDATE_USERNAME',

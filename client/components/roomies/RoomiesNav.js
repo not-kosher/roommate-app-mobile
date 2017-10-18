@@ -2,6 +2,7 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import Roomies from './Roomies';
+import AddRoomie from './AddRoomie';
 import HouseNavBack from '../HouseNavBack';
 
 const RoomiesNav = StackNavigator(
@@ -14,6 +15,7 @@ const RoomiesNav = StackNavigator(
         headerLeft: <HouseNavBack navigation={navigation} />,
       }),
     },
+    AddRoomie: { screen: AddRoomie },
   },
   {
     // navigator config

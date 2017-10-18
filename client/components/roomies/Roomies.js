@@ -2,11 +2,17 @@ import React from 'react';
 import {
   View,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 
-const Roomies = () => (
+import RoomieList from './RoomieList';
+
+const Roomies = props => (
   <View>
-    <Text>Roomies</Text>
+    <RoomieList />
+    <TouchableOpacity onPress={() => props.navigation.navigate('AddRoomie')}>
+      <Text>Add Roomie</Text>
+    </TouchableOpacity>
   </View>
 );
 

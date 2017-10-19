@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  AsyncStorage,
 } from 'react-native';
 import {
   AWS_COGNITO_USER_POOL_ID,
@@ -46,15 +47,22 @@ class Login extends Component {
       Pool: userPool,
     });
     cognitoUser.authenticateUser(authDetails, {
-      onFailure: (err) => {
-        alert(err);
+      onFailure: (failure) => {
+        console.log('Error authenticating', failure);
+        alert('There was an error logging in.');
       },
       onSuccess: (success) => {
         console.log('Logged in', success);
-        // grab user information from db for the user
-        // update redux with username and userid
-        this.props.retrieveUser(this.state.usernameInput);
-        // add user id to async store
+        // add username to async store
+        AsyncStorage.setItem('username', this.state.usernameInput)
+          .then(() => {
+            // grab user information and update redux with it
+            this.props.retrieveUser(this.state.usernameInput);
+          })
+          .catch((asyncErr) => {
+            console.log('Async store error', asyncErr);
+            alert('There was an error while logging in.');
+          });
       },
     });
   }

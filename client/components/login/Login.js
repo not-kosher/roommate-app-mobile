@@ -16,7 +16,7 @@ import {
   AuthenticationDetails,
 } from 'react-native-aws-cognito-js';
 
-import { updateUsername } from '../../redux/actions/userActions';
+import { retrieveUser } from '../../redux/actions/userActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -49,13 +49,12 @@ class Login extends Component {
       onFailure: (err) => {
         alert(err);
       },
-      onSuccess: (results) => {
-        // get session token from results and attach to aws config
-        // only if needing to access other aws services
-        // or store in async storage or redux?
-        this.props.updateUsername(this.state.usernameInput);
-        console.log('You logged in successfully', this.props.username);
-        // do something when logged in
+      onSuccess: (success) => {
+        console.log('Logged in', success);
+        // grab user information from db for the user
+        // update redux with username and userid
+        this.props.retrieveUser(this.state.usernameInput);
+        // add user id to async store
       },
     });
   }
@@ -96,8 +95,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsername: (username) => {
-      dispatch(updateUsername(username));
+    retrieveUser: (username) => {
+      dispatch(retrieveUser(username));
     },
   };
 };

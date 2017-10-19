@@ -12,8 +12,12 @@ const userReducer = (state = initialState, action) => {
     case 'UPDATE_USERNAME':
       return { ...state, username: action.username };
 
-    case 'UPDATE_USER':
+    case 'UPDATE_USER': {
+      if (!action.user.imageUrl) {
+        action.user.imageUrl = initialState.imageUrl;
+      }
       return { ...state, ...action.user };
+    }
 
     default: {
       return state;

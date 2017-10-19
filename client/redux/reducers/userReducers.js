@@ -9,9 +9,6 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_USERNAME':
-      return { ...state, username: action.username };
-
     case 'UPDATE_USER': {
       if (!action.user.imageUrl) {
         action.user.imageUrl = initialState.imageUrl;

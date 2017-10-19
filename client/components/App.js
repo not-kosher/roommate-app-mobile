@@ -14,7 +14,9 @@ class App extends Component {
     // add some kind of loading page while this is happening
     AsyncStorage.getItem('username')
       .then((username) => {
-        this.props.retrieveUser(username);
+        if (username) {
+          this.props.retrieveUser(username);
+        }
       })
       .catch((err) => {
         // username not found, so do nothing

@@ -19,6 +19,9 @@ const userReducer = (state = initialState, action) => {
       return { ...state, ...action.user };
     }
 
+    case 'RESET_USER':
+      return { ...state, ...initialState };
+
     default: {
       return state;
     }

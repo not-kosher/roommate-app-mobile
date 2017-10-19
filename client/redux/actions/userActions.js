@@ -35,5 +35,7 @@ export const updateUser = (user) => {
 };
 
 export const resetUser = () => {
-  // reset user to default values when logging out
+  return {
+    type: 'RESET_USER',
+  };
 };

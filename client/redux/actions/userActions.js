@@ -1,21 +1,41 @@
-export const updateUsername = (username) => {
-  return {
-    type: 'UPDATE_USERNAME',
-    username,
+import axios from '../../lib/customAxios';
+
+export const retrieveUser = (username) => {
+  return (dispatch) => {
+    axios.get(`/api/users/${username}`)
+      .then(({ data }) => {
+        console.log('Successfully retrieved user data', data);
+        dispatch({
+          type: 'UPDATE_USER',
+          user: data,
+        });
+      })
+      .catch((err) => {
+        console.log('Error retrieving user', err);
+      });
   };
 };
 
-export const updateUserid = (userid) => {
-  // update the user id
-};
-
-export const updateUser = (user) => {
-  return {
-    type: 'UPDATE_USER',
-    user,
+export const updateUser = (userProps) => {
+  return (dispatch, getStore) => {
+    const { user } = getStore();
+    console.log('id', user.id);
+    axios.put(`/api/users/${user.id}/updateProfile`, userProps)
+      .then(() => {
+        console.log('Successfully updated user');
+        dispatch({
+          type: 'UPDATE_USER',
+          user: userProps,
+        });
+      })
+      .catch((err) => {
+        console.log('Error updating user', err);
+      });
   };
 };
 
 export const resetUser = () => {
-  // reset user to default values when logging out
+  return {
+    type: 'RESET_USER',
+  };
 };

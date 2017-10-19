@@ -6,12 +6,12 @@ import Signup from './Signup';
 const LoginNav = StackNavigator(
   {
     // route config
-    Signup: { 
+    Signup: {
       screen: Signup,
     },
     Login: {
       screen: Login,
-    }
+    },
   },
   {
     // navigator config

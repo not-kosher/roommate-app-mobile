@@ -4,6 +4,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import {
   AWS_COGNITO_USER_POOL_ID,
@@ -13,7 +14,7 @@ import {
   CognitoUserPool,
 } from 'react-native-aws-cognito-js';
 
-import { updateUsername } from '../../redux/actions/userActions';
+import { resetUser } from '../../redux/actions/userActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -29,11 +30,22 @@ class Profile extends Component {
 
   handleLogout() {
     console.log('Logging out');
-    const userPool = new CognitoUserPool(awsCognitoSettings);
-    const cognitoUser = userPool.getCurrentUser();
-    console.log('Current user', cognitoUser);
-    cognitoUser.signOut();
-    this.props.updateUsername('');
+    // TODO
+    // remove house info from redux and asyncstore
+    AsyncStorage.multiRemove(['username'])
+      .then(() => {
+        const userPool = new CognitoUserPool(awsCognitoSettings);
+        const cognitoUser = userPool.getCurrentUser();
+        if (cognitoUser) {
+          // only able to call signOut if logging out from the same session
+          // that you were in when signing in
+          cognitoUser.signOut();
+        }
+        this.props.resetUser();
+      })
+      .catch((err) => {
+        // handle error for removing from asyncstore
+      });
   }
 
   render() {
@@ -52,8 +64,8 @@ class Profile extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsername: (username) => {
-      dispatch(updateUsername(username));
+    resetUser: () => {
+      dispatch(resetUser());
     },
   };
 };

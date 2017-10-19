@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
-import { GiftedChat } from 'react-native-gifted-chat';
-
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { GiftedChat } from 'react-native-gifted-chat';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
@@ -11,6 +9,7 @@ import socket from '../../socket';
 class GeneralMessagesView extends Component {
   constructor(props) {
     super(props);
+    console.log(`props in the general messages: ${props}`);
 
     this.state = {
       messages: [],
@@ -19,9 +18,7 @@ class GeneralMessagesView extends Component {
 
   componentWillMount() {
     socket.emit('joinHouse', 'testHouseId');
-  }
 
-  componentDidMount() {
     this.setState({
       messages: [
         {
@@ -57,26 +54,27 @@ class GeneralMessagesView extends Component {
   }
 }
 
+const mapStateToProps = store => ({
+  screenProps: {
+    userId: store.user.userId,
+    firstName: store.user.firstName,
+    lastName: store.user.lastName,
+    imageUrl: store.user.imageUrl,
+  },
+});
+
+const GeneralMessagesRedux = connect(mapStateToProps, null)(GeneralMessagesView);
+
+// turning this into a stack naviagtor so can have a matching header with
+// the rest of the application
 const GeneralMessages = StackNavigator({
   GeneralMessages: {
-    screen: GeneralMessagesView,
+    screen: GeneralMessagesRedux,
     navigationOptions: ({ navigation }) => ({
       title: 'Messages',
       headerLeft: <HouseNavBack navigation={navigation} />,
     }),
   },
 });
-
-// inject redux into props
-const mapStateToProps = (store) => {
-  return {
-    userId: store.user.userId,
-    firstName: store.user.firstName,
-    lastName: store.user.lastName,
-    // photoUrl:
-  };
-};
-
-// inject actions into props? not here
 
 export default GeneralMessages;

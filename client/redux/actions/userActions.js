@@ -16,10 +16,21 @@ export const retrieveUser = (username) => {
   };
 };
 
-export const updateUser = (user) => {
-  return {
-    type: 'UPDATE_USER',
-    user,
+export const updateUser = (userProps) => {
+  return (dispatch, getStore) => {
+    const { user } = getStore();
+    console.log('id', user.id);
+    axios.put(`/api/users/${user.id}/updateProfile`, userProps)
+      .then(() => {
+        console.log('Successfully updated user');
+        dispatch({
+          type: 'UPDATE_USER',
+          user: userProps,
+        });
+      })
+      .catch((err) => {
+        console.log('Error updating user', err);
+      });
   };
 };
 

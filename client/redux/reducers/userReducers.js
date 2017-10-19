@@ -1,6 +1,6 @@
 const initialState = {
   username: '',
-  userId: 0,
+  id: 0,
   imageUrl: 'https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg',
   firstName: '',
   lastName: '',

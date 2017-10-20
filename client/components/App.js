@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
 import { retrieveUser } from '../redux/actions/userActions';
+import { getRoomies } from '../redux/actions/houseActions';
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
@@ -15,14 +16,21 @@ class App extends Component {
     // TODO
     // add some kind of loading page while this is happening
     // also grab house info when logging in
-    AsyncStorage.getItem('username')
+    AsyncStorage.getItem('houseId')
+      .then((houseId) => {
+        if (houseId) {
+          this.props.getRoomies(houseId);
+        }
+        return AsyncStorage.getItem('username');
+      })
       .then((username) => {
         if (username) {
           this.props.retrieveUser(username);
         }
       })
       .catch((err) => {
-        // username not found, so do nothing
+        // username or houseid not found, so do nothing
+        console.log('Error retreiving from AsyncStorage', err);
       });
   }
 
@@ -50,6 +58,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     retrieveUser: (username) => {
       dispatch(retrieveUser(username));
+    },
+    getRoomies: (id) => {
+      dispatch(getRoomies(id));
     },
   };
 };

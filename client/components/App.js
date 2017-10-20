@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
 import { retrieveUser } from '../redux/actions/userActions';
-import { getRoomies } from '../redux/actions/houseActions';
+import { getRoomies, getHouse } from '../redux/actions/houseActions';
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
@@ -19,6 +19,7 @@ class App extends Component {
     AsyncStorage.getItem('houseId')
       .then((houseId) => {
         if (houseId) {
+          this.props.getHouse(houseId);
           this.props.getRoomies(houseId);
         }
         return AsyncStorage.getItem('username');
@@ -61,6 +62,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getRoomies: (id) => {
       dispatch(getRoomies(id));
+    },
+    getHouse: (id) => {
+      dispatch(getHouse(id));
     },
   };
 };

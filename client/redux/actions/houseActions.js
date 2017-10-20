@@ -1,5 +1,20 @@
 import axios from '../../lib/customAxios';
 
+export const getHouse = (id) => {
+  return (dispatch) => {
+    axios.get(`/api/houses/${id}`)
+      .then(({ data }) => {
+        dispatch({
+          type: 'UPDATE_HOUSE',
+          payload: data,
+        });
+      })
+      .catch((err) => {
+        console.log('Error retrieving house', err);
+      });
+  };
+};
+
 export const createHouse = (name) => {
   return (dispatch) => {
     axios.post('/api/houses', { name })

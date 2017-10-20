@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { createHouse, joinHouse } from '../../redux/actions/houseActions';
+import { createHouse } from '../../redux/actions/houseActions';
 
 class HouseEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
       createName: '',
-      joinName: '',
+      joinKey: '',
     };
 
     this.handleCreate = this.handleCreate.bind(this);
@@ -22,11 +22,11 @@ class HouseEntry extends Component {
   }
 
   handleCreate() {
-    console.log(this.state.createName);
+    this.props.createHouse(this.state.createName);
   }
 
   handleJoin() {
-    console.log(this.state.joinName);
+    console.log(this.state.joinKey);
   }
 
   render() {
@@ -46,8 +46,8 @@ class HouseEntry extends Component {
         <Text>Join a house</Text>
         <TextInput
           placeholder="House Key"
-          value={this.state.joinName}
-          onChangeText={joinName => this.setState({ joinName })}
+          value={this.state.joinKey}
+          onChangeText={joinKey => this.setState({ joinKey })}
         />
         <TouchableOpacity onPress={this.handleJoin}>
           <View>
@@ -61,7 +61,7 @@ class HouseEntry extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    id: store.house.id,
+    houseId: store.house.id,
   };
 };
 

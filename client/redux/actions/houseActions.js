@@ -8,6 +8,10 @@ export const createHouse = (name) => {
           type: 'UPDATE_HOUSE',
           payload: data,
         });
+        dispatch({
+          type: 'UPDATE_USER',
+          payload: { houseId: data.id },
+        });
       })
       .catch((err) => {
         console.log('Error creating the house', err);

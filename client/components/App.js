@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.username) {
+    if (this.props.houseId) {
       return <HouseNav />;
     }
 
@@ -34,7 +34,7 @@ class App extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    username: store.user.username,
+    houseId: store.house.id,
   };
 };
 

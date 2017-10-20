@@ -2,6 +2,8 @@ import { StackNavigator } from 'react-navigation';
 
 import Login from './Login';
 import Signup from './Signup';
+import EditProfile from '../profile/EditProfile';
+import HouseEntry from './HouseEntry';
 
 const LoginNav = StackNavigator(
   {
@@ -11,6 +13,12 @@ const LoginNav = StackNavigator(
     },
     Login: {
       screen: Login,
+    },
+    EditProfile: {
+      screen: EditProfile,
+    },
+    HouseEntry: {
+      screen: HouseEntry,
     },
   },
   {

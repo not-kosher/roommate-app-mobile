@@ -14,6 +14,7 @@ class App extends Component {
     // if there is a username, retrieve the user info
     // TODO
     // add some kind of loading page while this is happening
+    // also grab house info when logging in
     AsyncStorage.getItem('username')
       .then((username) => {
         if (username) {

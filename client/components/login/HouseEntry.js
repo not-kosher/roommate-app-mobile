@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 
 import { createHouse } from '../../redux/actions/houseActions';
@@ -24,10 +25,12 @@ class HouseEntry extends Component {
 
   handleCreate() {
     this.props.createHouse(this.state.createName);
+    AsyncStorage.setItem('houseId', `${this.props.houseId}`);
   }
 
   handleJoin() {
     this.props.joinHouse(this.state.joinKey);
+    AsyncStorage.setItem('houseId', `${this.props.houseId}`);
   }
 
   render() {

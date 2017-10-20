@@ -1,5 +1,5 @@
 const initialState = {
-  id: 0,
+  id: 0, // here because of db, only reference user's houseId
   name: '',
   key: '',
 };

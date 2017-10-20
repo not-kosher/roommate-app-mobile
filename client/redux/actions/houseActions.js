@@ -18,7 +18,20 @@ export const createHouse = (name) => {
       .catch((err) => {
         console.log('Error creating the house', err);
       });
-  }
+  };
+};
+
+export const getRoomies = (houseId) => {
+  return (dispatch) => {
+    axios.get(`/api/roomies/${houseId}`)
+      .then(({ data }) => {
+        dispatch({
+          type: 'UPDATE_HOUSE',
+          payload: { roomies: data },
+        });
+      })
+      .catch(err => console.log('Error retrieving roomies', err));
+  };
 };
 
 export const resetHouse = () => {

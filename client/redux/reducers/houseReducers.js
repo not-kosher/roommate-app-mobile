@@ -2,6 +2,7 @@ const initialState = {
   id: 0, // here because of db, only reference user's houseId
   name: '',
   key: '',
+  roomies: [],
 };
 
 const houseReducer = (state = initialState, action) => {

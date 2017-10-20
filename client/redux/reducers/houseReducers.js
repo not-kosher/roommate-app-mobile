@@ -9,6 +9,9 @@ const houseReducer = (state = initialState, action) => {
     case 'UPDATE_HOUSE':
       return { ...state, ...action.payload };
 
+    case 'RESET_HOUSE':
+      return { ...state, ...initialState };
+
     default: {
       return state;
     }

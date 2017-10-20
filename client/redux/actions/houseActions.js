@@ -21,6 +21,6 @@ export const createHouse = (name) => {
   }
 };
 
-export const joinHouse = (key) => {
-
+export const resetHouse = () => {
+  return { type: 'RESET_HOUSE' };
 };

@@ -15,6 +15,7 @@ import {
 } from 'react-native-aws-cognito-js';
 
 import { resetUser } from '../../redux/actions/userActions';
+import { resetHouse } from '../../redux/actions/houseActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -41,6 +42,7 @@ class Profile extends Component {
           // that you were in when signing in
           cognitoUser.signOut();
         }
+        this.props.resetHouse();
         this.props.resetUser();
       })
       .catch((err) => {
@@ -66,6 +68,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     resetUser: () => {
       dispatch(resetUser());
+    },
+    resetHouse: () => {
+      dispatch(resetHouse());
     },
   };
 };

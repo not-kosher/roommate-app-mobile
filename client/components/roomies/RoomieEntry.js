@@ -4,10 +4,12 @@ import {
   Text,
 } from 'react-native';
 
-const RoomieEntry = () => {
+const RoomieEntry = ({ roomie }) => {
   return (
     <View>
-      <Text>A Roomie Entry!!</Text>
+      <Text>{`${roomie.firstName} ${roomie.lastName}`}</Text>
+      <Text>{`Email: ${roomie.username}`}</Text>
+      <Text>{`Phone: (${roomie.phone.slice(0, 3)})-${roomie.phone.slice(3, 6)}-${roomie.phone.slice(6, 10)}`}</Text>
     </View>
   );
 };

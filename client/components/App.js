@@ -24,12 +24,11 @@ class App extends Component {
   }
 
   render() {
-    return( <RoomieNav />)
-    // if (this.props.username) {
-    //   return <HouseNav />;
-    // }
+    if (this.props.username) {
+      return <HouseNav />;
+    }
 
-    // return <LoginNav />;
+    return <LoginNav />;
   }
 }
 

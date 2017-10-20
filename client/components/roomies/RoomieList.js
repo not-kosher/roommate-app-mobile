@@ -4,10 +4,19 @@ import {
   Text,
 } from 'react-native';
 
-const RoomieList = () => {
+import RoomieEntry from './RoomieEntry';
+
+const RoomieList = (props) => {
   return (
     <View>
-      <Text>RoomieList!!</Text>
+      <RoomieEntry roomie={{
+        username: 'rollinsno@no.com',
+        firstName: 'Rollins',
+        lastName: 'Cat',
+        email: 'rollinsno@no.com',
+        phone: '1234567891',
+        houseId: 1,
+      }} />
     </View>
   );
 };

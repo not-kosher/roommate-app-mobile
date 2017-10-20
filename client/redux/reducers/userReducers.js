@@ -10,10 +10,10 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_USER': {
-      if (!action.user.imageUrl) {
-        action.user.imageUrl = initialState.imageUrl;
+      if (!action.payload.imageUrl) {
+        action.payload.imageUrl = initialState.imageUrl;
       }
-      return { ...state, ...action.user };
+      return { ...state, ...action.payload };
     }
 
     case 'RESET_USER':

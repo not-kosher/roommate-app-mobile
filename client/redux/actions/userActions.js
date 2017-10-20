@@ -7,7 +7,7 @@ export const retrieveUser = (username) => {
         console.log('Successfully retrieved user data', data);
         dispatch({
           type: 'UPDATE_USER',
-          user: data,
+          payload: data,
         });
       })
       .catch((err) => {
@@ -25,7 +25,7 @@ export const updateUser = (userProps) => {
         console.log('Successfully updated user');
         dispatch({
           type: 'UPDATE_USER',
-          user: userProps,
+          payload: userProps,
         });
       })
       .catch((err) => {

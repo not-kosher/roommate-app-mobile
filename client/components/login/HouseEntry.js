@@ -15,7 +15,7 @@ class HouseEntry extends Component {
     };
 
     this.handleCreate = this.handleCreate.bind(this);
-    this.handleJoinm = this.handleJoinm.bind(this);
+    this.handleJoin = this.handleJoin.bind(this);
   }
 
   handleCreate() {
@@ -42,7 +42,7 @@ class HouseEntry extends Component {
         </TouchableOpacity>
         <Text>Join a house</Text>
         <TextInput
-          placeholder="House Name"
+          placeholder="House Key"
           value={this.state.joinName}
           onChangeText={joinName => this.setState({ joinName })}
         />

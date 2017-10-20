@@ -1,8 +1,9 @@
-const updateHouseId = (houseId) => {
-  return {
-    type: 'UPDATE_HOUSE_ID',
-    houseId,
-  };
+import axios from '../../lib/customAxios';
+
+export const createHouse = (name) => {
+
 };
 
-exports.default(updateHouseId);
+export const joinHouse = (key) => {
+
+};

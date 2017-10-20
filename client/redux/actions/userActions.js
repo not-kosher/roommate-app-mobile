@@ -19,7 +19,6 @@ export const retrieveUser = (username) => {
 export const updateUser = (userProps) => {
   return (dispatch, getStore) => {
     const { user } = getStore();
-    console.log('id', user.id);
     axios.put(`/api/users/${user.id}/updateProfile`, userProps)
       .then(() => {
         console.log('Successfully updated user');
@@ -30,6 +29,23 @@ export const updateUser = (userProps) => {
       })
       .catch((err) => {
         console.log('Error updating user', err);
+      });
+  };
+};
+
+export const joinHouse = (key) => {
+  return (dispatch, getStore) => {
+    const { user } = getStore();
+    axios.put(`/api/users/${user.id}/joinHouse`, { key })
+      .then(() => {
+        console.log('Successfully joined house');
+        dispatch({
+          type: 'UPDATE_USER',
+          payload: { houseId: key },
+        });
+      })
+      .catch((err) => {
+        console.log('Error joining house', err);
       });
   };
 };

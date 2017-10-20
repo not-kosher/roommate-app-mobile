@@ -9,6 +9,9 @@ export const createHouse = (name) => {
           payload: data,
         });
       })
+      .catch((err) => {
+        console.log('Error creating the house', err);
+      });
   }
 };
 

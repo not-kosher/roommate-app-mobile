@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+
+import { createHouse, joinHouse } from '../../redux/actions/houseActions';
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -54,6 +57,23 @@ class HouseEntry extends Component {
       </View>
     );
   }
+}
+
+const mapStateToProps = (store) => {
+  return {
+    id: store.house.id,
+  };
 };
 
-export default HouseEntry;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createHouse: (name) => {
+      dispatch(createHouse(name));
+    },
+    joinHouse: (key) => {
+      dispatch(joinHouse(key));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HouseEntry);

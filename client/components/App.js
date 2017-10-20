@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
+import { retrieveUser } from '../redux/actions/userActions';
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
-import { retrieveUser } from '../redux/actions/userActions';
+import EditProfile from './profile/EditProfile';
+import HouseEntry from './login/HouseEntry';
 
 class App extends Component {
   componentWillMount() {
@@ -24,16 +26,21 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.houseId) {
-      return <HouseNav />;
+    if (!this.props.username) {
+      return <LoginNav />;
+    } else if (!this.props.firstName) {
+      return <EditProfile />;
+    } else if (!this.props.houseId) {
+      return <HouseEntry />;
     }
-
-    return <LoginNav />;
+    return <HouseNav />;
   }
 }
 
 const mapStateToProps = (store) => {
   return {
+    username: store.user.username,
+    firstName: store.user.firstName,
     houseId: store.user.houseId,
   };
 };

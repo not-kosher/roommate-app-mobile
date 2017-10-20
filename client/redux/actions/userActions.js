@@ -37,8 +37,14 @@ export const joinHouse = (key) => {
   return (dispatch, getStore) => {
     const { user } = getStore();
     axios.put(`/api/users/${user.id}/joinHouse`, { key })
-      .then(() => {
+      .then(({ data }) => {
         console.log('Successfully joined house');
+        // update house info
+        dispatch({
+          type: 'UPDATE_HOUSE',
+          payload: data,
+        });
+        // add house id to user
         dispatch({
           type: 'UPDATE_USER',
           payload: { houseId: key },

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { createHouse } from '../../redux/actions/houseActions';
+import { joinHouse } from '../../redux/actions/userActions';
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class HouseEntry extends Component {
   }
 
   handleJoin() {
-    console.log(this.state.joinKey);
+    this.props.joinHouse(this.state.joinKey);
   }
 
   render() {

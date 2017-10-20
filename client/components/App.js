@@ -34,7 +34,7 @@ class App extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    houseId: store.house.id,
+    houseId: store.user.houseId,
   };
 };
 

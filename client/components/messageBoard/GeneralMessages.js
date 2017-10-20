@@ -17,7 +17,16 @@ class GeneralMessagesView extends Component {
   }
 
   componentWillMount() {
-    socket.emit('joinHouse', 'testHouseId');
+    socket.emit('joinHouse', 2);
+
+    // would get all messages here as well
+
+    socket.on('newChatMessage', (messages) => {
+      console.log(`received new message: ${messages[0]}`);
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, messages),
+      }));
+    });
 
     this.setState({
       messages: [
@@ -36,9 +45,8 @@ class GeneralMessagesView extends Component {
   }
 
   onSend(messages = []) {
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }));
+    console.log(`sending message: ${messages[0]}`);
+    socket.emit('addChatMessage', 2, messages);
   }
 
   render() {
@@ -48,6 +56,8 @@ class GeneralMessagesView extends Component {
         onSend={messages => this.onSend(messages)}
         user={{
           _id: 1,
+          name: 'Tyler',
+          avatar: 'https://facebook.github.io/react/img/logo_og.png',
         }}
       />
     );
@@ -55,12 +65,10 @@ class GeneralMessagesView extends Component {
 }
 
 const mapStateToProps = store => ({
-  screenProps: {
-    userId: store.user.userId,
-    firstName: store.user.firstName,
-    lastName: store.user.lastName,
-    imageUrl: store.user.imageUrl,
-  },
+  userId: store.user.userId,
+  firstName: store.user.firstName,
+  lastName: store.user.lastName,
+  imageUrl: store.user.imageUrl,
 });
 
 const GeneralMessagesRedux = connect(mapStateToProps, null)(GeneralMessagesView);

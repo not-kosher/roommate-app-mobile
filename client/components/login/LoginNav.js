@@ -23,6 +23,7 @@ const LoginNav = StackNavigator(
   },
   {
     // navigator config
+    initialRouteName: 'HouseEntry',
   },
 );
 

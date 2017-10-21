@@ -4,6 +4,7 @@ import { DrawerNavigator, DrawerItems } from 'react-navigation';
 import { View, StyleSheet } from 'react-native';
 
 import MessageBoardNav from './messageBoard/MessageBoardNav';
+import FinancialsNav from './financials/FinancialsNav';
 import RoomiesNav from './roomies/RoomiesNav';
 import ProfileNav from './profile/ProfileNav';
 
@@ -29,6 +30,7 @@ const HouseNav = DrawerNavigator(
         title: 'Message Board',
       },
     },
+    FinancialsNav: { screen: FinancialsNav },
     RoomiesNav: { screen: RoomiesNav },
     ProfileNav: { screen: ProfileNav },
   },

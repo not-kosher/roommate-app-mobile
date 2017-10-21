@@ -18,7 +18,7 @@ import {
 } from 'react-native-aws-cognito-js';
 
 import { retrieveUser } from '../../redux/actions/userActions';
-import { getHouse } from '../../redux/actions/houseActions';
+import { getHouse, getRoomies } from '../../redux/actions/houseActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -37,7 +37,6 @@ class Login extends Component {
   }
 
   handleLogin() {
-    console.log('Logging in');
     const userPool = new CognitoUserPool(awsCognitoSettings);
     const authDetails = new AuthenticationDetails({
       Username: this.state.usernameInput,
@@ -58,8 +57,11 @@ class Login extends Component {
           .then(() => {
             // grab user information and update redux with it
             this.props.retrieveUser(this.state.usernameInput, (houseId) => {
-              this.props.getHouse(houseId);
-              AsyncStorage.setItem('houseId', `${houseId}`);
+              if (houseId) {
+                this.props.getHouse(houseId);
+                this.props.getRoomies(houseId);
+                AsyncStorage.setItem('houseId', `${houseId}`);
+              }
             });
           })
           .catch((asyncErr) => {
@@ -111,6 +113,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getHouse: (houseId) => {
       dispatch(getHouse(houseId));
+    },
+    getRoomies: (houseId) => {
+      dispatch(getRoomies(houseId));
     },
   };
 };

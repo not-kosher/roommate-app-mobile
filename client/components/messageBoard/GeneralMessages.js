@@ -17,14 +17,12 @@ class GeneralMessagesView extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // these should be when they enter, here for now
     socket.emit('joinHouse', this.props.houseId);
 
-    axios.get(`/api/${this.props.houseId}/messages`)
+    axios.get(`/api/messages/${this.props.houseId}`)
       .then((messages) => {
-        console.log(`messages from db: ${JSON.stringify(messages)}`);
-
         const giftedMessages = messages.data.map((message) => {
           let user;
           this.props.roomies.forEach((roomie) => {
@@ -45,34 +43,22 @@ class GeneralMessagesView extends Component {
           };
         });
 
-        console.log(`gifted messages afer mapping: ${giftedMessages}`);
-
-        this.setState(previousState => ({
-          messages: GiftedChat.append(previousState.messages, giftedMessages),
-        }));
+        console.log('setting message state first time');
+        // loop through and add one  at a time
+        // other optiin trigger the addition of the last element
+        // when the tab is navigated to
+        this.setState({
+          messages: giftedMessages,
+        });
+        console.log(`new message state: ${this.state.messages}`);
       })
       .catch(err => console.log(`FAILED to get messages from db: ${err}`));
 
     socket.on('newChatMessage', (messages) => {
-      console.log(`received new message: ${messages[0]}`);
+      console.log(`received new message: ${messages}`);
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, messages),
       }));
-    });
-
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        },
-      ],
     });
   }
 

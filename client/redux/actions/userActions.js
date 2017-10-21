@@ -46,7 +46,6 @@ export const joinHouse = (key) => {
         return axios.get(`/api/roomies/${key}`);
       })
       .then(({ data }) => {
-        console.log(data);
         dispatch({
           type: 'UPDATE_HOUSE',
           payload: { roomies: data },

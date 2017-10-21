@@ -30,9 +30,6 @@ class Profile extends Component {
   }
 
   handleLogout() {
-    console.log('Logging out');
-    // TODO
-    // remove house info from redux and asyncstore
     AsyncStorage.multiRemove(['username', 'houseId'])
       .then(() => {
         const userPool = new CognitoUserPool(awsCognitoSettings);

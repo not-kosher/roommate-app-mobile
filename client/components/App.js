@@ -11,15 +11,11 @@ import HouseEntry from './login/HouseEntry';
 
 class App extends Component {
   componentWillMount() {
-    // check Asyncstore for user info
-    // if there is a username, retrieve the user info
     // TODO
     // add some kind of loading page while this is happening
-    // also grab house info when logging in
     AsyncStorage.getItem('houseId')
       .then((houseId) => {
         if (houseId) {
-          console.log('Here is from async', houseId);
           this.props.getHouse(houseId);
           this.props.getRoomies(houseId);
         }

@@ -6,7 +6,6 @@ export const retrieveUser = (username, cb) => {
     axios.get(`/api/users/${username}`)
       .then(({ data }) => {
         cb(data.houseId);
-        console.log('Successfully retrieved user data', data);
         dispatch({
           type: 'UPDATE_USER',
           payload: data,
@@ -23,7 +22,6 @@ export const updateUser = (userProps) => {
     const { user } = getStore();
     axios.put(`/api/users/${user.id}/updateProfile`, userProps)
       .then(() => {
-        console.log('Successfully updated user');
         dispatch({
           type: 'UPDATE_USER',
           payload: userProps,
@@ -40,7 +38,6 @@ export const joinHouse = (key) => {
     const { user } = getStore();
     axios.put(`/api/users/${user.id}/joinHouse`, { key })
       .then(({ data }) => {
-        console.log('Successfully joined house');
         // update house info
         dispatch({
           type: 'UPDATE_HOUSE',

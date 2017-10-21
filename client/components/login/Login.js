@@ -53,13 +53,13 @@ class Login extends Component {
         alert('There was an error logging in.');
       },
       onSuccess: (success) => {
-        console.log('Logged in', success);
         // add username to async store
         AsyncStorage.setItem('username', this.state.usernameInput)
           .then(() => {
             // grab user information and update redux with it
             this.props.retrieveUser(this.state.usernameInput, (houseId) => {
               this.props.getHouse(houseId);
+              AsyncStorage.setItem('houseId', `${houseId}`);
             });
           })
           .catch((asyncErr) => {

@@ -19,6 +19,7 @@ class App extends Component {
     AsyncStorage.getItem('houseId')
       .then((houseId) => {
         if (houseId) {
+          console.log('Here is from async', houseId);
           this.props.getHouse(houseId);
           this.props.getRoomies(houseId);
         }

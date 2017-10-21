@@ -18,6 +18,7 @@ import {
 } from 'react-native-aws-cognito-js';
 
 import { retrieveUser } from '../../redux/actions/userActions';
+import { getHouse } from '../../redux/actions/houseActions';
 
 const awsCognitoSettings = {
   UserPoolId: AWS_COGNITO_USER_POOL_ID,
@@ -57,7 +58,9 @@ class Login extends Component {
         AsyncStorage.setItem('username', this.state.usernameInput)
           .then(() => {
             // grab user information and update redux with it
-            this.props.retrieveUser(this.state.usernameInput);
+            this.props.retrieveUser(this.state.usernameInput, (houseId) => {
+              this.props.getHouse(houseId);
+            });
           })
           .catch((asyncErr) => {
             console.log('Async store error', asyncErr);
@@ -103,8 +106,11 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    retrieveUser: (username) => {
-      dispatch(retrieveUser(username));
+    retrieveUser: (username, cb) => {
+      dispatch(retrieveUser(username, cb));
+    },
+    getHouse: (houseId) => {
+      dispatch(getHouse(houseId));
     },
   };
 };

@@ -24,13 +24,14 @@ class HouseEntry extends Component {
   }
 
   handleCreate() {
-    this.props.createHouse(this.state.createName);
-    AsyncStorage.setItem('houseId', `${this.props.houseId}`);
+    this.props.createHouse(this.state.createName, (houseId) => {
+      AsyncStorage.setItem('houseId', `${houseId}`);
+    });
   }
 
   handleJoin() {
     this.props.joinHouse(this.state.joinKey);
-    AsyncStorage.setItem('houseId', `${this.props.houseId}`);
+    AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
   }
 
   render() {
@@ -65,14 +66,14 @@ class HouseEntry extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    houseId: store.house.id,
+    houseId: store.user.houseId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createHouse: (name) => {
-      dispatch(createHouse(name));
+    createHouse: (name, cb) => {
+      dispatch(createHouse(name, cb));
     },
     joinHouse: (key) => {
       dispatch(joinHouse(key));

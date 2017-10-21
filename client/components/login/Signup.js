@@ -47,8 +47,6 @@ class Signup extends Component {
           username: this.state.usernameInput,
         })
           .then((result) => {
-            console.log('Created user', result);
-
             // log in new user
             const authDetails = new AuthenticationDetails({
               Username: this.state.usernameInput,
@@ -64,7 +62,6 @@ class Signup extends Component {
                 alert('There was an error logging in.');
               },
               onSuccess: (success) => {
-                console.log('Logged in', success);
                 // add username to async store
                 AsyncStorage.setItem('username', this.state.usernameInput)
                   .then(() => {

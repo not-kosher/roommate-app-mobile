@@ -1,11 +1,17 @@
 const initialState = {
-  houseId: '',
+  id: 0, // here because of db, only reference user's houseId
+  name: '',
+  key: '',
+  roomies: [],
 };
 
 const houseReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_HOUSE_ID':
-      return { ...state, houseId: action.payload };
+    case 'UPDATE_HOUSE':
+      return { ...state, ...action.payload };
+
+    case 'RESET_HOUSE':
+      return { ...state, ...initialState };
 
     default: {
       return state;

@@ -12,10 +12,6 @@ const LoginNav = StackNavigator(
     Login: {
       screen: Login,
     },
-  },
-  {
-    // navigator config
-  },
-);
+  });
 
 export default LoginNav;

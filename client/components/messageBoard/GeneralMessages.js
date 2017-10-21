@@ -5,7 +5,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
-// import axios from '../../lib/customAxios';
+import axios from '../../lib/customAxios';
 
 class GeneralMessagesView extends Component {
   constructor(props) {
@@ -19,37 +19,39 @@ class GeneralMessagesView extends Component {
 
   componentWillMount() {
     // these should be when they enter, here for now
-    socket.emit('joinHouse', 2);
+    socket.emit('joinHouse', this.props.houseId);
 
-    // axios.get('/api/messages')
-    //   .then((messages) => {
-    //     console.log(`messages from db: ${messages}`);
-    //     // need to reformat for gifted...
+    axios.get(`/api/${this.props.houseId}/messages`)
+      .then((messages) => {
+        console.log(`messages from db: ${JSON.stringify(messages)}`);
 
-    //     // need to save giftedId in db?
-    //     // need to build user obj by looking at the house store?
+        const giftedMessages = messages.data.map((message) => {
+          let user;
+          this.props.roomies.forEach((roomie) => {
+            if (roomie.id === message.userId) {
+              user = {
+                _id: roomie.id,
+                name: roomie.firstName,
+                avatar: roomie.imageUrl,
+              };
+            }
+          });
 
-    //     const giftedMessages = messages.map((message) => {
-    //       let user;
-    //       this.props.roomies.forEach((roomie) => {
-    //         if (roomie.id === message.userId) {
-    //           user = {
-    //             _id: roomie.id,
-    //             name: roomie.firstName,
-    //             avatar: roomie.imageUrl,
-    //           };
-    //         }
-    //       });
+          return {
+            _id: message.giftedId,
+            text: message.text,
+            createdAt: message.createdAt,
+            user,
+          };
+        });
 
-    //       return {
-    //         _id: message.giftedId,
-    //         text: message.text,
-    //         createdAt: message.createdAt,
-    //         user,
-    //       };
-    //     });
-    //   })
-    //   .catch(err => console.log(`FAILED to get messages from db: ${err}`));
+        console.log(`gifted messages afer mapping: ${giftedMessages}`);
+
+        this.setState(previousState => ({
+          messages: GiftedChat.append(previousState.messages, giftedMessages),
+        }));
+      })
+      .catch(err => console.log(`FAILED to get messages from db: ${err}`));
 
     socket.on('newChatMessage', (messages) => {
       console.log(`received new message: ${messages[0]}`);
@@ -76,7 +78,7 @@ class GeneralMessagesView extends Component {
 
   onSend(messages = []) {
     console.log(`sending message: ${messages[0]}`);
-    socket.emit('addChatMessage', 2, messages);
+    socket.emit('addChatMessage', this.props.houseId, messages);
   }
 
   render() {
@@ -85,9 +87,9 @@ class GeneralMessagesView extends Component {
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
         user={{
-          _id: 1,
-          name: 'Tyler',
-          avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          _id: this.props.userId,
+          name: this.props.firstName,
+          avatar: this.props.imageUrl,
         }}
       />
     );

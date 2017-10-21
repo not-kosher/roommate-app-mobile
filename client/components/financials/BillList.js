@@ -4,12 +4,14 @@ import {
   Text,
 } from 'react-native';
 
-import BillEntry from './BillEntry'
+import BillEntry from './BillEntry';
 
-const BillList = () => {
+const BillList = ({ bills }) => {
   return (
     <View>
-      <Text> Bill List </Text>
+      {bills.map((bill) => {
+        return <BillEntry bill={bill} key={bill.id} />;
+      })}
       <BillEntry />
     </View>
   );

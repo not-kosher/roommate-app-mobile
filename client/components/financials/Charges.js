@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import axios from '../../lib/customAxios';
 
 import HouseNavBack from '../HouseNavBack';
 import ChargeList from './ChargeList';
@@ -13,13 +14,20 @@ class ChargesView extends Component {
   constructor() {
     super();
 
-    this.state = {};
+    this.state = {
+      charges: [],
+    };
+  }
+  componentWillMount() {
+    axios.get(`api/charges/${this.props.houseId}`)
+      .then(charges => this.setState({ charges: charges.data }))
+      .catch(err => console.log(err));
   }
   render() {
     return (
       <View>
         <Text>CHARGES!</Text>
-        <ChargeList />
+        <ChargeList charges={this.state.charges} />
       </View>
     );
   }
@@ -28,6 +36,8 @@ class ChargesView extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    roomies: store.house.roomies,
+    houseId: store.user.houseId,
   };
 };
 

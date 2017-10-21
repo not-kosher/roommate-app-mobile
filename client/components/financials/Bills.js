@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from '../../lib/customAxios';
 import {
   Text,
   View,
@@ -12,16 +13,24 @@ import BillList from './BillList'
 import AddBill from './AddBill';
 
 class BillsView extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = {};
+    this.state = {
+      bills: [],
+    };
+  }
+  componentWillMount() {
+    axios.get(`api/bills/${this.props.houseId}`)
+      .then(bills => this.setState({ bills: bills.data }))
+      .catch(err => console.log(err));
   }
   render() {
     return (
       <View>
         <Text>BILLS!</Text>
-        <BillList />
+
+        <BillList bills={this.state.bills} />
         <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBill')}>
           <Text>Add Bill</Text>
         </TouchableOpacity>
@@ -33,6 +42,8 @@ class BillsView extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    roomies: store.house.roomies,
+    houseId: store.user.houseId,
   };
 };
 

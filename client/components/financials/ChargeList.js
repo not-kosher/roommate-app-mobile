@@ -6,11 +6,12 @@ import {
 
 import ChargeEntry from './ChargeEntry'
 
-const ChargeList = () => {
+const ChargeList = ({ charges }) => {
   return (
     <View>
-      <Text> Charge List </Text>
-      <ChargeEntry />
+      {charges.map((charge) => {
+        return <ChargeEntry charge={charge} key={charge.id} />
+      })}
     </View>
   );
 };

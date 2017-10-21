@@ -40,6 +40,7 @@ const MessageBoardNav = TabNavigator(
   },
   {
     // navigator config
+    lazy: true,
   },
 );
 

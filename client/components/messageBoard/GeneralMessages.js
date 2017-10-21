@@ -18,11 +18,12 @@ class GeneralMessagesView extends Component {
   }
 
   componentDidMount() {
-    // these should be when they enter, here for now
+    // this should be when they enter, here for now
     socket.emit('joinHouse', this.props.houseId);
 
     axios.get(`/api/messages/${this.props.houseId}`)
       .then((messages) => {
+        // convert messages to gifted chat format
         const giftedMessages = messages.data.map((message) => {
           let user;
           this.props.roomies.forEach((roomie) => {
@@ -43,19 +44,13 @@ class GeneralMessagesView extends Component {
           };
         });
 
-        console.log('setting message state first time');
-        // loop through and add one  at a time
-        // other optiin trigger the addition of the last element
-        // when the tab is navigated to
         this.setState({
           messages: giftedMessages,
         });
-        console.log(`new message state: ${this.state.messages}`);
       })
       .catch(err => console.log(`FAILED to get messages from db: ${err}`));
 
     socket.on('newChatMessage', (messages) => {
-      console.log(`received new message: ${messages}`);
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, messages),
       }));
@@ -63,7 +58,6 @@ class GeneralMessagesView extends Component {
   }
 
   onSend(messages = []) {
-    console.log(`sending message: ${messages[0]}`);
     socket.emit('addChatMessage', this.props.houseId, messages);
   }
 

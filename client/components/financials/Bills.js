@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import {
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import HouseNavBack from '../HouseNavBack';
+import BillList from './BillList'
+import AddBill from './AddBill';
 
 class BillsView extends Component {
   constructor() {
@@ -18,6 +21,10 @@ class BillsView extends Component {
     return (
       <View>
         <Text>BILLS!</Text>
+        <BillList />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBill')}>
+          <Text>Add Bill</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -39,6 +46,7 @@ const Bills = StackNavigator({
       headerLeft: <HouseNavBack navigation={navigation} />,
     }),
   },
+  AddBill: { screen: AddBill },
 });
 
 export default Bills;

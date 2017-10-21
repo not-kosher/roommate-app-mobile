@@ -7,6 +7,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 import HouseNavBack from '../HouseNavBack';
+import ChargeList from './ChargeList';
 
 class ChargesView extends Component {
   constructor() {
@@ -18,6 +19,7 @@ class ChargesView extends Component {
     return (
       <View>
         <Text>CHARGES!</Text>
+        <ChargeList />
       </View>
     );
   }

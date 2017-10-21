@@ -12,7 +12,7 @@ class Roomies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomieList: 'nonononono',
+      roomieList: [],
     };
   }
   componentWillMount() {

@@ -9,6 +9,9 @@ import RoomieEntry from './RoomieEntry';
 const RoomieList = (props) => {
   return (
     <View>
+      {props.roomies.map((roommate) => {
+        return <RoomieEntry roomie={roommate} key={roommate.id} />;
+      })}
       <RoomieEntry roomie={{
         username: 'rollinsno@no.com',
         firstName: 'Rollins',

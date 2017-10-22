@@ -9,6 +9,7 @@ import {
 import { logout } from '../../lib/authHelper';
 import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
+import socket from '../../socket';
 
 class Profile extends Component {
   constructor() {
@@ -19,6 +20,7 @@ class Profile extends Component {
 
   handleLogout() {
     logout(() => {
+      socket.emit('leaveHouse', this.props.houseId);
       this.props.resetHouse();
       this.props.resetUser();
     });
@@ -38,15 +40,17 @@ class Profile extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    resetUser: () => {
-      dispatch(resetUser());
-    },
-    resetHouse: () => {
-      dispatch(resetHouse());
-    },
-  };
-};
+const mapStoreToProps = store => ({
+  houseId: store.house.id,
+});
 
-export default connect(null, mapDispatchToProps)(Profile);
+const mapDispatchToProps = dispatch => ({
+  resetUser: () => {
+    dispatch(resetUser());
+  },
+  resetHouse: () => {
+    dispatch(resetHouse());
+  },
+});
+
+export default connect(mapStoreToProps, mapDispatchToProps)(Profile);

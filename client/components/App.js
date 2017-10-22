@@ -35,13 +35,11 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (store) => {
-  return {
-    username: store.user.username,
-    firstName: store.user.firstName,
-    houseId: store.user.houseId,
-  };
-};
+const mapStateToProps = store => ({
+  username: store.user.username,
+  firstName: store.user.firstName,
+  houseId: store.user.houseId,
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {

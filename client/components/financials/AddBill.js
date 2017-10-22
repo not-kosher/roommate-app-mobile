@@ -7,20 +7,63 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {
+  CheckBox,
+} from 'react-native-elements';
 
 class AddBill extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = {};
+    this.roomieAmmounts = {};
+
+    this.state = {
+      checked: true,
+      roomieAmmounts: {},
+    };
+
   }
+
   render() {
     return (
       <View>
-        <Text>ADD A BILL!</Text>
+        <Text>Bill name:</Text>
+        <TextInput placeholder="Bill name" />
+        <Text>Total Ammmount: $</Text>
+        <TextInput placeholder="Total ammount" />
+        {this.props.roomies.map((roomie) => {
+          this.state[roomie.id] = '';
+          return (<View key={roomie.id} >
+            <Text>{roomie.firstName}</Text>
+            <TextInput
+              onChangeText={ammount => this.roomieAmmounts[roomie.id] = ammount}
+            />
+          </View>);
+            
+        })}
+        <CheckBox
+          title='Recurring'
+          checked={this.state.checked}
+          onPress={() => {
+            this.setState({
+              checked: !(this.state.checked),
+            });
+          }}
+        />
+        <TouchableOpacity onPress={() => this.setState({roomieAmmounts: this.roomieAmmounts})}>
+          <Text>{JSON.stringify(this.roomieAmmounts)}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-export default AddBill;
+const mapStateToProps = (store) => {
+  return {
+    username: store.user.username,
+    roomies: store.house.roomies,
+    houseId: store.user.houseId,
+  };
+};
+
+export default connect(mapStateToProps, null)(AddBill);

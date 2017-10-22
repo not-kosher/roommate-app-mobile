@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
-
-import {
-  View,
-  Text,
-} from 'react-native';
+import { View } from 'react-native';
 
 import HouseNavBack from '../HouseNavBack';
+import NotificationList from './NotificationList';
 
-const NotificationsView = () => (
-  <View>
-    <Text>Notifications</Text>
-  </View>
-);
+class NotificationsView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notifications: [],
+    };
+  }
+
+  componentWillMount() {
+    // make call to server to get notifications
+  }
+
+  render() {
+    return (
+      <View>
+        <NotificationList notifications={this.state.notifications} />
+      </View>
+    );
+  }
+}
 
 // make Notifications into stack for title bar
 const Notifications = StackNavigator({

@@ -19,7 +19,7 @@ class GeneralMessagesView extends Component {
 
   componentDidMount() {
     // this should be when they enter, here for now
-    socket.emit('joinHouse', this.props.houseId);
+    // socket.emit('joinHouse', this.props.houseId);
 
     axios.get(`/api/messages/${this.props.houseId}`)
       .then((messages) => {

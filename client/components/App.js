@@ -8,6 +8,7 @@ import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
 import HouseEntry from './login/HouseEntry';
+import socket from '../socket';
 
 class App extends Component {
   componentWillMount() {
@@ -23,6 +24,10 @@ class App extends Component {
     // add some kind of loading page while this is happening
   }
 
+  socketSetup() {
+    socket.emit('joinHouse', this.props.houseId);
+  }
+
   render() {
     if (!this.props.username) {
       return <LoginNav />;
@@ -31,6 +36,8 @@ class App extends Component {
     } else if (!this.props.houseId) {
       return <HouseEntry />;
     }
+
+    this.socketSetup();
     return <HouseNav />;
   }
 }

@@ -18,7 +18,7 @@ class NotificationsView extends Component {
 
   componentWillMount() {
     axios.get(`api/notifications/${this.props.houseId}`)
-      .then(notifications => this.setState({ notifications }))
+      .then(notifications => this.setState({ notifications: notifications.data }))
       .catch(err => `FAILED to get notifications: ${err}`);
   }
 
@@ -31,7 +31,6 @@ class NotificationsView extends Component {
   }
 }
 
-// redux
 const mapStateToProps = state => ({
   userId: state.user.id,
   houseId: state.house.id,

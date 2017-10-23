@@ -5,6 +5,7 @@ import {
 
 const axios = Axios.create({
   baseURL: SERVER_URL,
+  timeout: 5000,
 });
 
 export default axios;

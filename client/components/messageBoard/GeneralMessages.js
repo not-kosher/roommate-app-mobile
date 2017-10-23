@@ -76,13 +76,13 @@ class GeneralMessagesView extends Component {
   }
 }
 
-const mapStateToProps = store => ({
-  userId: store.user.id,
-  firstName: store.user.firstName,
-  lastName: store.user.lastName,
-  imageUrl: store.user.imageUrl,
-  houseId: store.house.id,
-  roomies: store.house.roomies,
+const mapStateToProps = state => ({
+  userId: state.user.id,
+  firstName: state.user.firstName,
+  lastName: state.user.lastName,
+  imageUrl: state.user.imageUrl,
+  houseId: state.house.id,
+  roomies: state.house.roomies,
 });
 
 const GeneralMessagesRedux = connect(mapStateToProps, null)(GeneralMessagesView);

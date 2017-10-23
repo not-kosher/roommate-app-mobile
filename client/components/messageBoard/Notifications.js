@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
 
 import HouseNavBack from '../HouseNavBack';
 import NotificationList from './NotificationList';
+import axios from '../../lib/customAxios';
 
 class NotificationsView extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class NotificationsView extends Component {
   }
 
   componentWillMount() {
-    // make call to server to get notifications
+    // axios call here
   }
 
   render() {
@@ -27,10 +29,18 @@ class NotificationsView extends Component {
   }
 }
 
+// redux
+const mapStateToProps = state => ({
+  userId: state.user.id,
+  houseId: state.house.id,
+});
+
+const NotificationsRedux = connect(mapStateToProps, null)(NotificationsView);
+
 // make Notifications into stack for title bar
 const Notifications = StackNavigator({
   Notifications: {
-    screen: NotificationsView,
+    screen: NotificationsRedux,
     navigationOptions: ({ navigation }) => ({
       title: 'Notifications',
       headerLeft: <HouseNavBack navigation={navigation} />,

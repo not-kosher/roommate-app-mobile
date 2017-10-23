@@ -17,7 +17,9 @@ class NotificationsView extends Component {
   }
 
   componentWillMount() {
-    // axios call here
+    axios.get(`api/notifications/${this.props.houseId}`)
+      .then(notifications => this.setState({ notifications }))
+      .catch(err => `FAILED to get notifications: ${err}`);
   }
 
   render() {

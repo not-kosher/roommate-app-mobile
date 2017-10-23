@@ -18,9 +18,9 @@ class NotificationsView extends Component {
   }
 
   componentWillMount() {
-    axios.get(`api/notifications/${this.props.houseId}`)
-      .then(notifications => this.setState({ notifications: notifications.data }))
-      .catch(err => `FAILED to get notifications: ${err}`);
+    // axios.get(`api/notifications/${this.props.houseId}`)
+    //   .then(notifications => this.setState({ notifications: notifications.data }))
+    //   .catch(err => `FAILED to get notifications: ${err}`);
 
     // test emit
     // shoudl be one object...

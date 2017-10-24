@@ -26,12 +26,14 @@ class HouseEntry extends Component {
   handleCreate() {
     this.props.createHouse(this.state.createName, (houseId) => {
       AsyncStorage.setItem('houseId', `${houseId}`);
+      // join socket
     });
   }
 
   handleJoin() {
     this.props.joinHouse(this.state.joinKey);
     AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
+    // join socket
   }
 
   render() {

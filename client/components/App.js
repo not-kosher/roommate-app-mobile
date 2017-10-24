@@ -19,11 +19,21 @@ class App extends Component {
         if (houseId) {
           this.props.getHouse(houseId);
           this.props.getRoomies(houseId);
+          // join socket
         }
       });
     });
     // TODO
     // add some kind of loading page while this is happening
+  }
+
+  componentWillUnmount() {
+    if (this.props.houseId) {
+      socket.emit('leaveHouse', this.props.houseId);
+    }
+
+    socket.off('newNotification');
+    socket.off('newChatMessage');
   }
 
   socketSetup() {
@@ -37,6 +47,7 @@ class App extends Component {
     });
 
     socket.on('newChatMessage', (messages) => {
+      console.log('ADDING NEW MESSAGE IN SOCKET');
       this.props.addMessage(messages);
     });
   }
@@ -51,6 +62,7 @@ class App extends Component {
     }
 
     // now entering house so connect to socket
+    console.log('SETTING UP SOCKET');
     this.socketSetup();
     return <HouseNav />;
   }

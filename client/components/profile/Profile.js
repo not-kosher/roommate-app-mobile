@@ -21,6 +21,8 @@ class Profile extends Component {
   handleLogout() {
     logout(() => {
       socket.emit('leaveHouse', this.props.houseId);
+      socket.off('newNotification');
+      socket.off('newChatMessage');
       this.props.resetHouse();
       this.props.resetUser();
     });

@@ -1,6 +1,6 @@
 import axios from '../../lib/customAxios';
 
-const addNotification = notification => (
+export const addNotification = notification => (
   (dispatch) => {
     dispatch({
       type: 'ADD_NOTIFICATION',
@@ -9,7 +9,7 @@ const addNotification = notification => (
   }
 );
 
-const getNotifications = houseId => (
+export const getNotifications = houseId => (
   (dispatch) => {
     axios.get(`api/notifications/${houseId}`)
       .then((notifications) => {
@@ -21,8 +21,3 @@ const getNotifications = houseId => (
       .catch(err => `FAILED to get notifications: ${err}`);
   }
 );
-
-export default {
-  addNotification,
-  getNotifications,
-};

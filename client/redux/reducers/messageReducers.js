@@ -1,3 +1,5 @@
+import { GiftedChat } from 'react-native-gifted-chat';
+
 const initialState = {
   messages: [],
 };
@@ -8,7 +10,7 @@ const messageReducer = (state = initialState, action) => {
       return { ...state, messages: action.payload };
 
     case 'ADD_MESSAGE':
-      return { ...state, messages: state.messages.push(action.payload) };
+      return { ...state, messages: GiftedChat.append(state.messages, action.payload) };
 
     default: {
       return state;

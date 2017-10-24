@@ -4,20 +4,41 @@ export const getMessages = houseId => (
   (dispatch) => {
     axios.get(`api/messages/${houseId}`)
       .then((messages) => {
+        // convert messages to gifted chat format
+        const giftedMessages = messages.data.map((message) => {
+          let user;
+          this.props.roomies.forEach((roomie) => {
+            if (roomie.id === message.userId) {
+              user = {
+                _id: roomie.id,
+                name: roomie.firstName,
+                avatar: roomie.imageUrl,
+              };
+            }
+          });
+
+          return {
+            _id: message.giftedId,
+            text: message.text,
+            createdAt: message.createdAt,
+            user,
+          };
+        });
+
         dispatch({
           type: 'MESSAGES_RECEIVED',
-          payload: messages,
+          payload: giftedMessages,
         });
       })
       .catch(err => console.log(`FAILED to get messages: ${err}`));
   }
 );
 
-export const addMessage = message => (
+export const addMessage = messages => (
   (dispatch) => {
     dispatch({
       type: 'ADD_MESSAGE',
-      payload: message,
+      payload: messages,
     });
   }
 );

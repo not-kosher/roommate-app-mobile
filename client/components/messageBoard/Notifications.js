@@ -5,8 +5,8 @@ import { View } from 'react-native';
 
 import HouseNavBack from '../HouseNavBack';
 import NotificationList from './NotificationList';
-import axios from '../../lib/customAxios';
-import socket from '../../socket';
+// import axios from '../../lib/customAxios';
+// import socket from '../../socket';
 
 class NotificationsView extends Component {
   constructor(props) {
@@ -35,9 +35,9 @@ class NotificationsView extends Component {
     // }, 5000);
 
     // listen and update redux store
-    socket.on('newNotification', (notification) => {
-      console.log(`notification from socket: ${notification}`);
-    });
+    // socket.on('newNotification', (notification) => {
+    //   console.log(`notification from socket: ${notification}`);
+    // });
   }
 
   render() {

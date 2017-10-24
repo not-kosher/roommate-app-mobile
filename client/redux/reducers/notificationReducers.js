@@ -8,7 +8,7 @@ const notificationReducer = (state = initialState, action) => {
       return { ...state, notifications: action.payload };
 
     case 'ADD_NOTIFICATION':
-      return { ...state, notifications: state.notifications.push(action.payload) };
+      return { ...state, notifications: state.notifications.unshift(action.payload) };
 
     default: {
       return state;

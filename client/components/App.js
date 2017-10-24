@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as auth from '../lib/authHelper';
 import { retrieveUser } from '../redux/actions/userActions';
 import { getRoomies, getHouse } from '../redux/actions/houseActions';
+import { getNotifications, addNotification } from '../redux/actions/notificationActions';
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
@@ -26,6 +27,15 @@ class App extends Component {
 
   socketSetup() {
     socket.emit('joinHouse', this.props.houseId);
+
+    // call action to get all notifications
+    this.props.getNotifications(this.props.houseId);
+
+    // call action to get all messages
+
+    socket.on('newNotification', (notification) => {
+      this.props.addNotification(notification);
+    });
   }
 
   render() {
@@ -48,18 +58,22 @@ const mapStateToProps = store => ({
   houseId: store.user.houseId,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    retrieveUser: (username, cb) => {
-      dispatch(retrieveUser(username, cb));
-    },
-    getRoomies: (id) => {
-      dispatch(getRoomies(id));
-    },
-    getHouse: (id) => {
-      dispatch(getHouse(id));
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  retrieveUser: (username, cb) => {
+    dispatch(retrieveUser(username, cb));
+  },
+  getRoomies: (id) => {
+    dispatch(getRoomies(id));
+  },
+  getHouse: (id) => {
+    dispatch(getHouse(id));
+  },
+  getNotifications: (houseId) => {
+    dispatch(getNotifications(houseId));
+  },
+  addNotification: (notification) => {
+    dispatch(addNotification(notification));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

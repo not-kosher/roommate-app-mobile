@@ -30,7 +30,7 @@ class App extends Component {
     socket.emit('joinHouse', this.props.houseId);
 
     this.props.getNotifications(this.props.houseId);
-    this.props.getMessages(this.props.houseId);
+    this.props.getMessages(this.props.houseId, this.props.roomies);
 
     socket.on('newNotification', (notification) => {
       this.props.addNotification(notification);
@@ -56,10 +56,11 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = store => ({
-  username: store.user.username,
-  firstName: store.user.firstName,
-  houseId: store.user.houseId,
+const mapStateToProps = state => ({
+  username: state.user.username,
+  firstName: state.user.firstName,
+  houseId: state.user.houseId,
+  roomies: state.house.roomies,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -78,8 +79,8 @@ const mapDispatchToProps = dispatch => ({
   addNotification: (notification) => {
     dispatch(addNotification(notification));
   },
-  getMessages: (houseId) => {
-    dispatch(getMessages(houseId));
+  getMessages: (houseId, roomies) => {
+    dispatch(getMessages(houseId, roomies));
   },
   addMessage: (messages) => {
     dispatch(addMessage(messages));

@@ -1,13 +1,13 @@
 import axios from '../../lib/customAxios';
 
-export const getMessages = houseId => (
+export const getMessages = (houseId, roomies) => (
   (dispatch) => {
     axios.get(`api/messages/${houseId}`)
       .then((messages) => {
         // convert messages to gifted chat format
         const giftedMessages = messages.data.map((message) => {
           let user;
-          this.props.roomies.forEach((roomie) => {
+          roomies.forEach((roomie) => {
             if (roomie.id === message.userId) {
               user = {
                 _id: roomie.id,

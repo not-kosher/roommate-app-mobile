@@ -90,11 +90,11 @@ class Login extends Component {
             <Text>Log In</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+        {/* <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
           <View>
             <Text>or Sign in as a new user</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }

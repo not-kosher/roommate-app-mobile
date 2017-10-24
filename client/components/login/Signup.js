@@ -100,11 +100,11 @@ class Signup extends Component {
             <Text>Sign Up</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+        {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
           <View>
             <Text>or Log in as existing user</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }

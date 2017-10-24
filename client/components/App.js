@@ -5,6 +5,7 @@ import * as auth from '../lib/authHelper';
 import { retrieveUser } from '../redux/actions/userActions';
 import { getRoomies, getHouse } from '../redux/actions/houseActions';
 import { getNotifications, addNotification } from '../redux/actions/notificationActions';
+import { getMessages, addMessage } from '../redux/actions/messageActions';
 import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
@@ -28,13 +29,15 @@ class App extends Component {
   socketSetup() {
     socket.emit('joinHouse', this.props.houseId);
 
-    // call action to get all notifications
     this.props.getNotifications(this.props.houseId);
-
-    // call action to get all messages
+    this.props.getMessages(this.props.houseId);
 
     socket.on('newNotification', (notification) => {
       this.props.addNotification(notification);
+    });
+
+    socket.on('newChatMessage', (messages) => {
+      this.props.addMessage(messages);
     });
   }
 
@@ -47,6 +50,7 @@ class App extends Component {
       return <HouseEntry />;
     }
 
+    // now entering house so connect to socket
     this.socketSetup();
     return <HouseNav />;
   }
@@ -73,6 +77,12 @@ const mapDispatchToProps = dispatch => ({
   },
   addNotification: (notification) => {
     dispatch(addNotification(notification));
+  },
+  getMessages: (houseId) => {
+    dispatch(getMessages(houseId));
+  },
+  addMessage: (messages) => {
+    dispatch(addMessage(messages));
   },
 });
 

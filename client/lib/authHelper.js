@@ -57,8 +57,11 @@ export const login = (username, password, cb) => {
     onSuccess: (result) => {
       // check what is on session result to see if also needs storing?
       const creds = createCredentials(result);
+      console.log('This is the session', result);
+      console.log('These are the creds', creds);
       setCredentials(creds);
       storeCredentials(creds);
+      // cb for redux actions
       if (cb) cb(result);
     },
   });
@@ -71,14 +74,28 @@ export const signup = (username, password, cb) => {
     } else {
       // create user in db
       axios.post('/api/users/addUser', { username })
+        // cb for redux actions
         .then(res => login(username, password, cb))
         .catch(err => console.log('Error creating user', err));
     }
   });
 };
 
-export const reAuthUser = () => {
+const getCredentials = (cb) => {
+  // connect to async store and retrieve credentials
+  // call cb with the credentials generated from stored creds
+  AsyncStorage.getItem('awsCredentials')
+    .then((result) => {
 
+    })
+    .catch(err => console.log('Error retrieving credentials from async', err));
+};
+
+export const reAuthUser = (cb) => {
+  // getCredentials, as cb function that calls:
+  // setCredentials
+  // grabs username somehow...
+  // calls cb with username for redux stuff
 };
 
 export const logout = () => {

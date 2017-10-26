@@ -5,11 +5,11 @@ export const retrieveUser = (username, cb) => {
   return (dispatch) => {
     axios.get(`/api/users/${username}`)
       .then(({ data }) => {
-        if (cb) cb(data);
         dispatch({
           type: 'UPDATE_USER',
           payload: data,
         });
+        if (cb) cb(data);
       })
       .catch((err) => {
         console.log('Error retrieving user', err);

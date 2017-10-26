@@ -12,26 +12,33 @@ import HouseEntry from './login/HouseEntry';
 
 class App extends Component {
   componentWillMount() {
-    auth.reAuthUser();
-    // TODO
-    // add some kind of loading page while this is happening
-    AsyncStorage.getItem('houseId')
-      .then((houseId) => {
+    auth.reAuthUser((username) => {
+      this.props.retrieveUser(username, ({ houseId }) => {
         if (houseId) {
           this.props.getHouse(houseId);
           this.props.getRoomies(houseId);
         }
-        return AsyncStorage.getItem('username');
-      })
-      .then((username) => {
-        if (username) {
-          this.props.retrieveUser(username);
-        }
-      })
-      .catch((err) => {
-        // username or houseid not found, so do nothing
-        console.log('Error retreiving from AsyncStorage', err);
       });
+    });
+    // TODO
+    // add some kind of loading page while this is happening
+    // AsyncStorage.getItem('houseId')
+    //   .then((houseId) => {
+    //     if (houseId) {
+    //       this.props.getHouse(houseId);
+    //       this.props.getRoomies(houseId);
+    //     }
+    //     return AsyncStorage.getItem('username');
+    //   })
+    //   .then((username) => {
+    //     if (username) {
+    //       this.props.retrieveUser(username);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     // username or houseid not found, so do nothing
+    //     console.log('Error retreiving from AsyncStorage', err);
+    //   });
   }
 
   render() {
@@ -56,8 +63,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    retrieveUser: (username) => {
-      dispatch(retrieveUser(username));
+    retrieveUser: (username, cb) => {
+      dispatch(retrieveUser(username, cb));
     },
     getRoomies: (id) => {
       dispatch(getRoomies(id));

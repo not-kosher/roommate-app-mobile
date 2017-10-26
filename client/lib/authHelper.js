@@ -34,15 +34,28 @@ const createCredentials = (session) => {
 };
 
 const storeSession = (session, cb) => {
-  AsyncStorage.setItem('cognitoSession', JSON.stringify(session))
+  AsyncStorage.multiSet([['cognitoSession', JSON.stringify(session)], ['loggedIn', JSON.stringify(true)]])
     .then((result) => {
       if (cb) cb(result);
     })
     .catch(err => console.log('Error setting credentials in async', err));
 };
 
-const setCredentials = (creds) => {
+const storeCredentials = (creds) => {
   AWS.config.credentials = creds;
+  AWS.config.credentials.get((err) => {
+    if (err) {
+      console.log('Error getting creds...', err);
+    } else {
+      const { accessKeyId, secretAccessKey, sessionToken } = AWS.config.credentials;
+      const awsCredentials = {
+        accessKeyId,
+        secretAccessKey,
+        sessionToken,
+      };
+      AsyncStorage.setItem('awsCredentials', JSON.stringify(awsCredentials));
+    }
+  });
 };
 
 export const login = (username, password, cb) => {
@@ -59,7 +72,7 @@ export const login = (username, password, cb) => {
     onSuccess: (result) => {
       storeSession(result);
       const creds = createCredentials(result);
-      setCredentials(creds);
+      storeCredentials(creds);
       // cb for redux actions
       if (cb) cb(result);
     },
@@ -80,6 +93,58 @@ export const signup = (username, password, cb) => {
   });
 };
 
+
+const getEmail = (user, cb) => {
+  user.getUserAttributes((error, results) => {
+    if (error) {
+      console.log('Error retrieving attributes', error);
+    } else {
+      let email;
+      results.forEach((attr) => {
+        if (attr.getName() === 'email') {
+          email = attr.getValue();
+        }
+      });
+      if (cb) cb(email);
+    }
+  });
+};
+
+const getCurrentUser = (cb) => {
+  userPool.storage.sync((err) => {
+    if (err) {
+      console.log('Error syncing user pool', err);
+    } else {
+      const user = userPool.getCurrentUser();
+      if (user) cb(user);
+      else console.log('Error retrieving user.');
+    }
+  });
+};
+
+export const reAuthUser = (cb) => {
+  // create new authed user with session tokens from storage
+  // call cb with email pulled from user
+  AsyncStorage.getItem('loggedIn')
+    .then((loggedIn) => {
+      if (JSON.parse(loggedIn)) {
+        getCurrentUser((user) => {
+          user.getSession((err, session) => {
+            if (err) {
+              console.log('Error getting session', err);
+            } else if (session && session.isValid()) {
+              storeSession(session);
+              const creds = createCredentials(session);
+              storeCredentials(creds);
+              getEmail(user, cb);
+            }
+          });
+        });
+      }
+    })
+    .catch(err => console.log('Error retrieving logged in status', err));
+};
+
 const createNewSession = (session) => {
   return new CognitoUserSession({
     IdToken: new CognitoIdToken({ IdToken: session.idToken.jwtToken }),
@@ -88,59 +153,18 @@ const createNewSession = (session) => {
   });
 };
 
-const getSession = (cb) => {
-  // connect to async store and retrieve credentials
-  // call cb with the credentials generated from stored creds
+export const logout = (cb) => {
   AsyncStorage.getItem('cognitoSession')
     .then((result) => {
-      const newSession = createNewSession(JSON.parse(result));
-      cb(newSession);
+      const session = createNewSession(JSON.parse(result));
+      const creds = createCredentials(session);
+      creds.clearCachedId();
+      AWS.config.credentials = creds;
+      getCurrentUser(user => user.signOut());
+      return AsyncStorage.multiRemove(['awsCredentials', 'cognitoSession']);
     })
-    .catch(err => console.log('Error retrieving credentials from async', err));
+    .then(() => AsyncStorage.setItem('loggedIn', JSON.stringify(false)))
+    .then(cb)
+    .catch(err => console.log('Error with async in logout', err));
 };
 
-export const reAuthUser = (cb) => {
-  // create user pool
-  // user pool storage sync
-  // create user pool
-  // gets current user
-  // current user get session
-  // sets session to async store (and isloggedin flag true)
-  // if no current user (line 315):
-  // sets aws creds to aws config creds and async
-  // set isloggedin to false on async
-
-  userPool.storage.sync((err, success) => {
-    if (err) {
-      console.log('Error syncing', err);
-    } else {
-      const user = userPool.getCurrentUser();
-      if (user) {
-        user.getSession((err, session) => {
-          if (err) {
-            console.log('Error getting session', err);
-          } else {
-            storeSession(session);
-            user.getUserAttributes((error, results) => {
-              if (error) {
-                console.log('Error retrieving attributes', error);
-              } else {
-                let email;
-                results.forEach((attr) => {
-                  if (attr.getName() === 'email') {
-                    email = attr.getValue();
-                  }
-                });
-                if (cb) cb(email);
-              }
-            });
-          }
-        });
-      }
-    }
-  });
-};
-
-export const logout = () => {
-
-};

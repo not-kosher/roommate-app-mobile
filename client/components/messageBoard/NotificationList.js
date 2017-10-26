@@ -7,7 +7,10 @@ const NotificationList = ({ notifications }) => (
   <View>
     {
       notifications.map(notification => (
-        <NotificationItem notification={notification} />
+        <NotificationItem
+          key={notification.id}
+          notification={notification}
+        />
       ))
     }
   </View>

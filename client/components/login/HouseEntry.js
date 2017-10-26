@@ -10,6 +10,7 @@ import {
 
 import { createHouse, updateSocketReady } from '../../redux/actions/houseActions';
 import { joinHouse } from '../../redux/actions/userActions';
+import socket from '../../socket';
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -33,6 +34,15 @@ class HouseEntry extends Component {
   handleJoin() {
     this.props.joinHouse(this.state.joinKey, () => {
       this.props.updateSocketReady(true);
+
+      const joinNotification = {
+        houseId: this.state.joinKey, // need to have houseId later
+        userId: this.props.userId,
+        type: 'new roomie',
+        text: `${this.props.firstName} ${this.props.lastName} has joined the house!`,
+      };
+
+      socket.emit('addNotification', joinNotification);
     });
     AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
   }
@@ -70,6 +80,9 @@ class HouseEntry extends Component {
 const mapStateToProps = (store) => {
   return {
     houseId: store.user.houseId,
+    userId: store.user.id,
+    firstName: store.user.firstName,
+    lastName: store.user.lastName,
   };
 };
 

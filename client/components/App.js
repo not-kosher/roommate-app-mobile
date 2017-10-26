@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as auth from '../lib/authHelper';
-import { retrieveUser } from '../redux/actions/userActions';
-import { getRoomies, getHouse } from '../redux/actions/houseActions';
+import { retrieveUser, updateSocketStatus } from '../redux/actions/userActions';
+import { getRoomies, getHouse, updateSocketReady } from '../redux/actions/houseActions';
 import { getNotifications, addNotification } from '../redux/actions/notificationActions';
 import { getMessages, addMessage } from '../redux/actions/messageActions';
 import HouseNav from './HouseNav';
@@ -17,9 +17,11 @@ class App extends Component {
     auth.reAuthUser((username) => {
       this.props.retrieveUser(username, ({ houseId }) => {
         if (houseId) {
-          this.props.getHouse(houseId);
-          this.props.getRoomies(houseId);
-          // join socket
+          this.props.getHouse(houseId, () => {
+            this.props.getRoomies(houseId, () => {
+              this.props.updateSocketReady(true);
+            });
+          });
         }
       });
     });
@@ -34,12 +36,15 @@ class App extends Component {
 
     socket.off('newNotification');
     socket.off('newChatMessage');
+
+    this.props.updateSocketStatus(false);
   }
 
   socketSetup() {
     socket.emit('joinHouse', this.props.houseId);
 
     this.props.getNotifications(this.props.houseId);
+    console.log(`Roomies before call to get messages: ${this.props.roomies}`);
     this.props.getMessages(this.props.houseId, this.props.roomies);
 
     socket.on('newNotification', (notification) => {
@@ -50,6 +55,8 @@ class App extends Component {
       console.log('ADDING NEW MESSAGE IN SOCKET');
       this.props.addMessage(messages);
     });
+
+    this.props.updateSocketStatus(true);
   }
 
   render() {
@@ -61,9 +68,10 @@ class App extends Component {
       return <HouseEntry />;
     }
 
-    // now entering house so connect to socket
-    console.log('SETTING UP SOCKET');
-    this.socketSetup();
+    if (!this.props.isConnectedToSocket && this.props.readyToJoinSocket) {
+      this.socketSetup();
+    }
+
     return <HouseNav />;
   }
 }
@@ -73,17 +81,19 @@ const mapStateToProps = state => ({
   firstName: state.user.firstName,
   houseId: state.user.houseId,
   roomies: state.house.roomies,
+  isConnectedToSocket: state.user.isConnectedToSocket,
+  readyToJoinSocket: state.house.readyToJoinSocket,
 });
 
 const mapDispatchToProps = dispatch => ({
   retrieveUser: (username, cb) => {
     dispatch(retrieveUser(username, cb));
   },
-  getRoomies: (id) => {
-    dispatch(getRoomies(id));
+  getRoomies: (id, cb) => {
+    dispatch(getRoomies(id, cb));
   },
-  getHouse: (id) => {
-    dispatch(getHouse(id));
+  getHouse: (id, cb) => {
+    dispatch(getHouse(id, cb));
   },
   getNotifications: (houseId) => {
     dispatch(getNotifications(houseId));
@@ -96,6 +106,12 @@ const mapDispatchToProps = dispatch => ({
   },
   addMessage: (messages) => {
     dispatch(addMessage(messages));
+  },
+  updateSocketStatus: (isConnected) => {
+    dispatch(updateSocketStatus(isConnected));
+  },
+  updateSocketReady: (isReady) => {
+    dispatch(updateSocketReady(isReady));
   },
 });
 

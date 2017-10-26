@@ -1,15 +1,44 @@
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
+import { PRIMARY } from '../../styles/common';
 
 class GeneralMessagesView extends Component {
   onSend(messages = []) {
     socket.emit('addChatMessage', this.props.houseId, messages);
   }
+
+  renderBubble(props) {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#f0f0f0',
+          },
+          right: {
+            backgroundColor: PRIMARY,
+          },
+        }}
+      />
+    );
+  }
+
+  // create component, import
+  // have that component take in props and log those to see what's there
+  // have that display the first name of the person
+
+  // renderCustomView(props) {
+  //   return (
+  //     <CustomView
+  //       {...props}
+  //     />
+  //   );
+  // }
 
   render() {
     return (
@@ -21,6 +50,7 @@ class GeneralMessagesView extends Component {
           name: this.props.firstName,
           avatar: this.props.imageUrl,
         }}
+        renderBubble={this.renderBubble}
       />
     );
   }

@@ -6,14 +6,14 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Image,
+  ImagePickerIOS,
 } from 'react-native';
 
 class PictureSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [],
-      selected: {},
+      selected: '',
     };
   }
 
@@ -36,9 +36,6 @@ class PictureSelect extends Component {
     return (
       <View>
         <ScrollView>
-          {this.state.images.map((image) => {
-            // make a clickable tile for each image
-          })}
         </ScrollView>
         <TouchableOpacity>
           <View>

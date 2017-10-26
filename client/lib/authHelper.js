@@ -14,7 +14,7 @@ import {
 } from 'react-native-dotenv';
 
 import AWS from './awsConfig';
-import axios from '../lib/customAxios';
+import axios from './customAxios';
 
 
 const awsCognitoSettings = {

@@ -4,24 +4,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
-import {
-  AWS_COGNITO_USER_POOL_ID,
-  AWS_COGNITO_CLIENT_ID,
-} from 'react-native-dotenv';
-import {
-  CognitoUserPool,
-} from 'react-native-aws-cognito-js';
 
 import { logout } from '../../lib/authHelper';
 import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
-
-const awsCognitoSettings = {
-  UserPoolId: AWS_COGNITO_USER_POOL_ID,
-  ClientId: AWS_COGNITO_CLIENT_ID,
-};
 
 class Profile extends Component {
   constructor() {

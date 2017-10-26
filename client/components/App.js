@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as auth from '../lib/authHelper';

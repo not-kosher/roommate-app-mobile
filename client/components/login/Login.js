@@ -5,26 +5,11 @@ import {
   TouchableOpacity,
   Text,
   View,
-  AsyncStorage,
 } from 'react-native';
-import {
-  AWS_COGNITO_USER_POOL_ID,
-  AWS_COGNITO_CLIENT_ID,
-} from 'react-native-dotenv';
-import {
-  CognitoUserPool,
-  CognitoUser,
-  AuthenticationDetails,
-} from 'react-native-aws-cognito-js';
 
 import * as auth from '../../lib/authHelper';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies } from '../../redux/actions/houseActions';
-
-const awsCognitoSettings = {
-  UserPoolId: AWS_COGNITO_USER_POOL_ID,
-  ClientId: AWS_COGNITO_CLIENT_ID,
-};
 
 class Login extends Component {
   constructor(props) {
@@ -66,11 +51,6 @@ class Login extends Component {
             <Text>Log In</Text>
           </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
-          <View>
-            <Text>or Sign in as a new user</Text>
-          </View>
-        </TouchableOpacity> */}
       </View>
     );
   }

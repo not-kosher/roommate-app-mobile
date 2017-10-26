@@ -10,7 +10,7 @@ import { StackNavigator } from 'react-navigation';
 import HouseNavBack from '../HouseNavBack';
 import BillList from './BillList';
 import AddBill from './AddBill';
-import { getAllBills, deleteBill, deleteAllChargesForBill } from '../../redux/actions/financialActions';
+import { getAllBills, deleteBill, deleteAllChargesForBill, getAllCharges } from '../../redux/actions/financialActions';
 
 
 class BillsView extends Component {
@@ -44,7 +44,9 @@ class BillsView extends Component {
   deleteBill(bill) {
     this.props.deleteAllChargesForBill(bill.id, (billId) => {
       if (billId) {
-        this.props.deleteBill(billId);
+        this.props.deleteBill(billId, () => {
+          this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
+        });
       }
     });
   }
@@ -65,6 +67,7 @@ const mapStateToProps = (store) => {
     username: store.user.username,
     roomies: store.house.roomies,
     houseId: store.user.houseId,
+    userId: store.user.id,
     bills: store.financial.bills,
   };
 };
@@ -74,11 +77,14 @@ const mapDispatchToProps = (dispatch) => {
     getAllBills: (id) => {
       dispatch(getAllBills(id));
     },
-    deleteBill: (id) => {
-      dispatch(deleteBill(id));
+    deleteBill: (id, cb) => {
+      dispatch(deleteBill(id, cb));
     },
     deleteAllChargesForBill: (billId, cb) => {
       dispatch(deleteAllChargesForBill(billId, cb));
+    },
+    getAllCharges: (id, roomies, userId, cb) => {
+      dispatch(getAllCharges(id, roomies, userId, cb));
     },
   };
 };

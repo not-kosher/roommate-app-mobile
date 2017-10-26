@@ -52,18 +52,30 @@ class AddBill extends Component {
     }
   }
   createBill(recurringBill) {
-    this.props.createBill(this.props.houseId, this.state.billName, +(this.state.total), this.props.userId, this.state.date, recurringBill, (billId) => {
-      this.createCharges(billId, () => {
-        this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
-      });
-    });
+    this.props.createBill(
+      this.props.houseId,
+      this.state.billName, +(this.state.total),
+      this.props.userId, this.state.date,
+      recurringBill,
+      (billId) => {
+        this.createCharges(billId, () => {
+          this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
+        });
+      },
+    );
   }
   createCharges(billId) {
-    for (var roomieId in this.roomieAmmounts) {
-      this.props.createCharge(this.props.houseId, this.state.billName, +this.roomieAmmounts[roomieId], this.props.userId, roomieId, billId, () => {
-        this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId)
-      })
-    };
+    for (const roomieId in this.roomieAmmounts) {
+      this.props.createCharge(
+        this.props.houseId,
+        this.state.billName,
+        +this.roomieAmmounts[roomieId],
+        this.props.userId, roomieId, billId,
+        () => {
+          this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
+        },
+      );
+    }
   }
   render() {
     return (

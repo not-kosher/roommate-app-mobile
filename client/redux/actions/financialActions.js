@@ -36,7 +36,7 @@ export const createBill = (houseId, billText, total, posterId, dueDate, recurrin
   };
 };
 
-export const deleteBill = (id) => {
+export const deleteBill = (id, cb) => {
   return (dispatch) => {
     axios.delete(`api/bills/${id}`)
       .then(({ data }) => {
@@ -45,6 +45,7 @@ export const deleteBill = (id) => {
           payload: data,
         });
       })
+      .then(() => cb())
       .catch((err) => {
         console.log('Error deleting bills', err);
       });

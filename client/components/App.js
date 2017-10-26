@@ -29,6 +29,12 @@ class App extends Component {
     // add some kind of loading page while this is happening
   }
 
+  componentDidUpdate() {
+    if (!this.props.isConnectedToSocket && this.props.readyToJoinSocket) {
+      this.socketSetup();
+    }
+  }
+
   componentWillUnmount() {
     if (this.props.houseId) {
       socket.emit('leaveHouse', this.props.houseId);
@@ -66,10 +72,6 @@ class App extends Component {
       return <EditProfile />;
     } else if (!this.props.houseId) {
       return <HouseEntry />;
-    }
-
-    if (!this.props.isConnectedToSocket && this.props.readyToJoinSocket) {
-      this.socketSetup();
     }
 
     return <HouseNav />;

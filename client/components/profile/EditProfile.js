@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
 
 class EditProfile extends Component {
@@ -32,7 +33,10 @@ class EditProfile extends Component {
     return (
       <View>
         <Text>Edit Profile</Text>
-        <Image source={{ uri: this.state.imageUrl }} style={{ height: 50, width: 50 }} />
+        <Image
+          source={this.state.imageUrl ? { uri: this.state.imageUrl } : defaultPic}
+          style={{ height: 100, width: 100 }}
+        />
         <TextInput
           placeholder="Image URL"
           value={this.state.imageUrl}
@@ -61,7 +65,7 @@ class EditProfile extends Component {
       </View>
     );
   }
-} 
+}
 
 const mapStateToProps = (store) => {
   return {

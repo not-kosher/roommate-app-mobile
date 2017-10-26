@@ -140,6 +140,9 @@ export const reAuthUser = (cb) => {
             }
           });
         });
+      } else {
+        // nothing on async, call cb
+        cb();
       }
     })
     .catch(err => console.log('Error retrieving logged in status', err));

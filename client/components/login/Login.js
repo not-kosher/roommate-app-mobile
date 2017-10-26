@@ -9,7 +9,7 @@ import {
 
 import * as auth from '../../lib/authHelper';
 import { retrieveUser } from '../../redux/actions/userActions';
-import { getHouse, getRoomies } from '../../redux/actions/houseActions';
+import { getHouse, getRoomies, updateSocketReady } from '../../redux/actions/houseActions';
 
 class Login extends Component {
   constructor(props) {
@@ -26,8 +26,11 @@ class Login extends Component {
     auth.login(this.state.usernameInput, this.state.passwordInput, () => {
       this.props.retrieveUser(this.state.usernameInput, ({ houseId }) => {
         if (houseId) {
-          this.props.getHouse(houseId);
-          this.props.getRoomies(houseId);
+          this.props.getHouse(houseId, () => {
+            this.props.getRoomies(houseId, () => {
+              this.props.updateSocketReady(true);
+            });
+          });
         }
       });
     });
@@ -67,11 +70,14 @@ const mapDispatchToProps = (dispatch) => {
     retrieveUser: (username, cb) => {
       dispatch(retrieveUser(username, cb));
     },
-    getHouse: (houseId) => {
-      dispatch(getHouse(houseId));
+    getHouse: (houseId, cb) => {
+      dispatch(getHouse(houseId, cb));
     },
-    getRoomies: (houseId) => {
-      dispatch(getRoomies(houseId));
+    getRoomies: (houseId, cb) => {
+      dispatch(getRoomies(houseId, cb));
+    },
+    updateSocketReady: (isReady) => {
+      dispatch(updateSocketReady(isReady));
     },
   };
 };

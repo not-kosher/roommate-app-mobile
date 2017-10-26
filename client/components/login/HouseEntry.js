@@ -8,7 +8,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-import { createHouse } from '../../redux/actions/houseActions';
+import { createHouse, updateSocketReady } from '../../redux/actions/houseActions';
 import { joinHouse } from '../../redux/actions/userActions';
 
 class HouseEntry extends Component {
@@ -26,14 +26,15 @@ class HouseEntry extends Component {
   handleCreate() {
     this.props.createHouse(this.state.createName, (houseId) => {
       AsyncStorage.setItem('houseId', `${houseId}`);
-      // join socket
+      this.props.updateSocketReady(true);
     });
   }
 
   handleJoin() {
-    this.props.joinHouse(this.state.joinKey);
+    this.props.joinHouse(this.state.joinKey, () => {
+      this.props.updateSocketReady(true);
+    });
     AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
-    // join socket
   }
 
   render() {
@@ -77,8 +78,11 @@ const mapDispatchToProps = (dispatch) => {
     createHouse: (name, cb) => {
       dispatch(createHouse(name, cb));
     },
-    joinHouse: (key) => {
-      dispatch(joinHouse(key));
+    joinHouse: (key, cb) => {
+      dispatch(joinHouse(key, cb));
+    },
+    updateSocketReady: (isReady) => {
+      dispatch(updateSocketReady(isReady));
     },
   };
 };

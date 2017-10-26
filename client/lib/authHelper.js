@@ -167,4 +167,3 @@ export const logout = (cb) => {
     .then(cb)
     .catch(err => console.log('Error with async in logout', err));
 };
-

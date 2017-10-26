@@ -1,15 +1,15 @@
 import axios from '../../lib/customAxios';
 
 export const retrieveUser = (username, cb) => {
-  cb = cb || (a => a);
+  // cb = cb || (a => a);
   return (dispatch) => {
     axios.get(`/api/users/${username}`)
       .then(({ data }) => {
-        cb(data.houseId);
         dispatch({
           type: 'UPDATE_USER',
           payload: data,
         });
+        if (cb) cb(data);
       })
       .catch((err) => {
         console.log('Error retrieving user', err);

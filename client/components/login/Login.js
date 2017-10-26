@@ -5,25 +5,11 @@ import {
   TouchableOpacity,
   Text,
   View,
-  AsyncStorage,
 } from 'react-native';
-import {
-  AWS_COGNITO_USER_POOL_ID,
-  AWS_COGNITO_CLIENT_ID,
-} from 'react-native-dotenv';
-import {
-  CognitoUserPool,
-  CognitoUser,
-  AuthenticationDetails,
-} from 'react-native-aws-cognito-js';
 
+import * as auth from '../../lib/authHelper';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies } from '../../redux/actions/houseActions';
-
-const awsCognitoSettings = {
-  UserPoolId: AWS_COGNITO_USER_POOL_ID,
-  ClientId: AWS_COGNITO_CLIENT_ID,
-};
 
 class Login extends Component {
   constructor(props) {
@@ -37,38 +23,13 @@ class Login extends Component {
   }
 
   handleLogin() {
-    const userPool = new CognitoUserPool(awsCognitoSettings);
-    const authDetails = new AuthenticationDetails({
-      Username: this.state.usernameInput,
-      Password: this.state.passwordInput,
-    });
-    const cognitoUser = new CognitoUser({
-      Username: this.state.usernameInput,
-      Pool: userPool,
-    });
-    cognitoUser.authenticateUser(authDetails, {
-      onFailure: (failure) => {
-        console.log('Error authenticating', failure);
-        alert('There was an error logging in.');
-      },
-      onSuccess: (success) => {
-        // add username to async store
-        AsyncStorage.setItem('username', this.state.usernameInput)
-          .then(() => {
-            // grab user information and update redux with it
-            this.props.retrieveUser(this.state.usernameInput, (houseId) => {
-              if (houseId) {
-                this.props.getHouse(houseId);
-                this.props.getRoomies(houseId);
-                AsyncStorage.setItem('houseId', `${houseId}`);
-              }
-            });
-          })
-          .catch((asyncErr) => {
-            console.log('Async store error', asyncErr);
-            alert('There was an error while logging in.');
-          });
-      },
+    auth.login(this.state.usernameInput, this.state.passwordInput, () => {
+      this.props.retrieveUser(this.state.usernameInput, ({ houseId }) => {
+        if (houseId) {
+          this.props.getHouse(houseId);
+          this.props.getRoomies(houseId);
+        }
+      });
     });
   }
 
@@ -88,11 +49,6 @@ class Login extends Component {
         <TouchableOpacity onPress={this.handleLogin}>
           <View>
             <Text>Log In</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
-          <View>
-            <Text>or Sign in as a new user</Text>
           </View>
         </TouchableOpacity>
       </View>

@@ -4,23 +4,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  AsyncStorage,
 } from 'react-native';
-import {
-  AWS_COGNITO_USER_POOL_ID,
-  AWS_COGNITO_CLIENT_ID,
-} from 'react-native-dotenv';
-import {
-  CognitoUserPool,
-} from 'react-native-aws-cognito-js';
 
+import { logout } from '../../lib/authHelper';
 import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
-
-const awsCognitoSettings = {
-  UserPoolId: AWS_COGNITO_USER_POOL_ID,
-  ClientId: AWS_COGNITO_CLIENT_ID,
-};
 
 class Profile extends Component {
   constructor() {
@@ -30,21 +18,10 @@ class Profile extends Component {
   }
 
   handleLogout() {
-    AsyncStorage.multiRemove(['username', 'houseId'])
-      .then(() => {
-        const userPool = new CognitoUserPool(awsCognitoSettings);
-        const cognitoUser = userPool.getCurrentUser();
-        if (cognitoUser) {
-          // only able to call signOut if logging out from the same session
-          // that you were in when signing in
-          cognitoUser.signOut();
-        }
-        this.props.resetHouse();
-        this.props.resetUser();
-      })
-      .catch((err) => {
-        // handle error for removing from asyncstore
-      });
+    logout(() => {
+      this.props.resetHouse();
+      this.props.resetUser();
+    });
   }
 
   render() {

@@ -32,6 +32,10 @@ class EditProfile extends Component {
     // calls iphone photo picker api
     // return imageuri passed to storage uploader
     // the s3 url returned from uploader set to state's imageUrl
+    ImagePickerIOS.openSelectDialog(null, (uri) => {
+      console.log('Here are the results', uri);
+      this.setState({ imageUrl: uri });
+    }, err => console.log('Error retrieving photo from camera roll', err));
   }
 
   saveProfile() {
@@ -43,12 +47,12 @@ class EditProfile extends Component {
     return (
       <View>
         <Text>Edit Profile</Text>
-        <TouchableHighlight onPress={this.uploadPicture}>
+        <TouchableOpacity onPress={this.uploadPicture}>
           <Image
             source={this.state.imageUrl ? { uri: this.state.imageUrl } : defaultPic}
-            style={{ height: 100, width: 100 }}
+            style={{ height: 150, width: 150 }}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
         {/* <TextInput
           placeholder="Image URL"
           value={this.state.imageUrl}

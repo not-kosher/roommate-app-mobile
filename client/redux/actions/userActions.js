@@ -33,7 +33,7 @@ export const updateUser = (userProps) => {
   };
 };
 
-export const joinHouse = (key) => {
+export const joinHouse = (key, cb = () => {}) => {
   return (dispatch, getStore) => {
     const { user } = getStore();
     axios.put(`/api/users/${user.id}/joinHouse`, { key })
@@ -55,12 +55,23 @@ export const joinHouse = (key) => {
           type: 'UPDATE_USER',
           payload: { houseId: key },
         });
+
+        cb();
       })
       .catch((err) => {
         console.log('Error joining house', err);
       });
   };
 };
+
+export const updateSocketStatus = isConnected => (
+  (dispatch) => {
+    dispatch({
+      type: 'UPDATE_SOCKET_STATUS',
+      payload: isConnected,
+    });
+  }
+);
 
 export const resetUser = () => {
   return {

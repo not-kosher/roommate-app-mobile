@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../lib/customAxios';
 import {
   Text,
   View,
@@ -9,8 +8,10 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 import HouseNavBack from '../HouseNavBack';
-import BillList from './BillList'
+import BillList from './BillList';
 import AddBill from './AddBill';
+import { getAllBills, deleteBill, deleteAllChargesForBill } from '../../redux/actions/financialActions';
+
 
 class BillsView extends Component {
   constructor(props) {
@@ -19,19 +20,39 @@ class BillsView extends Component {
     this.state = {
       bills: [],
     };
+    this.getBills = this.getBills.bind(this);
+    this.getUserNames = this.getUserNames.bind(this);
+    this.deleteBill = this.deleteBill.bind(this);
   }
   componentWillMount() {
-    axios.get(`api/bills/${this.props.houseId}`)
-      .then(bills => this.setState({ bills: bills.data }))
-      .catch(err => console.log(err));
+    this.getBills();
+  }
+  getBills() {
+    this.props.getAllBills(this.props.houseId);
+  }
+  getUserNames() {
+    this.props.bills.forEach((bill) => {
+      const userId = bill.posterId;
+      this.props.roomies.forEach((roomie) => {
+        if (roomie.id === userId) {
+          bill.posterName = roomie.firstName;
+        }
+      });
+    });
+    this.setState({ bills: this.state.bills });
+  }
+  deleteBill(bill) {
+    this.props.deleteAllChargesForBill(bill.id, (billId) => {
+      if (billId) {
+        this.props.deleteBill(billId);
+      }
+    });
   }
   render() {
     return (
       <View>
-        <Text>BILLS!</Text>
-
-        <BillList bills={this.state.bills} />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBill')}>
+        <BillList bills={this.props.bills} deleteBill={this.deleteBill} />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBill', { getAllBills: this.getAllBills })}>
           <Text>Add Bill</Text>
         </TouchableOpacity>
       </View>
@@ -44,10 +65,25 @@ const mapStateToProps = (store) => {
     username: store.user.username,
     roomies: store.house.roomies,
     houseId: store.user.houseId,
+    bills: store.financial.bills,
   };
 };
 
-const BillsViewRedux = connect(mapStateToProps, null)(BillsView);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllBills: (id) => {
+      dispatch(getAllBills(id));
+    },
+    deleteBill: (id) => {
+      dispatch(deleteBill(id));
+    },
+    deleteAllChargesForBill: (billId, cb) => {
+      dispatch(deleteAllChargesForBill(billId, cb));
+    },
+  };
+};
+
+const BillsViewRedux = connect(mapStateToProps, mapDispatchToProps)(BillsView);
 
 const Bills = StackNavigator({
   Bills: {

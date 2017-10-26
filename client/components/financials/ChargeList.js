@@ -1,18 +1,17 @@
 import React from 'react';
 import {
-  View,
-  Text,
+  ScrollView,
 } from 'react-native';
 
-import ChargeEntry from './ChargeEntry'
+import ChargeEntry from './ChargeEntry';
 
 const ChargeList = ({ charges }) => {
   return (
-    <View>
-      {charges.map((charge) => {
-        return <ChargeEntry charge={charge} key={charge.id} />
+    <ScrollView>
+      {charges.map((charge, key) => {
+        return <ChargeEntry charge={charge} key={key} />;
       })}
-    </View>
+    </ScrollView>
   );
 };
 

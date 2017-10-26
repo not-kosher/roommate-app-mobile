@@ -13,6 +13,7 @@ import {
 } from 'react-native-elements';
 
 import axios from '../../lib/customAxios';
+import { createBill, createCharge, getAllCharges } from '../../redux/actions/financialActions';
 
 class AddBill extends Component {
   constructor(props) {
@@ -26,16 +27,11 @@ class AddBill extends Component {
       date: new Date(),
       billName: '',
       total: '',
-      success: '',
-      share: '',
-      roomieId: '',
-      abit: '',
-
     };
 
     this.submitFinancial = this.submitFinancial.bind(this);
     this.createBill = this.createBill.bind(this);
-    this.createCharges = this.createCharges.bind(this)
+    this.createCharges = this.createCharges.bind(this);
   }
   submitFinancial() {
     if (this.state.recurring) {
@@ -48,42 +44,31 @@ class AddBill extends Component {
       })
         .then((result) => {
           this.createBill(result.data[0].id);
-          this.createCharges();
         })
         .catch(err => this.setState({ success: JSON.stringify(err) }));
     } else {
       this.createBill();
-      this.createCharges();
+      this.props.navigation.state.params.getAllBills();
     }
   }
   createBill(recurringBill) {
-    axios.post('/api/bills', {
-      houseId: this.props.houseId,
-      text: this.state.billName,
-      total: +(this.state.total),
-      posterId: this.props.userId,
-      dueDate: this.state.date,
-      recurringbillId: recurringBill,
-    })
-      .then(() => this.setState({ success: 'sucess' }))
-      .catch(err => this.setState({ success: JSON.stringify(err) }));
+    this.props.createBill(this.props.houseId, this.state.billName, +(this.state.total), this.props.userId, this.state.date, recurringBill, (billId) => {
+      this.createCharges(billId, () => {
+        this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
+      });
+    });
   }
-  createCharges() {
+  createCharges(billId) {
     for (var roomieId in this.roomieAmmounts) {
-      axios.post('/api/charges', {
-        houseId: this.props.houseId,
-        billText: this.state.billName,
-        total: +(this.roomieAmmounts[roomieId]),
-        lenderId: this.props.userId,
-        debtorId: roomieId,
+      this.props.createCharge(this.props.houseId, this.state.billName, +this.roomieAmmounts[roomieId], this.props.userId, roomieId, billId, () => {
+        this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId)
       })
-        .then(result => this.setState({ success: JSON.stringify(result) }))
-        .catch(err => this.setState({ success: JSON.stringify(err) }));
     };
   }
   render() {
     return (
       <ScrollView>
+        <Text>{this.state.success}</Text>
         <Text>Bill name:</Text>
         <TextInput
           placeholder="Bill name"
@@ -140,7 +125,22 @@ const mapStateToProps = (store) => {
     userId: store.user.id,
     roomies: store.house.roomies,
     houseId: store.user.houseId,
+    bills: store.financial.bills,
   };
 };
 
-export default connect(mapStateToProps, null)(AddBill);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createBill: (houseId, billText, total, posterId, dueDate, recurringBillId, cb) => {
+      dispatch(createBill(houseId, billText, total, posterId, dueDate, recurringBillId, cb));
+    },
+    createCharge: (houseId, billsText, total, lenderId, debtorId, billId, cb) => {
+      dispatch(createCharge(houseId, billsText, total, lenderId, debtorId, billId, cb));
+    },
+    getAllCharges: (id, roomies, userId, cb) => {
+      dispatch(getAllCharges(id, roomies, userId, cb));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddBill);

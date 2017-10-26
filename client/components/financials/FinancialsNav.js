@@ -36,6 +36,9 @@ const FinancialNav = TabNavigator(
       screen: Charges,
     },
   },
+  {
+    lazy: true,
+  },
 );
 
 export default FinancialNav;

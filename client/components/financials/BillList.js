@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-  View,
+  ScrollView,
   Text,
 } from 'react-native';
 
 import BillEntry from './BillEntry';
 
-const BillList = ({ bills }) => {
+const BillList = ({ bills, deleteBill }) => {
   return (
-    <View>
+    <ScrollView>
       {bills.map((bill) => {
-        return <BillEntry bill={bill} key={bill.id} />;
+        return <BillEntry bill={bill} key={bill.id} deleteBill={deleteBill} />;
       })}
       <BillEntry />
-    </View>
+    </ScrollView>
   );
 };
 

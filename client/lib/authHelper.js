@@ -3,6 +3,8 @@ import {
   CognitoUserPool,
   CognitoUser,
   AuthenticationDetails,
+  CognitoIdToken,
+  CognitoUserSession,
 } from 'react-native-aws-cognito-js';
 import {
   AWS_COGNITO_IDENTITY_POOL_ID,
@@ -31,8 +33,8 @@ const createCredentials = (session) => {
   });
 };
 
-const storeCredentials = (creds, cb) => {
-  AsyncStorage.setItem('awsCredentials', JSON.stringify(creds))
+const storeSession = (session, cb) => {
+  AsyncStorage.setItem('cognitoSession', JSON.stringify(session))
     .then((result) => {
       if (cb) cb(result);
     })
@@ -55,12 +57,9 @@ export const login = (username, password, cb) => {
   cognitoUser.authenticateUser(authDetails, {
     onFailure: error => console.log('Error authenticating', error),
     onSuccess: (result) => {
-      // check what is on session result to see if also needs storing?
+      storeSession(result);
       const creds = createCredentials(result);
-      console.log('This is the session', result);
-      console.log('These are the creds', creds);
       setCredentials(creds);
-      storeCredentials(creds);
       // cb for redux actions
       if (cb) cb(result);
     },
@@ -81,21 +80,65 @@ export const signup = (username, password, cb) => {
   });
 };
 
-const getCredentials = (cb) => {
+const createNewSession = (session) => {
+  return new CognitoUserSession({
+    IdToken: new CognitoIdToken({ IdToken: session.idToken.jwtToken }),
+    RefreshToken: new CognitoIdToken({ IdToken: session.refreshToken.token }),
+    AccessToken: new CognitoIdToken({ IdToken: session.accessToken.jwtToken }),
+  });
+};
+
+const getSession = (cb) => {
   // connect to async store and retrieve credentials
   // call cb with the credentials generated from stored creds
-  AsyncStorage.getItem('awsCredentials')
+  AsyncStorage.getItem('cognitoSession')
     .then((result) => {
-
+      const newSession = createNewSession(JSON.parse(result));
+      cb(newSession);
     })
     .catch(err => console.log('Error retrieving credentials from async', err));
 };
 
 export const reAuthUser = (cb) => {
-  // getCredentials, as cb function that calls:
-  // setCredentials
-  // grabs username somehow...
-  // calls cb with username for redux stuff
+  // create user pool
+  // user pool storage sync
+  // create user pool
+  // gets current user
+  // current user get session
+  // sets session to async store (and isloggedin flag true)
+  // if no current user (line 315):
+  // sets aws creds to aws config creds and async
+  // set isloggedin to false on async
+
+  userPool.storage.sync((err, success) => {
+    if (err) {
+      console.log('Error syncing', err);
+    } else {
+      const user = userPool.getCurrentUser();
+      if (user) {
+        user.getSession((err, session) => {
+          if (err) {
+            console.log('Error getting session', err);
+          } else {
+            storeSession(session);
+            user.getUserAttributes((error, results) => {
+              if (error) {
+                console.log('Error retrieving attributes', error);
+              } else {
+                let email;
+                results.forEach((attr) => {
+                  if (attr.getName() === 'email') {
+                    email = attr.getValue();
+                  }
+                });
+                if (cb) cb(email);
+              }
+            });
+          }
+        });
+      }
+    }
+  });
 };
 
 export const logout = () => {

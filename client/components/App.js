@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
+import * as auth from '../lib/authHelper';
 import { retrieveUser } from '../redux/actions/userActions';
 import { getRoomies, getHouse } from '../redux/actions/houseActions';
 import HouseNav from './HouseNav';
@@ -11,6 +12,7 @@ import HouseEntry from './login/HouseEntry';
 
 class App extends Component {
   componentWillMount() {
+    auth.reAuthUser();
     // TODO
     // add some kind of loading page while this is happening
     AsyncStorage.getItem('houseId')

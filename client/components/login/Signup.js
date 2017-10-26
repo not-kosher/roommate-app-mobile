@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
 import { retrieveUser } from '../../redux/actions/userActions';
@@ -16,37 +17,46 @@ class Signup extends Component {
     this.state = {
       usernameInput: '',
       passwordInput: '',
+      isSigningUp: false,
     };
 
     this.handleSignup = this.handleSignup.bind(this);
   }
 
   handleSignup() {
+    this.setState({ isSigningUp: true });
+
     auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
-      this.props.retrieveUser(this.state.usernameInput);
+      this.props.retrieveUser(this.state.usernameInput, () => {
+        this.setState({ isSigningUp: false });
+      });
     });
   }
 
   render() {
-    return (
-      <View>
-        <TextInput
-          placeholder="Username"
-          onChangeText={usernameInput => this.setState({ usernameInput })}
-          value={this.state.usernameInput}
-        />
-        <TextInput
-          placeholder="Password"
-          onChangeText={passwordInput => this.setState({ passwordInput })}
-          value={this.state.passwordInput}
-        />
-        <TouchableOpacity onPress={this.handleSignup}>
-          <View>
-            <Text>Sign Up</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+    if (!this.state.isSigningUp) {
+      return (
+        <View>
+          <TextInput
+            placeholder="Username"
+            onChangeText={usernameInput => this.setState({ usernameInput })}
+            value={this.state.usernameInput}
+          />
+          <TextInput
+            placeholder="Password"
+            onChangeText={passwordInput => this.setState({ passwordInput })}
+            value={this.state.passwordInput}
+          />
+          <TouchableOpacity onPress={this.handleSignup}>
+            <View>
+              <Text>Sign Up</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    return <MaterialIndicator />;
   }
 }
 
@@ -58,8 +68,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    retrieveUser: (username) => {
-      dispatch(retrieveUser(username));
+    retrieveUser: (username, cb) => {
+      dispatch(retrieveUser(username, cb));
     },
   };
 };

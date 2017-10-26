@@ -6,6 +6,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableHighlight,
+  ImagePickerIOS,
 } from 'react-native';
 
 import defaultPic from '../../images/default_profile.jpg';
@@ -22,6 +24,14 @@ class EditProfile extends Component {
     };
 
     this.saveProfile = this.saveProfile.bind(this);
+    this.uploadPicture = this.uploadPicture.bind(this);
+  }
+
+  uploadPicture() {
+    // when clicking on your profile to upload a new pic
+    // calls iphone photo picker api
+    // return imageuri passed to storage uploader
+    // the s3 url returned from uploader set to state's imageUrl
   }
 
   saveProfile() {
@@ -33,15 +43,17 @@ class EditProfile extends Component {
     return (
       <View>
         <Text>Edit Profile</Text>
-        <Image
-          source={this.state.imageUrl ? { uri: this.state.imageUrl } : defaultPic}
-          style={{ height: 100, width: 100 }}
-        />
-        <TextInput
+        <TouchableHighlight onPress={this.uploadPicture}>
+          <Image
+            source={this.state.imageUrl ? { uri: this.state.imageUrl } : defaultPic}
+            style={{ height: 100, width: 100 }}
+          />
+        </TouchableHighlight>
+        {/* <TextInput
           placeholder="Image URL"
           value={this.state.imageUrl}
           onChangeText={imageUrl => this.setState({ imageUrl })}
-        />
+        /> */}
         <TextInput
           placeholder="First Name"
           value={this.state.firstName}

@@ -3,11 +3,13 @@ const initialState = {
   name: '',
   key: '',
   roomies: [],
+  readyToJoinSocket: false,
 };
 
 const houseReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_HOUSE':
+      console.log(`${action.payload}`);
       return { ...state, ...action.payload };
 
     case 'RESET_HOUSE':

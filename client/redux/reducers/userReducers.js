@@ -6,6 +6,7 @@ const initialState = {
   firstName: '',
   lastName: '',
   phone: '',
+  isConnectedToSocket: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -19,6 +20,9 @@ const userReducer = (state = initialState, action) => {
 
     case 'RESET_USER':
       return { ...state, ...initialState };
+
+    case 'UPDATE_SOCKET_STATUS':
+      return { ...state, isConnectedToSocket: action.payload };
 
     default: {
       return state;

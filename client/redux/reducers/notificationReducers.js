@@ -4,8 +4,11 @@ const initialState = {
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'NOTIFICATIONS_RECEIVED':
+      return { ...state, notifications: action.payload };
+
     case 'ADD_NOTIFICATION':
-      return { ...state, notifications: state.notifications.push(action.payload) };
+      return { ...state, notifications: [action.payload].concat(state.notifications) };
 
     default: {
       return state;

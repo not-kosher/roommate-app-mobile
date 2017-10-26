@@ -8,8 +8,9 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-import { createHouse } from '../../redux/actions/houseActions';
+import { createHouse, updateSocketReady } from '../../redux/actions/houseActions';
 import { joinHouse } from '../../redux/actions/userActions';
+import socket from '../../socket';
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -26,11 +27,23 @@ class HouseEntry extends Component {
   handleCreate() {
     this.props.createHouse(this.state.createName, (houseId) => {
       AsyncStorage.setItem('houseId', `${houseId}`);
+      this.props.updateSocketReady(true);
     });
   }
 
   handleJoin() {
-    this.props.joinHouse(this.state.joinKey);
+    this.props.joinHouse(this.state.joinKey, () => {
+      this.props.updateSocketReady(true);
+
+      const joinNotification = {
+        houseId: this.state.joinKey, // need to have houseId later
+        userId: this.props.userId,
+        type: 'new roomie',
+        text: `${this.props.firstName} ${this.props.lastName} has joined the house!`,
+      };
+
+      socket.emit('addNotification', joinNotification);
+    });
     AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
   }
 
@@ -67,6 +80,9 @@ class HouseEntry extends Component {
 const mapStateToProps = (store) => {
   return {
     houseId: store.user.houseId,
+    userId: store.user.id,
+    firstName: store.user.firstName,
+    lastName: store.user.lastName,
   };
 };
 
@@ -75,8 +91,11 @@ const mapDispatchToProps = (dispatch) => {
     createHouse: (name, cb) => {
       dispatch(createHouse(name, cb));
     },
-    joinHouse: (key) => {
-      dispatch(joinHouse(key));
+    joinHouse: (key, cb) => {
+      dispatch(joinHouse(key, cb));
+    },
+    updateSocketReady: (isReady) => {
+      dispatch(updateSocketReady(isReady));
     },
   };
 };

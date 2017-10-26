@@ -46,39 +46,6 @@ class Login extends Component {
         }
       });
     });
-    // const userPool = new CognitoUserPool(awsCognitoSettings);
-    // const authDetails = new AuthenticationDetails({
-    //   Username: this.state.usernameInput,
-    //   Password: this.state.passwordInput,
-    // });
-    // const cognitoUser = new CognitoUser({
-    //   Username: this.state.usernameInput,
-    //   Pool: userPool,
-    // });
-    // cognitoUser.authenticateUser(authDetails, {
-    //   onFailure: (failure) => {
-    //     console.log('Error authenticating', failure);
-    //     alert('There was an error logging in.');
-    //   },
-    //   onSuccess: (success) => {
-    //     // add username to async store
-    //     AsyncStorage.setItem('username', this.state.usernameInput)
-    //       .then(() => {
-    //         // grab user information and update redux with it
-    //         this.props.retrieveUser(this.state.usernameInput, (houseId) => {
-    //           if (houseId) {
-    //             this.props.getHouse(houseId);
-    //             this.props.getRoomies(houseId);
-    //             AsyncStorage.setItem('houseId', `${houseId}`);
-    //           }
-    //         });
-    //       })
-    //       .catch((asyncErr) => {
-    //         console.log('Async store error', asyncErr);
-    //         alert('There was an error while logging in.');
-    //       });
-    //   },
-    // });
   }
 
   render() {

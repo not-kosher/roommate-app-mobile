@@ -22,23 +22,6 @@ class App extends Component {
     });
     // TODO
     // add some kind of loading page while this is happening
-    // AsyncStorage.getItem('houseId')
-    //   .then((houseId) => {
-    //     if (houseId) {
-    //       this.props.getHouse(houseId);
-    //       this.props.getRoomies(houseId);
-    //     }
-    //     return AsyncStorage.getItem('username');
-    //   })
-    //   .then((username) => {
-    //     if (username) {
-    //       this.props.retrieveUser(username);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     // username or houseid not found, so do nothing
-    //     console.log('Error retreiving from AsyncStorage', err);
-    //   });
   }
 
   render() {

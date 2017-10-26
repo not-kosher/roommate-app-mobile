@@ -41,49 +41,6 @@ class Signup extends Component {
     auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
       this.props.retrieveUser(this.state.usernameInput);
     });
-    // const userPool = new CognitoUserPool(awsCognitoSettings);
-    // userPool.signUp(this.state.usernameInput, this.state.passwordInput, null, null, (err, results) => {
-    //   if (err) {
-    //     alert(err);
-    //   } else {
-    //     // create user in db
-    //     axios.post('/api/users/addUser', {
-    //       username: this.state.usernameInput,
-    //     })
-    //       .then((result) => {
-    //         // log in new user
-    //         const authDetails = new AuthenticationDetails({
-    //           Username: this.state.usernameInput,
-    //           Password: this.state.passwordInput,
-    //         });
-    //         const cognitoUser = new CognitoUser({
-    //           Username: this.state.usernameInput,
-    //           Pool: userPool,
-    //         });
-    //         cognitoUser.authenticateUser(authDetails, {
-    //           onFailure: (failure) => {
-    //             console.log('Error authenticating', failure);
-    //             alert('There was an error logging in.');
-    //           },
-    //           onSuccess: (success) => {
-    //             // add username to async store
-    //             AsyncStorage.setItem('username', this.state.usernameInput)
-    //               .then(() => {
-    //                 // grab user information and update redux with it
-    //                 this.props.retrieveUser(this.state.usernameInput);
-    //               })
-    //               .catch((asyncErr) => {
-    //                 console.log('Async store error', asyncErr);
-    //                 alert('There was an error while logging in.');
-    //               });
-    //           },
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         console.log('Error creating user', error);
-    //       });
-    //   }
-    // });
   }
 
   render() {

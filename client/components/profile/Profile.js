@@ -35,21 +35,6 @@ class Profile extends Component {
       this.props.resetHouse();
       this.props.resetUser();
     });
-    // AsyncStorage.multiRemove(['username', 'houseId'])
-    //   .then(() => {
-    //     const userPool = new CognitoUserPool(awsCognitoSettings);
-    //     const cognitoUser = userPool.getCurrentUser();
-    //     if (cognitoUser) {
-    //       // only able to call signOut if logging out from the same session
-    //       // that you were in when signing in
-    //       cognitoUser.signOut();
-    //     }
-    //     this.props.resetHouse();
-    //     this.props.resetUser();
-    //   })
-    //   .catch((err) => {
-    //     // handle error for removing from asyncstore
-    //   });
   }
 
   render() {

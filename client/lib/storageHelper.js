@@ -19,7 +19,6 @@ const uploadPicture = (imageUri, cb) => {
       };
       const client = new AWS.S3();
       client.upload(params, (err, result) => {
-        console.log('We finished uploading', result);
         cb(result);
       });
     })

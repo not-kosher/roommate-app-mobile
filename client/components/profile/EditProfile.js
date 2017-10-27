@@ -28,13 +28,9 @@ class EditProfile extends Component {
   }
 
   uploadPicture() {
-    // when clicking on your profile to upload a new pic
-    // calls iphone photo picker api
-    // return imageuri passed to storage uploader
-    // the s3 url returned from uploader set to state's imageUrl
     ImagePickerIOS.openSelectDialog(null, (uri) => {
-      uploadPicture(uri, (data) => {
-        this.setState({ imageUrl: data.location });
+      uploadPicture(uri, (result) => {
+        this.setState({ imageUrl: result.Location });
       });
     }, err => console.log('Error retrieving photo from camera roll', err));
   }

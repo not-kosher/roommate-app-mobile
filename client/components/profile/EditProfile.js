@@ -6,10 +6,14 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ImagePickerIOS,
+  Alert,
 } from 'react-native';
 import { MaterialIndicator } from 'react-native-indicators';
 
+import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
+import uploadPicture from '../../lib/storageHelper';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -21,32 +25,50 @@ class EditProfile extends Component {
         lastName: this.props.lastName,
         phone: this.props.phone,
       },
-      isSaving: false,
+      isLoading: false,
     };
 
     this.saveProfile = this.saveProfile.bind(this);
+    this.uploadPicture = this.uploadPicture.bind(this);
+  }
+
+  uploadPicture() {
+    ImagePickerIOS.openSelectDialog(null, (uri) => {
+      this.setState({ isLoading: true });
+      uploadPicture(uri, (result) => {
+        this.setState({
+          user: { ...this.state.user, imageUrl: result.Location },
+          isLoading: false,
+        });
+      });
+    }, err => console.log('Error retrieving photo from camera roll', err));
   }
 
   saveProfile() {
-    this.setState({ isSaving: true });
-
-    this.props.updateUser(this.state.user, () => {
-      this.setState({ isSaving: false });
-    });
-    console.log('Updated user', this.props);
+    if (this.state.user.firstName && this.state.user.lastName) {
+      this.setState({ isLoading: true });
+      this.props.updateUser(this.state.user, () => {
+        this.setState({ isLoading: false });
+        if (this.props.navigation) {
+          this.props.navigation.goBack();
+        }
+      });
+    } else {
+      Alert.alert('Hold up!', 'Please enter at least your first and last name.');
+    }
   }
 
   render() {
-    if (!this.state.isSaving) {
+    if (!this.state.isLoading) {
       return (
         <View>
           <Text>Edit Profile</Text>
-          <Image source={{ uri: this.state.imageUrl }} style={{ height: 50, width: 50 }} />
-          <TextInput
-            placeholder="Image URL"
-            value={this.state.user.imageUrl}
-            onChangeText={imageUrl => this.setState({ user: { ...this.state.user, imageUrl } })}
-          />
+          <TouchableOpacity onPress={this.uploadPicture}>
+            <Image
+              source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
+              style={{ height: 150, width: 150 }}
+            />
+          </TouchableOpacity>
           <TextInput
             placeholder="First Name"
             value={this.state.user.firstName}

@@ -13,6 +13,9 @@ import HouseEntry from './login/HouseEntry';
 import FullScreenLoading from './loading/FullScreenLoading';
 import socket from '../socket';
 
+// required for file parsing
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
 class App extends Component {
   constructor() {
     super();

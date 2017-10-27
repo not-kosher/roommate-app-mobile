@@ -6,12 +6,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableHighlight,
   ImagePickerIOS,
 } from 'react-native';
 
 import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
+import uploadPicture from '../../lib/storageHelper';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -33,8 +33,9 @@ class EditProfile extends Component {
     // return imageuri passed to storage uploader
     // the s3 url returned from uploader set to state's imageUrl
     ImagePickerIOS.openSelectDialog(null, (uri) => {
-      console.log('Here are the results', uri);
-      this.setState({ imageUrl: uri });
+      uploadPicture(uri, (data) => {
+        this.setState({ imageUrl: data.location });
+      });
     }, err => console.log('Error retrieving photo from camera roll', err));
   }
 

@@ -9,6 +9,9 @@ import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
 import HouseEntry from './login/HouseEntry';
 
+// required for file parsing
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
 class App extends Component {
   componentWillMount() {
     auth.reAuthUser((username) => {

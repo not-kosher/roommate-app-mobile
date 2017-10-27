@@ -25,7 +25,7 @@ class EditProfile extends Component {
         lastName: this.props.lastName,
         phone: this.props.phone,
       },
-      isSaving: false,
+      isLoading: false,
     };
 
     this.saveProfile = this.saveProfile.bind(this);
@@ -34,17 +34,21 @@ class EditProfile extends Component {
 
   uploadPicture() {
     ImagePickerIOS.openSelectDialog(null, (uri) => {
+      this.setState({ isLoading: true });
       uploadPicture(uri, (result) => {
-        this.setState({ imageUrl: result.Location });
+        this.setState({
+          user: { ...this.state.user, imageUrl: result.Location },
+          isLoading: false,
+        });
       });
     }, err => console.log('Error retrieving photo from camera roll', err));
   }
 
   saveProfile() {
     if (this.state.user.firstName && this.state.user.lastName) {
-      this.setState({ isSaving: true });
+      this.setState({ isLoading: true });
       this.props.updateUser(this.state.user, () => {
-        this.setState({ isSaving: false });
+        this.setState({ isLoading: false });
         if (this.props.navigation) {
           this.props.navigation.goBack();
         }
@@ -55,7 +59,7 @@ class EditProfile extends Component {
   }
 
   render() {
-    if (!this.state.isSaving) {
+    if (!this.state.isLoading) {
       return (
         <View>
           <Text>Edit Profile</Text>

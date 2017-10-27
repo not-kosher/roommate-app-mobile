@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
 import { retrieveUser } from '../../redux/actions/userActions';
@@ -17,18 +18,21 @@ class Login extends Component {
     this.state = {
       usernameInput: '',
       passwordInput: '',
+      isLoggingIn: false,
     };
 
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin() {
+    this.setState({ isLoggingIn: true });
     auth.login(this.state.usernameInput, this.state.passwordInput, () => {
       this.props.retrieveUser(this.state.usernameInput, ({ houseId }) => {
         if (houseId) {
           this.props.getHouse(houseId, () => {
             this.props.getRoomies(houseId, () => {
               this.props.updateSocketReady(true);
+              this.setState({ isLoggingIn: false });
             });
           });
         }
@@ -37,25 +41,29 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <View>
-        <TextInput
-          placeholder="Username"
-          onChangeText={usernameInput => this.setState({ usernameInput })}
-          value={this.state.usernameInput}
-        />
-        <TextInput
-          placeholder="Password"
-          onChangeText={passwordInput => this.setState({ passwordInput })}
-          value={this.state.passwordInput}
-        />
-        <TouchableOpacity onPress={this.handleLogin}>
-          <View>
-            <Text>Log In</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+    if (!this.state.isLoggingIn) {
+      return (
+        <View>
+          <TextInput
+            placeholder="Username"
+            onChangeText={usernameInput => this.setState({ usernameInput })}
+            value={this.state.usernameInput}
+          />
+          <TextInput
+            placeholder="Password"
+            onChangeText={passwordInput => this.setState({ passwordInput })}
+            value={this.state.passwordInput}
+          />
+          <TouchableOpacity onPress={this.handleLogin}>
+            <View>
+              <Text>Log In</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return <MaterialIndicator />;
+    }
   }
 }
 

@@ -10,23 +10,36 @@ import HouseNav from './HouseNav';
 import LoginNav from './login/LoginNav';
 import EditProfile from './profile/EditProfile';
 import HouseEntry from './login/HouseEntry';
+import FullScreenLoading from './loading/FullScreenLoading';
 import socket from '../socket';
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isLoaded: false,
+    };
+  }
+
   componentWillMount() {
     auth.reAuthUser((username) => {
-      this.props.retrieveUser(username, ({ houseId }) => {
-        if (houseId) {
-          this.props.getHouse(houseId, () => {
-            this.props.getRoomies(houseId, () => {
-              this.props.updateSocketReady(true);
+      // should also accept errors from cb so we can display to user
+      if (username) {
+        this.props.retrieveUser(username, ({ houseId }) => {
+          if (houseId) {
+            this.props.getHouse(houseId, () => {
+              this.props.getRoomies(houseId, () => {
+                this.props.updateSocketReady(true);
+                this.setState({ isLoaded: true });
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      } else {
+        this.setState({ isLoaded: true });
+      }
     });
-    // TODO
-    // add some kind of loading page while this is happening
   }
 
   componentDidUpdate() {
@@ -66,6 +79,10 @@ class App extends Component {
   }
 
   render() {
+    if (!this.state.isLoaded) {
+      return <FullScreenLoading />;
+    }
+
     if (!this.props.username) {
       return <LoginNav />;
     } else if (!this.props.firstName) {

@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImagePickerIOS,
+  Alert,
 } from 'react-native';
 
 import defaultPic from '../../images/default_profile.jpg';
@@ -36,8 +37,14 @@ class EditProfile extends Component {
   }
 
   saveProfile() {
-    this.props.updateUser(this.state);
-    console.log('Updated user', this.props);
+    if (this.state.firstName && this.state.lastName) {
+      this.props.updateUser(this.state);
+      if (this.props.navigation) {
+        this.props.navigation.goBack();
+      }
+    } else {
+      Alert.alert('Hold up!', 'Please enter at least your first and last name.');
+    }
   }
 
   render() {

@@ -10,10 +10,39 @@ import {
 } from 'react-native';
 import {
   CheckBox,
+  FormInput,
+  FormLabel,
+  Button,
 } from 'react-native-elements';
 
 import axios from '../../lib/customAxios';
 import { createBill, createCharge, getAllCharges } from '../../redux/actions/financialActions';
+
+const styles = {
+  formContainer: {
+    flex: 1,
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  roomieLabel: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  roomieInput: {
+    flex: 2,
+    flexDirection: 'column',
+  },
+  label: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  input: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+};
 
 class AddBill extends Component {
   constructor(props) {
@@ -57,6 +86,7 @@ class AddBill extends Component {
       this.state.billName, +(this.state.total),
       this.props.userId, this.state.date,
       recurringBill,
+      this.props.roomies,
       (billId) => {
         this.createCharges(billId, () => {
           this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
@@ -79,30 +109,36 @@ class AddBill extends Component {
   }
   render() {
     return (
-      <ScrollView>
-        <Text>{this.state.success}</Text>
-        <Text>Bill name:</Text>
-        <TextInput
-          placeholder="Bill name"
-          onChangeText={name => this.setState({ billName: name })}
-        />
-        <Text>Total Ammmount: $</Text>
-        <TextInput
-          placeholder="Total ammount"
-          onChangeText={(total) => {
-            this.setState({ total: total });
-            this.setState({ share: (total / this.props.roomies.length).toFixed(2) });
-            this.props.roomies.forEach((roomie) => {
-              this.roomieAmmounts[roomie.id] = (total / this.props.roomies.length).toFixed(2);
-            });
-          }}
-        />
+      <ScrollView style={styles.formContainer}>
+        <View style={styles.inputContainer}>
+          <FormLabel style={styles.roomieLabel}>Bill name:</FormLabel>
+          <FormInput
+            style={styles.roomieInput}
+            placeholder="Bill name"
+            onChangeText={name => this.setState({ billName: name })}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FormLabel style={styles.roomieLabel}>Total Ammmount: </FormLabel>
+          <FormInput
+            style={styles.roomieInput}
+            placeholder="Total ammount"
+            onChangeText={(total) => {
+              this.setState({ total: total });
+              this.setState({ share: (total / this.props.roomies.length).toFixed(2) });
+              this.props.roomies.forEach((roomie) => {
+                this.roomieAmmounts[roomie.id] = (total / this.props.roomies.length).toFixed(2);
+              });
+            }}
+          />
+        </View>
         {this.props.roomies.map((roomie) => {
           this.state[roomie.id] = '';
           return (
-            <View key={roomie.id} >
-              <Text>{roomie.firstName}</Text>
-              <TextInput
+            <View key={roomie.id} style={styles.inputContainer}>
+              <FormLabel style={styles.roomieLabel}>{roomie.firstName}</FormLabel>
+              <FormInput
+                containerStyle={styles.roomieInput}
                 defaultValue={this.state.share}
                 onChangeText={ammount => this.roomieAmmounts[roomie.id] = ammount}
               />
@@ -122,9 +158,7 @@ class AddBill extends Component {
             });
           }}
         />
-        <TouchableOpacity onPress={() => this.submitFinancial()}>
-          <Text>SUBMIT</Text>
-        </TouchableOpacity>
+        <Button title='Submit' onPress={() => this.submitFinancial()} />
       </ScrollView>
     );
   }
@@ -143,8 +177,17 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createBill: (houseId, billText, total, posterId, dueDate, recurringBillId, cb) => {
-      dispatch(createBill(houseId, billText, total, posterId, dueDate, recurringBillId, cb));
+    createBill: (houseId, billText, total, posterId, dueDate, recurringBillId, roomies, cb) => {
+      dispatch(createBill(
+        houseId,
+        billText,
+        total,
+        posterId,
+        dueDate,
+        recurringBillId,
+        roomies,
+        cb,
+      ));
     },
     createCharge: (houseId, billsText, total, lenderId, debtorId, billId, cb) => {
       dispatch(createCharge(houseId, billsText, total, lenderId, debtorId, billId, cb));

@@ -5,11 +5,11 @@ import {
 
 import ChargeEntry from './ChargeEntry';
 
-const ChargeList = ({ charges }) => {
+const ChargeList = ({ charges, deleteCharge }) => {
   return (
-    <ScrollView>
+    <ScrollView >
       {charges.map((charge, key) => {
-        return <ChargeEntry charge={charge} key={key} />;
+        return <ChargeEntry charge={charge} key={key} deleteCharge={deleteCharge} />;
       })}
     </ScrollView>
   );

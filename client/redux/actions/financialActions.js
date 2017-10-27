@@ -1,9 +1,18 @@
 import axios from '../../lib/customAxios';
 
-export const getAllBills = (id) => {
+export const getAllBills = (id, roomies) => {
   return (dispatch) => {
     axios.get(`api/bills/${id}`)
       .then(({ data }) => {
+        data.forEach((bill) => {
+          const userId = bill.posterId;
+          roomies.forEach((roomie) => {
+            if (roomie.id === userId) {
+              bill.userName = roomie.firstName;
+            }
+          });
+        });
+        console.log(data);
         dispatch({
           type: 'UPDATE_BILLS',
           payload: { bills: data },
@@ -15,7 +24,7 @@ export const getAllBills = (id) => {
   };
 };
 
-export const createBill = (houseId, billText, total, posterId, dueDate, recurringBillId, cb) => {
+export const createBill = (houseId, billText, total, posterId, dueDate, recurringBillId, rooomies, cb) => {
   return (dispatch) => {
     axios.post('/api/bills', {
       houseId: houseId,
@@ -26,6 +35,11 @@ export const createBill = (houseId, billText, total, posterId, dueDate, recurrin
       recurringbillId: recurringBillId,
     })
       .then((bill) => {
+        rooomies.forEach((roomie) => {
+          if (roomie.id === posterId) {
+            bill.data[0].userName = roomie.firstName;
+          }
+        })
         cb(bill.data[0].id);
         dispatch({
           type: 'ADD_BILL',
@@ -52,7 +66,7 @@ export const deleteBill = (id, cb) => {
   };
 };
 
-export const getAllCharges = (id, roomies, userId, cb) => {
+export const getAllCharges = (id, roomies, userId) => {
   return (dispatch) => {
     axios.get(`api/charges/${id}`)
       .then(({ data }) => {
@@ -128,7 +142,7 @@ export const deleteAllChargesForBill = (billId, cb) => {
   return (dispatch) => {
     axios.delete(`/api/charges/${billId}`)
       .then((deletedBillId) => {
-        console.log(deleteBill.data)
+        console.log(deleteBill.data);
         cb(deletedBillId.data);
         dispatch({
           type: 'DELETE_ALL_CHARGES_FOR_BILL',
@@ -136,6 +150,21 @@ export const deleteAllChargesForBill = (billId, cb) => {
         });
       })
       .catch(err => console.log('Error deleting charges', err));
+  };
+};
+
+export const deleteSingleCharge = (chargeId, cb) => {
+  return (dispatch) => {
+    axios.delete(`api/charges/paid/${chargeId}`)
+      .then(({ data }) => {
+        console.log(data);
+        dispatch({
+          type: 'DELETE_SINGLE_CHARGE',
+          payload: data,
+        });
+      })
+      .then(() => cb())
+      .catch(err => console.log('Error deleting charge', err));
   };
 };
 

@@ -8,7 +8,7 @@ import { StackNavigator } from 'react-navigation';
 
 import HouseNavBack from '../HouseNavBack';
 import ChargeList from './ChargeList';
-import { getAllCharges } from '../../redux/actions/financialActions';
+import { getAllCharges, deleteSingleCharge } from '../../redux/actions/financialActions';
 
 
 class ChargesView extends Component {
@@ -16,6 +16,7 @@ class ChargesView extends Component {
     super(props);
 
     this.getCharges = this.getCharges.bind(this);
+    this.deleteCharge = this.deleteCharge.bind(this)
   }
   componentWillMount() {
     this.getCharges();
@@ -23,11 +24,16 @@ class ChargesView extends Component {
   getCharges() {
     this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
   }
+  deleteCharge(chargeId) {
+    this.props.deleteSingleCharge(chargeId, () => {
+      this.getCharges();
+    });
+  }
   render() {
     return (
       <View>
         <Text>{typeof this.props.formattedCharges}</Text>
-        {<ChargeList charges={this.props.formattedCharges} />}
+        {<ChargeList charges={this.props.formattedCharges} deleteCharge={this.deleteCharge} />}
       </View>
     );
   }
@@ -48,6 +54,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllCharges: (id, roomies, userId, cb) => {
       dispatch(getAllCharges(id, roomies, userId, cb));
+    },
+    deleteSingleCharge: (chargeId, cb) => {
+      dispatch(deleteSingleCharge(chargeId, cb));
     },
   };
 };

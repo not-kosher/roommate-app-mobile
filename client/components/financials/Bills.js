@@ -5,6 +5,9 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import {
+  Button,
+} from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 
 import HouseNavBack from '../HouseNavBack';
@@ -28,7 +31,7 @@ class BillsView extends Component {
     this.getBills();
   }
   getBills() {
-    this.props.getAllBills(this.props.houseId);
+    this.props.getAllBills(this.props.houseId, this.props.roomies);
   }
   getUserNames() {
     this.props.bills.forEach((bill) => {
@@ -52,15 +55,35 @@ class BillsView extends Component {
   }
   render() {
     return (
-      <View>
-        <BillList bills={this.props.bills} deleteBill={this.deleteBill} />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBill', { getAllBills: this.getAllBills })}>
-          <Text>Add Bill</Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
+        <Text style={styles.billListHeader}>BILLS</Text>
+        <BillList style={styles.billListContainer} bills={this.props.bills} deleteBill={this.deleteBill} />
+        <Button
+          buttonStyle={{ margin: 10 }}
+          title='Add Bill'
+          onPress={() => this.props.navigation.navigate('AddBill', { getAllBills: this.getAllBills })} 
+        />
       </View>
     );
   }
 }
+
+const styles = {
+  container: {
+    flex: 1,
+  },
+  billListContainer: {
+    flex: 1,
+  },
+  button: {
+    backgroundColor: 'steelblue',
+  },
+  billListHeader: {
+    fontSize: 30,
+    alignSelf: 'center',
+  },
+};
+
 
 const mapStateToProps = (store) => {
   return {
@@ -74,8 +97,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllBills: (id) => {
-      dispatch(getAllBills(id));
+    getAllBills: (id, roomies) => {
+      dispatch(getAllBills(id, roomies));
     },
     deleteBill: (id, cb) => {
       dispatch(deleteBill(id, cb));

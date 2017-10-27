@@ -25,7 +25,16 @@ const financialReducer = (state = initialState, action) => {
       return { ...state, ...{ charges: (state.charges.concat(action.payload)) } };
 
     case 'DELETE_ALL_CHARGES_FOR_BILL':
-      return { ...state, ...{ charges: (state.charges.filter(({ billId }) => billId !== action.payload)) } };
+      return {
+        ...state,
+        ...{ charges: (state.charges.filter(({ billId }) => billId !== action.payload)) },
+      };
+    
+    case 'DELETE_SINGLE_CHARGE':
+      return {
+        ...state,
+        ...{ charges: (state.charges.filter(({ id }) => id !== action.payload.id)) },
+      };
 
     default: {
       return state;

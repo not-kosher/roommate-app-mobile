@@ -17,7 +17,7 @@ export const retrieveUser = (username, cb) => {
   };
 };
 
-export const updateUser = (userProps) => {
+export const updateUser = (userProps, cb) => {
   return (dispatch, getStore) => {
     const { user } = getStore();
     axios.put(`/api/users/${user.id}/updateProfile`, userProps)
@@ -26,6 +26,8 @@ export const updateUser = (userProps) => {
           type: 'UPDATE_USER',
           payload: userProps,
         });
+
+        cb();
       })
       .catch((err) => {
         console.log('Error updating user', err);

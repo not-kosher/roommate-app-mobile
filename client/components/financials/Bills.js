@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Text,
   View,
-  TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import {
   Button,
@@ -13,8 +12,22 @@ import { StackNavigator } from 'react-navigation';
 import HouseNavBack from '../HouseNavBack';
 import BillList from './BillList';
 import AddBill from './AddBill';
+
 import { getAllBills, deleteBill, deleteAllChargesForBill, getAllCharges } from '../../redux/actions/financialActions';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  billListContainer: {
+    flex: 1,
+  },
+  button: {
+    margin: 10,
+    backgroundColor: '#47a398',
+    borderRadius: 10,
+  },
+});
 
 class BillsView extends Component {
   constructor(props) {
@@ -56,33 +69,17 @@ class BillsView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.billListHeader}>BILLS</Text>
         <BillList style={styles.billListContainer} bills={this.props.bills} deleteBill={this.deleteBill} />
         <Button
-          buttonStyle={{ margin: 10 }}
+          buttonStyle={styles.button}
           title='Add Bill'
-          onPress={() => this.props.navigation.navigate('AddBill', { getAllBills: this.getAllBills })} 
+          onPress={() => this.props.navigation.navigate('AddBill')} 
         />
       </View>
     );
   }
 }
 
-const styles = {
-  container: {
-    flex: 1,
-  },
-  billListContainer: {
-    flex: 1,
-  },
-  button: {
-    backgroundColor: 'steelblue',
-  },
-  billListHeader: {
-    fontSize: 30,
-    alignSelf: 'center',
-  },
-};
 
 
 const mapStateToProps = (store) => {

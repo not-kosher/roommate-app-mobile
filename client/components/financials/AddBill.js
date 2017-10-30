@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   DatePickerIOS,
   ScrollView,
 } from 'react-native';
@@ -73,11 +70,11 @@ class AddBill extends Component {
       })
         .then((result) => {
           this.createBill(result.data[0].id);
+          this.props.navigation.goBack();
         })
         .catch(err => this.setState({ success: JSON.stringify(err) }));
     } else {
       this.createBill();
-      this.props.navigation.state.params.getAllBills();
     }
   }
   createBill(recurringBill) {
@@ -144,13 +141,23 @@ class AddBill extends Component {
               />
             </View>);
         })}
+        <Button
+          title="Submit"
+          onPress={() => {
+            this.setState({ setDate: true });
+          }}
+          buttonStyle={{ backgroundColor: '#47a398' }}
+        />
         <DatePickerIOS
           date={this.state.date}
           mode="datetime"
           onDateChange={date => this.setState({ date: date })}
         />
         <CheckBox
+          center
+          containerStyle={{ backgroundColor: 'whitesmoke' }}
           title="Recurring"
+          checkedColor="#47a398"
           checked={this.state.recurring}
           onPress={() => {
             this.setState({
@@ -158,7 +165,13 @@ class AddBill extends Component {
             });
           }}
         />
-        <Button title='Submit' onPress={() => this.submitFinancial()} />
+        <Button
+          title="Submit"
+          onPress={() => {
+            this.submitFinancial();
+          }}
+          buttonStyle={{ backgroundColor: '#47a398' }}
+        />
       </ScrollView>
     );
   }

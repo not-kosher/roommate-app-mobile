@@ -16,7 +16,7 @@ class ChargesView extends Component {
     super(props);
 
     this.getCharges = this.getCharges.bind(this);
-    this.deleteCharge = this.deleteCharge.bind(this)
+    this.deleteCharge = this.deleteCharge.bind(this);
   }
   componentWillMount() {
     this.getCharges();
@@ -32,7 +32,6 @@ class ChargesView extends Component {
   render() {
     return (
       <View>
-        <Text>{typeof this.props.formattedCharges}</Text>
         {<ChargeList charges={this.props.formattedCharges} deleteCharge={this.deleteCharge} />}
       </View>
     );

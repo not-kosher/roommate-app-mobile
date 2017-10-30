@@ -42,7 +42,12 @@ class Signup extends Component {
     if (this.state.validEmail && this.state.validPassword) {
       this.setState({ isSigningUp: true });
 
-      auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
+      auth.signup(this.state.usernameInput, this.state.passwordInput, (err) => {
+        if (err) {
+          Alert.alert('Error', form.parseError(err));
+          this.setState({ isSigningUp: false });
+          return;
+        }
         this.props.retrieveUser(this.state.usernameInput, () => {
           this.setState({ isSigningUp: false });
         });

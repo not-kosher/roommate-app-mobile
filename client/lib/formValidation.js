@@ -48,9 +48,7 @@ const getPasswordErrors = (password) => {
   const numberError = checkNumber(password);
   if (numberError) errors.push(numberError);
 
-  if (errors.length) {
-    return errors;
-  }
+  return errors;
 };
 
 const isValidEmail = (email) => {
@@ -59,6 +57,11 @@ const isValidEmail = (email) => {
   return regex.test(email);
 };
 
+const parseError = (error) => {
+  // converts the error to a readable error message
+  return 'There was an error';
+};
+
 export default {
-  passwordErrors, getPasswordErrors, isValidEmail,
+  passwordErrors, getPasswordErrors, isValidEmail, parseError,
 };

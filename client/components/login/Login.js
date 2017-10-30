@@ -5,10 +5,12 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Alert,
 } from 'react-native';
 import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
+import form from '../../lib/formValidation';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies, updateSocketReady } from '../../redux/actions/houseActions';
 
@@ -26,7 +28,12 @@ class Login extends Component {
 
   handleLogin() {
     this.setState({ isLoggingIn: true });
-    auth.login(this.state.usernameInput, this.state.passwordInput, () => {
+    auth.login(this.state.usernameInput, this.state.passwordInput, (err) => {
+      if (err) {
+        Alert.alert('Error', form.parseError(err));
+        this.setState({ isLoggingIn: false });
+        return;
+      }
       this.props.retrieveUser(this.state.usernameInput, ({ houseId }) => {
         if (houseId) {
           this.props.getHouse(houseId, () => {

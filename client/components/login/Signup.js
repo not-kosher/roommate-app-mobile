@@ -9,6 +9,7 @@ import {
 import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
+import isValidPassword from '../../lib/formValidation';
 import { retrieveUser } from '../../redux/actions/userActions';
 
 class Signup extends Component {
@@ -24,13 +25,15 @@ class Signup extends Component {
   }
 
   handleSignup() {
-    this.setState({ isSigningUp: true });
+    if (isValidPassword(this.state.passwordInput)) {
+      this.setState({ isSigningUp: true });
 
-    auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
-      this.props.retrieveUser(this.state.usernameInput, () => {
-        this.setState({ isSigningUp: false });
+      auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
+        this.props.retrieveUser(this.state.usernameInput, () => {
+          this.setState({ isSigningUp: false });
+        });
       });
-    });
+    }
   }
 
   render() {

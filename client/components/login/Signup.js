@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  TextInput,
   TouchableOpacity,
   Text,
   View,
@@ -25,6 +24,7 @@ class Signup extends Component {
       validEmail: true,
       passwordInput: '',
       passwordErrors: [],
+      validPassword: true,
       isSigningUp: false,
     };
 
@@ -34,7 +34,7 @@ class Signup extends Component {
   }
 
   handleSignup() {
-    if (this.state.validEmail && !this.state.passwordErrors.length) {
+    if (this.state.validEmail && this.state.validPassword) {
       this.setState({ isSigningUp: true });
 
       auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
@@ -53,10 +53,12 @@ class Signup extends Component {
   }
 
   updatePassword(passwordInput) {
-    const passwordErrors = form.getPasswordErrors(this.state.passwordInput);
+    const passwordErrors = form.getPasswordErrors(passwordInput);
+    const validPassword = !passwordErrors.length;
     this.setState({
       passwordInput,
       passwordErrors,
+      validPassword,
     });
   }
 
@@ -64,17 +66,37 @@ class Signup extends Component {
     if (!this.state.isSigningUp) {
       return (
         <View>
-          <TextInput
-            placeholder="Username"
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            placeholder="Enter your email"
             onChangeText={this.updateUsername}
             value={this.state.usernameInput}
+            autoCorrect={false}
+            autoCapitalize="none"
           />
-          <TextInput
-            placeholder="Password"
+          {!this.state.validEmail &&
+            <FormValidationMessage>
+              Not a valid email address.
+            </FormValidationMessage>
+          }
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            placeholder="Enter a password"
             onChangeText={this.updatePassword}
             value={this.state.passwordInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+            secureTextEntry={true}
           />
-          <TouchableOpacity onPress={this.handleSignup}>
+          {!this.state.validPassword &&
+            <FormValidationMessage>
+              {`Please fix the following:\n${this.state.passwordErrors.join('\n')}`}
+            </FormValidationMessage>
+          }
+          <TouchableOpacity
+            onPress={this.handleSignup}
+            disabled={!(this.state.usernameInput && this.state.passwordInput)}
+          >
             <View>
               <Text>Sign Up</Text>
             </View>

@@ -7,13 +7,19 @@ import { Alert } from 'react-native';
 // at least one lower case: (?=.*?[a-z]).+
 // at least one upper case: (?=.*?[A-Z]).+
 // at least one number: (?=.*?\d).+
+const errors = {
+  length: 'Must have at least 8 characters',
+  lowerCase: 'Must have at least one lower case letter',
+  upperCase: 'Must have at least one upper case letter',
+  number: 'Must have at least one number',
+};
 
 const checkLength = (password) => {
   const regex = /.{8,}/;
   if (regex.test(password)) {
     return;
   }
-  return 'Must have at least 8 characters';
+  return errors.length;
 };
 
 const checkLowerCase = (password) => {
@@ -21,7 +27,7 @@ const checkLowerCase = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return 'Must have at least one lower case letter';
+  return errors.lowerCase;
 };
 
 const checkUpperCase = (password) => {
@@ -29,7 +35,7 @@ const checkUpperCase = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return 'Must have at least one upper case letter';
+  return errors.upperCase;
 };
 
 const checkNumber = (password) => {
@@ -37,7 +43,7 @@ const checkNumber = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return 'Must have at least one number';
+  return errors.number;
 };
 
 const getPasswordErrors = (password) => {
@@ -63,5 +69,5 @@ const isValidEmail = (email) => {
 };
 
 export default {
-  getPasswordErrors, isValidEmail,
+  errors, getPasswordErrors, isValidEmail,
 };

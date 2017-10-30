@@ -21,10 +21,15 @@ class Signup extends Component {
     super(props);
     this.state = {
       usernameInput: '',
-      validEmail: true,
+      validEmail: false,
       passwordInput: '',
-      passwordErrors: [],
-      validPassword: true,
+      passwordErrors: [
+        form.errors.length,
+        form.errors.lowerCase,
+        form.errors.upperCase,
+        form.errors.number,
+      ],
+      validPassword: false,
       isSigningUp: false,
     };
 
@@ -90,7 +95,7 @@ class Signup extends Component {
           />
           {!this.state.validPassword &&
             <FormValidationMessage>
-              {`Please fix the following:\n${this.state.passwordErrors.join('\n')}`}
+              {`${this.state.passwordErrors.join('\n')}`}
             </FormValidationMessage>
           }
           <TouchableOpacity

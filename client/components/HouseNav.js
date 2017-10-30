@@ -7,6 +7,8 @@ import MessageBoardNav from './messageBoard/MessageBoardNav';
 import FinancialsNav from './financials/FinancialsNav';
 import RoomiesNav from './roomies/RoomiesNav';
 import ProfileNav from './profile/ProfileNav';
+import TasksNav from './tasks/TasksNav';
+
 
 // custom drawer items container
 const styles = StyleSheet.create({
@@ -33,6 +35,7 @@ const HouseNav = DrawerNavigator(
     FinancialsNav: { screen: FinancialsNav },
     RoomiesNav: { screen: RoomiesNav },
     ProfileNav: { screen: ProfileNav },
+    TasksNav: { screen: TasksNav },
   },
   {
     // drawer config

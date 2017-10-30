@@ -23,13 +23,14 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     flexDirection: 'row',
+    margin: 5,
   },
   roomieLabel: {
     flex: 1,
     flexDirection: 'column',
   },
   roomieInput: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'column',
   },
   label: {
@@ -37,11 +38,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   input: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'column',
   },
   button: {
     backgroundColor: '#47a398',
+    margin: 5,
   },
 });
 
@@ -57,6 +59,7 @@ class AddBill extends Component {
       date: new Date(),
       billName: '',
       total: '',
+      setDate: false,
     };
 
     this.submitFinancial = this.submitFinancial.bind(this);
@@ -114,16 +117,14 @@ class AddBill extends Component {
         <View style={styles.inputContainer}>
           <FormLabel style={styles.roomieLabel}>Bill name:</FormLabel>
           <FormInput
-            style={styles.roomieInput}
-            placeholder="Bill name"
+            containerStyle={styles.input}
             onChangeText={name => this.setState({ billName: name })}
           />
         </View>
         <View style={styles.inputContainer}>
-          <FormLabel style={styles.roomieLabel}>Total Ammmount: </FormLabel>
+          <FormLabel style={styles.roomieLabel}>Total: </FormLabel>
           <FormInput
-            style={styles.roomieInput}
-            placeholder="Total ammount"
+            containerStyle={styles.input}
             onChangeText={(total) => {
               this.setState({ total: total });
               this.setState({ share: (total / this.props.roomies.length).toFixed(2) });
@@ -137,26 +138,42 @@ class AddBill extends Component {
           this.state[roomie.id] = '';
           return (
             <View key={roomie.id} style={styles.inputContainer}>
-              <FormLabel style={styles.roomieLabel}>{roomie.firstName}</FormLabel>
+            <View style={{flex: 0.5, flexDirection: 'column'}}/>
+              <FormLabel style={styles.roomieLabel}>{roomie.firstName}:</FormLabel>
               <FormInput
                 containerStyle={styles.roomieInput}
                 defaultValue={this.state.share}
                 onChangeText={ammount => this.roomieAmmounts[roomie.id] = ammount}
               />
+            <View style={{flex: 0.5, flexDirection: 'column'}}/>
             </View>);
         })}
-        <Button
-          title="Submit"
-          onPress={() => {
-            this.setState({ setDate: true });
-          }}
-          buttonStyle={styles.button}
-        />
-        <DatePickerIOS
-          date={this.state.date}
-          mode="datetime"
-          onDateChange={date => this.setState({ date: date })}
-        />
+        {this.state.setDate &&
+          <View>
+            <DatePickerIOS
+              date={this.state.date}
+              minimumDate={this.state.date}
+              mode="date"
+              onDateChange={date => this.setState({ date: date })}
+            />
+            <Button
+              title="Done"
+              onPress={() => {
+                this.setState({ setDate: !this.state.setDate });
+              }}
+              buttonStyle={styles.button}
+            />
+          </View>
+        }
+        {!this.state.setDate &&
+          <Button
+            title="Add Due Date"
+            onPress={() => {
+              this.setState({ setDate: !this.state.setDate });
+            }}
+            buttonStyle={styles.button}
+          />
+        }
         <CheckBox
           center
           containerStyle={{ backgroundColor: 'whitesmoke' }}

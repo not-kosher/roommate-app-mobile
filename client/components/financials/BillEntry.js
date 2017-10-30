@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import { Card, Button } from 'react-native-elements'; 
 
@@ -21,7 +21,7 @@ const numbersToMonths = {
   '12': 'Dev',
 }
 
-const styles = {
+const styles = StyleSheet.create({
   billEntryContainer: {
     flex: 1,
     height: 100,
@@ -57,7 +57,14 @@ const styles = {
     fontWeight: 'bold',
     fontSize: 16,
   },
-};
+  button: {
+    padding: 5,
+    height: 20,
+    marginTop: 5,
+    backgroundColor: '#47a398',
+    borderRadius: 5,
+  },
+});
 
 const BillEntry = ({ bill, deleteBill }) => {
   return (
@@ -71,7 +78,7 @@ const BillEntry = ({ bill, deleteBill }) => {
           </View>
           <View style={styles.billTotal}>
             <Text style={styles.billTotalText}>{`$${bill.total}`}</Text>
-            <Button title='PAID' buttonStyle={{ padding: 5, height: 20, marginTop: 5, backgroundColor: '#47a398', borderRadius: 8 }} onPress={() => deleteBill(bill)} />
+            <Button title='PAID' buttonStyle={styles.button} onPress={() => deleteBill(bill)} />
           </View>
         </View>
       }

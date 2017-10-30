@@ -4,6 +4,7 @@ import {
   View,
   DatePickerIOS,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import {
   CheckBox,
@@ -15,7 +16,7 @@ import {
 import axios from '../../lib/customAxios';
 import { createBill, createCharge, getAllCharges } from '../../redux/actions/financialActions';
 
-const styles = {
+const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
   },
@@ -39,7 +40,10 @@ const styles = {
     flex: 1,
     flexDirection: 'column',
   },
-};
+  button: {
+    backgroundColor: '#47a398',
+  },
+});
 
 class AddBill extends Component {
   constructor(props) {
@@ -146,7 +150,7 @@ class AddBill extends Component {
           onPress={() => {
             this.setState({ setDate: true });
           }}
-          buttonStyle={{ backgroundColor: '#47a398' }}
+          buttonStyle={styles.button}
         />
         <DatePickerIOS
           date={this.state.date}
@@ -170,7 +174,7 @@ class AddBill extends Component {
           onPress={() => {
             this.submitFinancial();
           }}
-          buttonStyle={{ backgroundColor: '#47a398' }}
+          buttonStyle={styles.button}
         />
       </ScrollView>
     );

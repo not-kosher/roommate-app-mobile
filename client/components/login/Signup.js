@@ -100,7 +100,8 @@ class Signup extends Component {
             value={this.state.passwordInput}
             autoCorrect={false}
             autoCapitalize="none"
-            secureTextEntry={true}
+            secureTextEntry
+            selectTextOnFocus
           />
           {!this.state.validPassword &&
             <FormValidationMessage>

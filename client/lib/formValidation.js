@@ -59,7 +59,13 @@ const isValidEmail = (email) => {
 
 const parseError = (error) => {
   // converts the error to a readable error message
-  return 'There was an error';
+  const e = error.toString();
+  if (/UsernameExistsException/.test(e)) {
+    return 'An account with that email already exists.';
+  } else if (/UserNotFoundException/.test(e) || /NotAuthorizedException/.test(e)) {
+    return 'Please enter a valid email and password.';
+  }
+  return 'There was an error with your request, please try again.';
 };
 
 export default {

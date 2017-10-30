@@ -21,7 +21,6 @@ class Signup extends Component {
     super(props);
     this.state = {
       usernameInput: '',
-      validEmail: false,
       passwordInput: '',
       passwordErrors: [
         form.passwordErrors.length,
@@ -30,6 +29,7 @@ class Signup extends Component {
         form.passwordErrors.number,
       ],
       validPassword: false,
+      showRequirements: false,
       isSigningUp: false,
     };
 
@@ -39,7 +39,8 @@ class Signup extends Component {
   }
 
   handleSignup() {
-    if (this.state.validEmail && this.state.validPassword) {
+    const validEmail = form.isValidEmail(this.state.usernameInput);
+    if (validEmail && this.state.validPassword) {
       this.setState({ isSigningUp: true });
 
       auth.signup(this.state.usernameInput, this.state.passwordInput, (err) => {
@@ -52,7 +53,7 @@ class Signup extends Component {
           this.setState({ isSigningUp: false });
         });
       });
-    } else if (!this.state.validEmail) {
+    } else if (!validEmail) {
       Alert.alert('Error', 'Please make sure your email address is valid.');
     } else if (!this.state.validPassword) {
       Alert.alert('Error', 'Please make sure your password is valid.');
@@ -62,7 +63,6 @@ class Signup extends Component {
   updateUsername(usernameInput) {
     this.setState({
       usernameInput,
-      validEmail: form.isValidEmail(usernameInput),
     });
   }
 
@@ -88,22 +88,18 @@ class Signup extends Component {
             autoCorrect={false}
             autoCapitalize="none"
           />
-          {!this.state.validEmail &&
-            <FormValidationMessage>
-              Not a valid email address.
-            </FormValidationMessage>
-          }
           <FormLabel>Password</FormLabel>
           <FormInput
             placeholder="Enter a password"
             onChangeText={this.updatePassword}
+            onFocus={this.setState({ showRequirements: true })}
             value={this.state.passwordInput}
             autoCorrect={false}
             autoCapitalize="none"
             secureTextEntry
             selectTextOnFocus
           />
-          {!this.state.validPassword &&
+          {(this.state.showRequirements && !this.state.validPassword) &&
             <FormValidationMessage>
               {`${this.state.passwordErrors.join('\n')}`}
             </FormValidationMessage>

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  TouchableOpacity,
-  Text,
   View,
+  Alert,
 } from 'react-native';
 import {
   FormInput,
   FormLabel,
   FormValidationMessage,
+  Button,
 } from 'react-native-elements';
 import { MaterialIndicator } from 'react-native-indicators';
 
@@ -24,10 +24,10 @@ class Signup extends Component {
       validEmail: false,
       passwordInput: '',
       passwordErrors: [
-        form.errors.length,
-        form.errors.lowerCase,
-        form.errors.upperCase,
-        form.errors.number,
+        form.passwordErrors.length,
+        form.passwordErrors.lowerCase,
+        form.passwordErrors.upperCase,
+        form.passwordErrors.number,
       ],
       validPassword: false,
       isSigningUp: false,
@@ -47,6 +47,10 @@ class Signup extends Component {
           this.setState({ isSigningUp: false });
         });
       });
+    } else if (!this.state.validEmail) {
+      Alert.alert('Error', 'Please make sure your email address is valid.');
+    } else if (!this.state.validPassword) {
+      Alert.alert('Error', 'Please make sure your password is valid.');
     }
   }
 
@@ -98,14 +102,14 @@ class Signup extends Component {
               {`${this.state.passwordErrors.join('\n')}`}
             </FormValidationMessage>
           }
-          <TouchableOpacity
+          <Button
+            large
+            icon={{ name: 'done' }}
+            title="Sign Up"
             onPress={this.handleSignup}
             disabled={!(this.state.usernameInput && this.state.passwordInput)}
-          >
-            <View>
-              <Text>Sign Up</Text>
-            </View>
-          </TouchableOpacity>
+
+          />
         </View>
       );
     }

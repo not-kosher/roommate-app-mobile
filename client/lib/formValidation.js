@@ -1,13 +1,4 @@
-import { Alert } from 'react-native';
-
-// check if valid form info
-// password regex:
-// full: ^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d).{8,}$
-// at least 8 chars: .{8,}
-// at least one lower case: (?=.*?[a-z]).+
-// at least one upper case: (?=.*?[A-Z]).+
-// at least one number: (?=.*?\d).+
-const errors = {
+const passwordErrors = {
   length: 'Must have at least 8 characters',
   lowerCase: 'Must have at least one lower case letter',
   upperCase: 'Must have at least one upper case letter',
@@ -19,7 +10,7 @@ const checkLength = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return errors.length;
+  return passwordErrors.length;
 };
 
 const checkLowerCase = (password) => {
@@ -27,7 +18,7 @@ const checkLowerCase = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return errors.lowerCase;
+  return passwordErrors.lowerCase;
 };
 
 const checkUpperCase = (password) => {
@@ -35,7 +26,7 @@ const checkUpperCase = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return errors.upperCase;
+  return passwordErrors.upperCase;
 };
 
 const checkNumber = (password) => {
@@ -43,7 +34,7 @@ const checkNumber = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return errors.number;
+  return passwordErrors.number;
 };
 
 const getPasswordErrors = (password) => {
@@ -69,5 +60,5 @@ const isValidEmail = (email) => {
 };
 
 export default {
-  errors, getPasswordErrors, isValidEmail,
+  passwordErrors, getPasswordErrors, isValidEmail,
 };

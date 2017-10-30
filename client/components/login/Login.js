@@ -25,13 +25,11 @@ class Login extends Component {
     super(props);
     this.state = {
       usernameInput: '',
-      validEmail: false,
       passwordInput: '',
       isLoggingIn: false,
     };
 
     this.handleLogin = this.handleLogin.bind(this);
-    this.updateUsername = this.updateUsername.bind(this);
   }
 
   handleLogin() {
@@ -55,13 +53,6 @@ class Login extends Component {
     });
   }
 
-  updateUsername(usernameInput) {
-    this.setState({
-      usernameInput,
-      validEmail: form.isValidEmail(usernameInput),
-    });
-  }
-
   render() {
     if (!this.state.isLoggingIn) {
       return (
@@ -69,16 +60,11 @@ class Login extends Component {
           <FormLabel>Email</FormLabel>
           <FormInput
             placeholder="Enter your email"
-            onChangeText={this.updateUsername}
+            onChangeText={usernameInput => this.setState({ usernameInput })}
             value={this.state.usernameInput}
             autoCorrect={false}
             autoCapitalize="none"
           />
-          {!this.state.validEmail &&
-            <FormValidationMessage>
-              Not a valid email address.
-            </FormValidationMessage>
-          }
           <FormLabel>Password</FormLabel>
           <FormInput
             placeholder="Enter your password"

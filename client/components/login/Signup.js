@@ -6,10 +6,15 @@ import {
   Text,
   View,
 } from 'react-native';
+import {
+  FormInput,
+  FormLabel,
+  FormValidationMessage,
+} from 'react-native-elements';
 import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
-import isValidPassword from '../../lib/formValidation';
+import form from '../../lib/formValidation';
 import { retrieveUser } from '../../redux/actions/userActions';
 
 class Signup extends Component {
@@ -17,15 +22,19 @@ class Signup extends Component {
     super(props);
     this.state = {
       usernameInput: '',
+      validEmail: true,
       passwordInput: '',
+      passwordErrors: [],
       isSigningUp: false,
     };
 
     this.handleSignup = this.handleSignup.bind(this);
+    this.updateUsername = this.updateUsername.bind(this);
+    this.updatePassword = this.updatePassword.bind(this);
   }
 
   handleSignup() {
-    if (isValidPassword(this.state.passwordInput)) {
+    if (this.state.validEmail && !this.state.passwordErrors.length) {
       this.setState({ isSigningUp: true });
 
       auth.signup(this.state.usernameInput, this.state.passwordInput, () => {
@@ -36,18 +45,33 @@ class Signup extends Component {
     }
   }
 
+  updateUsername(usernameInput) {
+    this.setState({
+      usernameInput,
+      validEmail: form.isValidEmail(usernameInput),
+    });
+  }
+
+  updatePassword(passwordInput) {
+    const passwordErrors = form.getPasswordErrors(this.state.passwordInput);
+    this.setState({
+      passwordInput,
+      passwordErrors,
+    });
+  }
+
   render() {
     if (!this.state.isSigningUp) {
       return (
         <View>
           <TextInput
             placeholder="Username"
-            onChangeText={usernameInput => this.setState({ usernameInput })}
+            onChangeText={this.updateUsername}
             value={this.state.usernameInput}
           />
           <TextInput
             placeholder="Password"
-            onChangeText={passwordInput => this.setState({ passwordInput })}
+            onChangeText={this.updatePassword}
             value={this.state.passwordInput}
           />
           <TouchableOpacity onPress={this.handleSignup}>

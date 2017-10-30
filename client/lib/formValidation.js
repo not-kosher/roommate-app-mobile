@@ -13,7 +13,7 @@ const checkLength = (password) => {
   if (regex.test(password)) {
     return;
   }
-  return 'Must be at least 8 characters long';
+  return 'Must have at least 8 characters';
 };
 
 const checkLowerCase = (password) => {
@@ -40,7 +40,7 @@ const checkNumber = (password) => {
   return 'Must have at least one number';
 };
 
-const isValidPassword = (password) => {
+const getPasswordErrors = (password) => {
   const errors = [];
   const passwordError = checkLength(password);
   if (passwordError) errors.push(passwordError);
@@ -51,13 +51,17 @@ const isValidPassword = (password) => {
   const numberError = checkNumber(password);
   if (numberError) errors.push(numberError);
 
-  // if there are error messages, password is invalid, alert the issues
   if (errors.length) {
-    const message = errors.join('\n');
-    Alert.alert('Please fix the following with your password', message);
-    return false;
+    return errors;
   }
-  return true;
 };
 
-export default isValidPassword;
+const isValidEmail = (email) => {
+  // very simple validation for string@string.string
+  const regex = /\S+@\S+\.\S+/;
+  return regex.test(email);
+};
+
+export default {
+  getPasswordErrors, isValidEmail,
+};

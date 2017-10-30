@@ -7,6 +7,12 @@ import {
   View,
   Alert,
 } from 'react-native';
+import {
+  FormInput,
+  FormLabel,
+  FormValidationMessage,
+  Button,
+} from 'react-native-elements';
 import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
@@ -19,11 +25,13 @@ class Login extends Component {
     super(props);
     this.state = {
       usernameInput: '',
+      validEmail: false,
       passwordInput: '',
       isLoggingIn: false,
     };
 
     this.handleLogin = this.handleLogin.bind(this);
+    this.updateUsername = this.updateUsername.bind(this);
   }
 
   handleLogin() {
@@ -47,30 +55,52 @@ class Login extends Component {
     });
   }
 
+  updateUsername(usernameInput) {
+    this.setState({
+      usernameInput,
+      validEmail: form.isValidEmail(usernameInput),
+    });
+  }
+
   render() {
     if (!this.state.isLoggingIn) {
       return (
         <View>
-          <TextInput
-            placeholder="Username"
-            onChangeText={usernameInput => this.setState({ usernameInput })}
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            placeholder="Enter your email"
+            onChangeText={this.updateUsername}
             value={this.state.usernameInput}
+            autoCorrect={false}
+            autoCapitalize="none"
           />
-          <TextInput
-            placeholder="Password"
+          {!this.state.validEmail &&
+            <FormValidationMessage>
+              Not a valid email address.
+            </FormValidationMessage>
+          }
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            placeholder="Enter your password"
             onChangeText={passwordInput => this.setState({ passwordInput })}
             value={this.state.passwordInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+            secureTextEntry
+            selectTextOnFocus
           />
-          <TouchableOpacity onPress={this.handleLogin}>
-            <View>
-              <Text>Log In</Text>
-            </View>
-          </TouchableOpacity>
+          <Button
+            large
+            icon={{ name: 'done' }}
+            title="Log In"
+            onPress={this.handleLogin}
+            disabled={!(this.state.usernameInput && this.state.passwordInput)}
+          />
         </View>
       );
-    } else {
-      return <MaterialIndicator />;
     }
+
+    return <MaterialIndicator />;
   }
 }
 

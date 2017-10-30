@@ -114,7 +114,6 @@ class Signup extends Component {
             title="Sign Up"
             onPress={this.handleSignup}
             disabled={!(this.state.usernameInput && this.state.passwordInput)}
-
           />
         </View>
       );

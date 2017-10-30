@@ -63,7 +63,7 @@ const parseError = (error) => {
   if (/UsernameExistsException/.test(e)) {
     return 'An account with that email already exists.';
   } else if (/UserNotFoundException/.test(e) || /NotAuthorizedException/.test(e)) {
-    return 'Please enter a valid email and password.';
+    return 'Please enter the correct email and password for your account.';
   }
   return 'There was an error with your request, please try again.';
 };

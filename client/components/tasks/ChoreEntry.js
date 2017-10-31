@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native-elements';
 
-const ChoreEntry = ({ chore }) => {
+const ChoreEntry = ({ chore, claimChore, firstName }) => {
   return (
     <View>
       <Text>{chore.text}</Text>
@@ -21,7 +21,13 @@ const ChoreEntry = ({ chore }) => {
       {chore.claimerId &&
         <View>
           <Text>Claimed:{chore.poster}</Text>
-          <Button small title="DONE" />
+          <Button 
+            title="DONE"
+            onPress={() => {
+              claimChore(chore.id)
+              // chore.poster = 
+            }}
+          />
         </View>
       }
     </View>

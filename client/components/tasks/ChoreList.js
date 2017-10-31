@@ -11,13 +11,13 @@ import {
 
 import ChoreEntry from './ChoreEntry'
 
-const ChoreList = ({ chores }) => {
+const ChoreList = ({ chores, claimChore, firstName }) => {
   return (
     <View>
       <Text>ChoreList</Text>
       {
         chores.map((chore) => {
-          return <ChoreEntry chore={chore} key={chore.id} />;
+          return <ChoreEntry chore={chore} key={chore.id} claimChore={claimChore} firstName={firstName} />;
         })
       }
     </View>

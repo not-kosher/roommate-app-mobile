@@ -67,13 +67,20 @@ class ChoresView extends Component {
         this.getChores();
         this.setState({ addingChore: !this.state.addingChore });
       })
-      .catch(err => console.log('Error post task', err));   
-  };
+      .catch(err => console.log('Error posting task', err));   
+  }
+  claimChore(taskId) {
+    axios.put(`api/tasks/${taskId}`, {
+      claimerId: this.props.userId,
+    })
+      .then(() => this.getChores())
+      .catch(err => console.log('Error claiming task', err));
+  }
   render() {
     return (
       <View style={styles.container}>
         <Text>Chores</Text>
-        <ChoreList chores={this.state.chores} />
+        <ChoreList chores={this.state.chores} claimChore={this.claimChore} firstName={this.props.firstName} />
         {!this.state.addingChore &&
           <Button title="Add Chore" onPress={() => this.setState({ addingChore: !this.state.addingChore })} />
         }
@@ -95,6 +102,7 @@ class ChoresView extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    firstName: store.user.firstName,
     roomies: store.house.roomies,
     houseId: store.user.houseId,
     userId: store.user.id,

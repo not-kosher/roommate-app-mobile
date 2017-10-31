@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  TextInput,
-  TouchableOpacity,
-  Text,
   View,
+  Alert,
 } from 'react-native';
+import {
+  FormInput,
+  FormLabel,
+  Button,
+} from 'react-native-elements';
 import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
+import form from '../../lib/formValidation';
+import * as color from '../../styles/common';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies, updateSocketReady } from '../../redux/actions/houseActions';
+
+const styles = {
+  formContainer: {
+    flex: 1,
+  },
+  inputContainer: {
+    flex: 1,
+    marginTop: 40,
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+  buttonDisabled: {
+    backgroundColor: '#c3e0dc',
+  },
+};
 
 class Login extends Component {
   constructor(props) {
@@ -26,13 +47,18 @@ class Login extends Component {
 
   handleLogin() {
     this.setState({ isLoggingIn: true });
-    auth.login(this.state.usernameInput, this.state.passwordInput, () => {
+    auth.login(this.state.usernameInput, this.state.passwordInput, (err) => {
+      if (err) {
+        Alert.alert('Error', form.parseError(err));
+        this.setState({ isLoggingIn: false });
+        return;
+      }
       this.props.retrieveUser(this.state.usernameInput, ({ houseId }) => {
         if (houseId) {
           this.props.getHouse(houseId, () => {
             this.props.getRoomies(houseId, () => {
               this.props.updateSocketReady(true);
-              this.setState({ isLoggingIn: false });
+              // no need to set logging in flag to false because this will re-render automatically
             });
           });
         }
@@ -43,27 +69,43 @@ class Login extends Component {
   render() {
     if (!this.state.isLoggingIn) {
       return (
-        <View>
-          <TextInput
-            placeholder="Username"
-            onChangeText={usernameInput => this.setState({ usernameInput })}
-            value={this.state.usernameInput}
-          />
-          <TextInput
-            placeholder="Password"
-            onChangeText={passwordInput => this.setState({ passwordInput })}
-            value={this.state.passwordInput}
-          />
-          <TouchableOpacity onPress={this.handleLogin}>
-            <View>
-              <Text>Log In</Text>
-            </View>
-          </TouchableOpacity>
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <FormLabel>Email</FormLabel>
+            <FormInput
+              placeholder="Enter your email"
+              onChangeText={usernameInput => this.setState({ usernameInput })}
+              value={this.state.usernameInput}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+            <FormLabel>Password</FormLabel>
+            <FormInput
+              placeholder="Enter your password"
+              onChangeText={passwordInput => this.setState({ passwordInput })}
+              value={this.state.passwordInput}
+              autoCorrect={false}
+              autoCapitalize="none"
+              secureTextEntry
+              selectTextOnFocus
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              large
+              icon={{ name: 'done' }}
+              title="Log In"
+              onPress={this.handleLogin}
+              disabled={!(this.state.usernameInput && this.state.passwordInput)}
+              backgroundColor={color.PRIMARY}
+              disabledStyle={styles.buttonDisabled}
+            />
+          </View>
         </View>
       );
-    } else {
-      return <MaterialIndicator />;
     }
+
+    return <MaterialIndicator />;
   }
 }
 

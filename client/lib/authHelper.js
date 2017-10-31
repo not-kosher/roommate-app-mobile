@@ -68,13 +68,16 @@ export const login = (username, password, cb) => {
     Pool: userPool,
   });
   cognitoUser.authenticateUser(authDetails, {
-    onFailure: error => console.log('Error authenticating', error),
+    onFailure: (error) => {
+      cb(error);
+      console.log('Error authenticating', error);
+    },
     onSuccess: (result) => {
       storeSession(result);
       const creds = createCredentials(result);
       storeCredentials(creds);
       // cb for redux actions
-      if (cb) cb(result);
+      if (cb) cb();
     },
   });
 };
@@ -82,13 +85,17 @@ export const login = (username, password, cb) => {
 export const signup = (username, password, cb) => {
   userPool.signUp(username, password, null, null, (error, result) => {
     if (error) {
+      cb(error);
       console.log('Error signing up', error);
     } else {
       // create user in db
       axios.post('/api/users/addUser', { username })
         // cb for redux actions
         .then(res => login(username, password, cb))
-        .catch(err => console.log('Error creating user', err));
+        .catch((err) => {
+          cb(err);
+          console.log('Error creating user', err);
+        });
     }
   });
 };

@@ -92,7 +92,7 @@ class Signup extends Component {
           <FormInput
             placeholder="Enter a password"
             onChangeText={this.updatePassword}
-            onFocus={this.setState({ showRequirements: true })}
+            onFocus={() => this.setState({ showRequirements: true })}
             value={this.state.passwordInput}
             autoCorrect={false}
             autoCapitalize="none"

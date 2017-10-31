@@ -5,6 +5,7 @@ import {
   DatePickerIOS,
   ScrollView,
   StyleSheet,
+  Text,
 } from 'react-native';
 import {
   CheckBox,
@@ -13,6 +14,7 @@ import {
   Button,
 } from 'react-native-elements';
 
+import socket from '../../socket/index';
 import axios from '../../lib/customAxios';
 import { createBill, createCharge, getAllCharges } from '../../redux/actions/financialActions';
 
@@ -60,11 +62,13 @@ class AddBill extends Component {
       billName: '',
       total: '',
       setDate: false,
+      called: 'nope',
     };
 
     this.submitFinancial = this.submitFinancial.bind(this);
     this.createBill = this.createBill.bind(this);
     this.createCharges = this.createCharges.bind(this);
+    this.sendNotification = this.sendNotification.bind(this);
   }
   submitFinancial() {
     if (this.state.recurring) {
@@ -77,6 +81,7 @@ class AddBill extends Component {
       })
         .then((result) => {
           this.createBill(result.data[0].id);
+          this.sendNotification();
           this.props.navigation.goBack();
         })
         .catch(err => this.setState({ success: JSON.stringify(err) }));
@@ -111,9 +116,20 @@ class AddBill extends Component {
       );
     }
   }
+  sendNotification() {
+    this.setState({ called: 'you don did it' });
+    const billNotification = {
+      houseId: this.props.houseId,
+      userId: this.props.userId,
+      type: 'bill',
+      text: `${this.props.firstName} has added a bill of $${this.state.total} for ${this.state.billName}!`,
+    };
+    socket.emit('addNotification', billNotification);
+  }
   render() {
     return (
       <ScrollView style={styles.formContainer}>
+        <Text>{JSON.stringify(this.state.called)}</Text>
         <View style={styles.inputContainer}>
           <FormLabel style={styles.roomieLabel}>Bill name:</FormLabel>
           <FormInput
@@ -202,6 +218,7 @@ class AddBill extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    firstName: store.user.firstName,
     userId: store.user.id,
     roomies: store.house.roomies,
     houseId: store.user.houseId,

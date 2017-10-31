@@ -13,7 +13,7 @@ const HouseNeedEntry = ({ houseNeed }) => {
   return (
     <View>
       <Text>{houseNeed.text}</Text>
-      <Text>{houseNeed.posterId}</Text>
+      <Text>{houseNeed.poster}</Text>
     </View>
   );
 }

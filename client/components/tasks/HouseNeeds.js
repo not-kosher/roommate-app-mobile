@@ -13,6 +13,8 @@ import { StackNavigator } from 'react-navigation';
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
 
+import HouseNeedList from './HouseNeedList'
+
 
 const styles = StyleSheet.create({
 
@@ -24,6 +26,8 @@ class HouseNeedsView extends Component {
 
     this.state = {
       houseNeeds: [],
+      addingNeed: false,
+      text: '',
     };
   }
   componentWillMount() {
@@ -40,7 +44,21 @@ class HouseNeedsView extends Component {
     return (
       <View style={styles.container}>
         <Text>HouseNeeds</Text>
+        <HouseNeedList houseNeeds={this.state.houseNeeds} />
         <Text>{JSON.stringify(this.state.houseNeeds)}</Text>
+        {!this.state.addingNeed &&
+          <Button title="Add House Need" onPress={() => this.setState({ addingNeed: !this.state.addingNeed })} />
+        }
+        {this.state.addingNeed &&
+          <View style={styles.inputContainer}>
+            <FormLabel style={styles.roomieLabel}>Chore:</FormLabel>
+            <FormInput
+              containerStyle={styles.input}
+              onChangeText={task => this.setState({ text: task })}
+            />
+            <Button title="Submit" onPress={() => this.postNeed()} />
+          </View> 
+        }
       </View>
     );
   }

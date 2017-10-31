@@ -69,7 +69,6 @@ class App extends Component {
     socket.emit('joinHouse', this.props.houseId);
 
     this.props.getNotifications(this.props.houseId);
-    console.log(`Roomies before call to get messages: ${this.props.roomies}`);
     this.props.getMessages(this.props.houseId, this.props.roomies);
 
     socket.on('newNotification', (notification) => {
@@ -77,7 +76,6 @@ class App extends Component {
     });
 
     socket.on('newChatMessage', (messages) => {
-      console.log('ADDING NEW MESSAGE IN SOCKET');
       this.props.addMessage(messages);
     });
 

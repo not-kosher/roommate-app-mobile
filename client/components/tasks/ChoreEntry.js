@@ -16,7 +16,16 @@ const ChoreEntry = ({ chore, claimChore, firstName }) => {
       <Text>{chore.text}</Text>
       <Text>Posted:{chore.poster}</Text>
       {!chore.claimerId &&
-        <Button small title="CLAIM" />
+        <Button
+          title="CLAIM"
+          onPress={() => {
+            claimChore(chore.id);
+            chore.claimer = firstName;
+          }}
+        />
+      }
+      {chore.claimer &&
+        <Text>{chore.claimer}</Text>
       }
       {chore.claimerId &&
         <View>
@@ -24,8 +33,7 @@ const ChoreEntry = ({ chore, claimChore, firstName }) => {
           <Button 
             title="DONE"
             onPress={() => {
-              claimChore(chore.id)
-              // chore.poster = 
+              deleteChore(chore.id);
             }}
           />
         </View>

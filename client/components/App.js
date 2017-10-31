@@ -73,6 +73,10 @@ class App extends Component {
 
     socket.on('newNotification', (notification) => {
       this.props.addNotification(notification);
+
+      if (notification.type === 'new roomie') {
+        this.props.getRoomies(this.props.houseId);
+      }
     });
 
     socket.on('newChatMessage', (messages) => {

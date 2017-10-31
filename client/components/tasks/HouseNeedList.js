@@ -11,13 +11,21 @@ import {
 
 import HouseNeedEntry from './HouseNeedEntry'
 
-const HouseNeedList = ({ houseNeeds }) => {
+const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
   return (
     <View>
       <Text>HouseNeedList</Text>
       {
         houseNeeds.map((houseNeed) => {
-          return <HouseNeedEntry houseNeed={houseNeed} key={houseNeed.id} />;
+          return (
+            <HouseNeedEntry
+              houseNeed={houseNeed}
+              key={houseNeed.id}
+              claimNeed={claimNeed}
+              completeNeed={completeNeed}
+              firstName={firstName}
+            />
+          );
         })
       }
     </View>

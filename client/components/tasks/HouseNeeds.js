@@ -15,7 +15,7 @@ import { StackNavigator } from 'react-navigation';
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
 
-import HouseNeedList from './HouseNeedList'
+import HouseNeedList from './HouseNeedList';
 
 
 const styles = StyleSheet.create({
@@ -33,6 +33,9 @@ class HouseNeedsView extends Component {
     };
 
     this.getNeeds = this.getNeeds.bind(this);
+    this.postNeed = this.postNeed.bind(this);
+    this.claimNeed = this.claimNeed.bind(this);
+    this.completeNeed = this.completeNeed.bind(this);
   }
   componentWillMount() {
     this.getNeeds();
@@ -65,22 +68,32 @@ class HouseNeedsView extends Component {
         this.getNeeds();
         this.setState({ addingChore: !this.state.addingChore });
       })
-      .catch(err => console.log('Error posting task', err));   
+      .catch(err => console.log('Error posting task', err));
+  }
+  claimNeed(taskId) {
+    axios.put(`api/tasks/${taskId}`, {
+      claimerId: this.props.userId,
+    })
+      .then(() => this.getNeeds())
+      .catch(err => console.log('Error claiming task', err));
+  }
+  completeNeed() {
+
   }
   render() {
     return (
       <View style={styles.container}>
         <Text>HouseNeeds</Text>
         <HouseNeedList
-          houseNeeds={this.state.houseNeeds} 
-          claimNeed={this.claimChore}
+          houseNeeds={this.state.houseNeeds}
+          claimNeed={this.claimNeed}
           firstName={this.props.firstName}
           completeNeed={this.props.completeNeed}
         />
         {!this.state.addingNeed &&
           <Button
             title="Add House Need"
-            onPress={() => this.setState({ addingNeed: !this.state.addingNeed })} 
+            onPress={() => this.setState({ addingNeed: !this.state.addingNeed })}
           />
         }
         {this.state.addingNeed &&
@@ -90,15 +103,19 @@ class HouseNeedsView extends Component {
               containerStyle={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
-            <Button title="Submit" onPress={() => this.postNeed()} />
-          </View> 
+            <Button
+              title="Submit"
+              onPress={() => {
+                this.postNeed();
+                this.setState({ addingNeed: !this.state.addingNeed });
+              }}
+            />
+          </View>
         }
       </View>
     );
   }
 }
-
-
 
 const mapStateToProps = (store) => {
   return {
@@ -109,7 +126,7 @@ const mapStateToProps = (store) => {
   };
 };
 
-const HouseNeedsViewRedux = connect(mapStateToProps, null)(HouseNeedsView)
+const HouseNeedsViewRedux = connect(mapStateToProps, null)(HouseNeedsView);
 
 
 const HouseNeeds = StackNavigator({

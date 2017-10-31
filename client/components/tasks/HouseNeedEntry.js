@@ -7,13 +7,26 @@ import {
 import {
   Card,
   Avatar,
+  Button,
 } from 'react-native-elements';
 
-const HouseNeedEntry = ({ houseNeed }) => {
+const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName }) => {
   return (
     <View>
       <Text>{houseNeed.text}</Text>
-      <Text>{houseNeed.poster}</Text>
+      <Text>Posted: {houseNeed.poster}</Text>
+      {houseNeed.claimer &&
+        <Text>Claimed: {houseNeed.claimer}</Text>
+      }
+      {!houseNeed.claimerId &&
+        <Button
+          title="CLAIM"
+          onPress={() => {
+            claimNeed(houseNeed.id);
+            houseNeed.claimer = firstName;
+          }}
+        />
+      }
     </View>
   );
 }

@@ -36,6 +36,7 @@ class ChoresView extends Component {
     this.getChores = this.getChores.bind(this);
     this.postChore = this.postChore.bind(this);
     this.claimChore = this.claimChore.bind(this);
+    this.completeChore = this.completeChore.bind(this);
   }
   componentWillMount() {
     this.getChores();
@@ -79,12 +80,22 @@ class ChoresView extends Component {
       .then(() => this.getChores())
       .catch(err => console.log('Error claiming task', err));
   }
+  completeChore(taskId) {
+    axios.delete(`api/tasks/${taskId}`)
+      .then(() => this.getChores())
+      .catch(err => console.log('Error deleting task', err));
+  }
   render() {
     return (
       <View style={styles.container}>
         <Text>Chores</Text>
         <Text>{this.state.taskId}</Text>
-        <ChoreList chores={this.state.chores} claimChore={this.claimChore} firstName={this.props.firstName} />
+        <ChoreList
+          chores={this.state.chores}
+          claimChore={this.claimChore}
+          firstName={this.props.firstName}
+          completeChore={this.completeChore}
+        />
         {!this.state.addingChore &&
           <Button title="Add Chore" onPress={() => this.setState({ addingChore: !this.state.addingChore })} />
         }

@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native-elements';
 
-const ChoreEntry = ({ chore, claimChore, firstName }) => {
+const ChoreEntry = ({ chore, claimChore, firstName, completeChore }) => {
   return (
     <View>
       <Text>{chore.text}</Text>
@@ -33,7 +33,7 @@ const ChoreEntry = ({ chore, claimChore, firstName }) => {
           <Button 
             title="DONE"
             onPress={() => {
-              deleteChore(chore.id);
+              completeChore(chore.id);
             }}
           />
         </View>

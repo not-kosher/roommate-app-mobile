@@ -17,7 +17,7 @@ Bills.navigationOptions = {
 };
 
 Charges.navigationOptions = {
-  tabBarLabel: 'Balances',
+  tabBarLabel: 'Charges',
   tabBarIcon: ({ tintColor }) => (
     <MaterialIcons
       name="attach-money"

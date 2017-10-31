@@ -14,7 +14,24 @@ import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
 import form from '../../lib/formValidation';
+import * as color from '../../styles/common';
 import { retrieveUser } from '../../redux/actions/userActions';
+
+const styles = {
+  formContainer: {
+    flex: 1,
+  },
+  inputContainer: {
+    flex: 1,
+    marginTop: 40,
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+  buttonDisabled: {
+    backgroundColor: '#c3e0dc',
+  },
+};
 
 class Signup extends Component {
   constructor(props) {
@@ -79,38 +96,44 @@ class Signup extends Component {
   render() {
     if (!this.state.isSigningUp) {
       return (
-        <View>
-          <FormLabel>Email</FormLabel>
-          <FormInput
-            placeholder="Enter your email"
-            onChangeText={this.updateUsername}
-            value={this.state.usernameInput}
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
-          <FormLabel>Password</FormLabel>
-          <FormInput
-            placeholder="Enter a password"
-            onChangeText={this.updatePassword}
-            onFocus={() => this.setState({ showRequirements: true })}
-            value={this.state.passwordInput}
-            autoCorrect={false}
-            autoCapitalize="none"
-            secureTextEntry
-            selectTextOnFocus
-          />
-          {(this.state.showRequirements && !this.state.validPassword) &&
-            <FormValidationMessage>
-              {`${this.state.passwordErrors.join('\n')}`}
-            </FormValidationMessage>
-          }
-          <Button
-            large
-            icon={{ name: 'done' }}
-            title="Sign Up"
-            onPress={this.handleSignup}
-            disabled={!(this.state.usernameInput && this.state.passwordInput)}
-          />
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <FormLabel>Email</FormLabel>
+            <FormInput
+              placeholder="Enter your email"
+              onChangeText={this.updateUsername}
+              value={this.state.usernameInput}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+            <FormLabel>Password</FormLabel>
+            <FormInput
+              placeholder="Enter a password"
+              onChangeText={this.updatePassword}
+              onFocus={() => this.setState({ showRequirements: true })}
+              value={this.state.passwordInput}
+              autoCorrect={false}
+              autoCapitalize="none"
+              secureTextEntry
+              selectTextOnFocus
+            />
+            {(this.state.showRequirements && !this.state.validPassword) &&
+              <FormValidationMessage>
+                {`${this.state.passwordErrors.join('\n')}`}
+              </FormValidationMessage>
+            }
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              large
+              icon={{ name: 'done' }}
+              title="Sign Up"
+              onPress={this.handleSignup}
+              disabled={!(this.state.usernameInput && this.state.passwordInput)}
+              backgroundColor={color.PRIMARY}
+              disabledStyle={styles.buttonDisabled}
+            />
+          </View>
         </View>
       );
     }

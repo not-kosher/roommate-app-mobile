@@ -58,7 +58,7 @@ class Login extends Component {
           this.props.getHouse(houseId, () => {
             this.props.getRoomies(houseId, () => {
               this.props.updateSocketReady(true);
-              this.setState({ isLoggingIn: false });
+              // no need to set logging in flag to false because this will re-render automatically
             });
           });
         }

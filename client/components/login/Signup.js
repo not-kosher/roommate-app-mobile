@@ -66,9 +66,7 @@ class Signup extends Component {
           this.setState({ isSigningUp: false });
           return;
         }
-        this.props.retrieveUser(this.state.usernameInput, () => {
-          this.setState({ isSigningUp: false });
-        });
+        this.props.retrieveUser(this.state.usernameInput);
       });
     } else if (!validEmail) {
       Alert.alert('Error', 'Please make sure your email address is valid.');

@@ -48,13 +48,13 @@ class EditProfile extends Component {
     if (this.state.user.firstName && this.state.user.lastName) {
       this.setState({ isLoading: true });
       this.props.updateUser(this.state.user, () => {
-        this.setState({ isLoading: false });
         if (this.props.navigation) {
+          this.setState({ isLoading: false });
           this.props.navigation.goBack();
         }
       });
     } else {
-      Alert.alert('Hold up!', 'Please enter at least your first and last name.');
+      Alert.alert('Missing Info', 'Please enter at least your first and last name.');
     }
   }
 

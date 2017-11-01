@@ -15,6 +15,45 @@ import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
 import socket from '../../socket';
 
+const styles = {
+  profileContainer: {
+    flex: 1,
+  },
+  avatar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  infoCard: {
+    flex: 1,
+    margin: 5,
+  },
+  cardOuter: {
+    flex: 1,
+  },
+  cardInner: {
+    flex: 1,
+  },
+  infoRow: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  infoCol1: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  infoCol2: {
+    flex: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+};
+
 class Profile extends Component {
   constructor() {
     super();
@@ -34,8 +73,8 @@ class Profile extends Component {
 
   render() {
     return (
-      <View>
-        <View>
+      <View style={styles.profileContainer}>
+        <View style={styles.avatar}>
           {this.props.imageUrl ?
             <Avatar
               xlarge
@@ -50,12 +89,35 @@ class Profile extends Component {
             />
           }
         </View>
-        <View>
-          <Card>
-            <Text>{this.props.firstName}{this.props.lastName}</Text>
+        <View style={styles.infoCard}>
+          <Card containerStyle={styles.cardOuter} wrapperStyle={styles.cardInner}>
+            <View style={styles.infoRow}>
+              <View style={styles.infoCol1}>
+                <Text>Name</Text>
+              </View>
+              <View style={styles.infoCol2}>
+                <Text>{`${this.props.firstName} ${this.props.lastName}`}</Text>
+              </View>
+            </View>
+            <View style={styles.infoRow}>
+              <View style={styles.infoCol1}>
+                <Text>Email</Text>
+              </View>
+              <View style={styles.infoCol2}>
+                <Text>{this.props.username}</Text>
+              </View>
+            </View>
+            <View style={styles.infoRow}>
+              <View style={styles.infoCol1}>
+                <Text>Phone</Text>
+              </View>
+              <View style={styles.infoCol2}>
+                <Text>{this.props.phone || ''}</Text>
+              </View>
+            </View>
           </Card>
         </View>
-        <View>
+        <View style={styles.buttonContainer}>
           <Button
             large
             title="Log Out"

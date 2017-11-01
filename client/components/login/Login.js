@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   View,
   Alert,
+  Modal,
 } from 'react-native';
 import {
   FormInput,
@@ -30,6 +31,10 @@ const styles = {
   },
   buttonDisabled: {
     backgroundColor: '#c3e0dc',
+  },
+  loading: {
+    backgroundColor: '#00000022',
+    flex: 1,
   },
 };
 
@@ -69,45 +74,51 @@ class Login extends Component {
   }
 
   render() {
-    if (!this.state.isLoggingIn) {
-      return (
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <FormLabel>Email</FormLabel>
-            <FormInput
-              placeholder="Enter your email"
-              onChangeText={usernameInput => this.setState({ usernameInput })}
-              value={this.state.usernameInput}
-              autoCorrect={false}
-              autoCapitalize="none"
-            />
-            <FormLabel>Password</FormLabel>
-            <FormInput
-              placeholder="Enter your password"
-              onChangeText={passwordInput => this.setState({ passwordInput })}
-              value={this.state.passwordInput}
-              autoCorrect={false}
-              autoCapitalize="none"
-              secureTextEntry
-              selectTextOnFocus
-            />
+    return (
+      <View style={styles.formContainer}>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={this.state.isLoggingIn}
+        >
+          <View style={styles.loading}>
+            <MaterialIndicator />
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              large
-              icon={{ name: 'done' }}
-              title="Log In"
-              onPress={this.handleLogin}
-              disabled={!(this.state.usernameInput && this.state.passwordInput)}
-              backgroundColor={color.PRIMARY}
-              disabledStyle={styles.buttonDisabled}
-            />
-          </View>
-        </View>
-      );
-    }
+        </Modal>
 
-    return <MaterialIndicator />;
+        <View style={styles.inputContainer}>
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            placeholder="Enter your email"
+            onChangeText={usernameInput => this.setState({ usernameInput })}
+            value={this.state.usernameInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+          />
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            placeholder="Enter your password"
+            onChangeText={passwordInput => this.setState({ passwordInput })}
+            value={this.state.passwordInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+            secureTextEntry
+            selectTextOnFocus
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            large
+            icon={{ name: 'done' }}
+            title="Log In"
+            onPress={this.handleLogin}
+            disabled={!(this.state.usernameInput && this.state.passwordInput)}
+            backgroundColor={color.PRIMARY}
+            disabledStyle={styles.buttonDisabled}
+          />
+        </View>
+      </View>
+    );
   }
 }
 

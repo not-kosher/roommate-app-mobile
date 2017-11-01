@@ -18,6 +18,25 @@ import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
 import uploadPicture from '../../lib/storageHelper';
 
+const styles = {
+  editContainer: {
+    flex: 1,
+  },
+  avatar: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  form: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  buttons: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+};
+
 class EditProfile extends Component {
   constructor(props) {
     super(props);
@@ -64,42 +83,48 @@ class EditProfile extends Component {
   render() {
     if (!this.state.isLoading) {
       return (
-        <View>
-          <Avatar
-            xlarge
-            rounded
-            source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
-            onPress={this.uploadPicture}
-          />
-          <FormLabel>First Name</FormLabel>
-          <FormInput
-            placeholder="Enter your first name"
-            value={this.state.user.firstName}
-            onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
-          />
-          <FormValidationMessage>
-            {this.state.user.firstName ? ' ' : 'This field is required'}
-          </FormValidationMessage>
-          <FormLabel>Last Name</FormLabel>
-          <FormInput
-            placeholder="Enter your last name"
-            value={this.state.user.lastName}
-            onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
-          />
-          <FormValidationMessage>
-            {this.state.user.lastName ? ' ' : 'This field is required'}
-          </FormValidationMessage>
-          <FormLabel>Phone Number</FormLabel>
-          <FormInput
-            placeholder="Enter your phone number"
-            value={this.state.user.phone}
-            onChangeText={phone => this.setState({ user: { ...this.state.user, phone } })}
-          />
-          <Button
-            large
-            title="Save"
-            onPress={this.saveProfile}
-          />
+        <View style={styles.editContainer}>
+          <View style={styles.avatar}>
+            <Avatar
+              xlarge
+              rounded
+              source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
+              onPress={this.uploadPicture}
+            />
+          </View>
+          <View style={styles.form}>
+            <FormLabel>First Name</FormLabel>
+            <FormInput
+              placeholder="Enter your first name"
+              value={this.state.user.firstName}
+              onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
+            />
+            <FormValidationMessage>
+              {this.state.user.firstName ? ' ' : 'This field is required'}
+            </FormValidationMessage>
+            <FormLabel>Last Name</FormLabel>
+            <FormInput
+              placeholder="Enter your last name"
+              value={this.state.user.lastName}
+              onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
+            />
+            <FormValidationMessage>
+              {this.state.user.lastName ? ' ' : 'This field is required'}
+            </FormValidationMessage>
+            <FormLabel>Phone Number</FormLabel>
+            <FormInput
+              placeholder="Enter your phone number"
+              value={this.state.user.phone}
+              onChangeText={phone => this.setState({ user: { ...this.state.user, phone } })}
+            />
+          </View>
+          <View style={styles.buttons}>
+            <Button
+              large
+              title="Save"
+              onPress={this.saveProfile}
+            />
+          </View>
         </View>
       );
     }

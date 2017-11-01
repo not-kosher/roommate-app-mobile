@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
   Image,
 } from 'react-native';
 import {
@@ -19,12 +17,11 @@ const styles = {
   },
   logoContainer: {
     flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   logo: {
-    height: 112,
-    width: 325,
+    flex: 1,
+    height: null,
+    width: null,
   },
   buttonContainer: {
     flex: 1,
@@ -41,6 +38,7 @@ const Splash = props => (
       <Image
         source={logo}
         style={styles.logo}
+        resizeMode="cover"
       />
     </View>
     <View style={styles.buttonContainer}>

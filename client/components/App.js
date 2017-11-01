@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as auth from '../lib/authHelper';
@@ -27,12 +28,14 @@ class App extends Component {
 
   componentWillMount() {
     auth.reAuthUser((username) => {
-      // should also accept errors from cb so we can display to user
       if (username) {
-        this.props.retrieveUser(username, ({ houseId }) => {
-          if (houseId) {
-            this.props.getHouse(houseId, () => {
-              this.props.getRoomies(houseId, () => {
+        this.props.retrieveUser(username, (err, user) => {
+          if (err) {
+            Alert.alert('Error', 'There was an unknown error, please log in manually');
+            this.setState({ isLoaded: true });
+          } else if (user) {
+            this.props.getHouse(user.houseId, () => {
+              this.props.getRoomies(user.houseId, () => {
                 this.props.updateSocketReady(true);
                 this.setState({ isLoaded: true });
               });

@@ -53,10 +53,13 @@ class Login extends Component {
         this.setState({ isLoggingIn: false });
         return;
       }
-      this.props.retrieveUser(this.state.usernameInput, ({ houseId }) => {
-        if (houseId) {
-          this.props.getHouse(houseId, () => {
-            this.props.getRoomies(houseId, () => {
+      this.props.retrieveUser(this.state.usernameInput, (error, user) => {
+        if (error) {
+          Alert.alert('Error', 'There was an unknown error, please log in again');
+          this.setState({ isLoggingIn: false });
+        } else if (user) {
+          this.props.getHouse(user.houseId, () => {
+            this.props.getRoomies(user.houseId, () => {
               this.props.updateSocketReady(true);
               // no need to set logging in flag to false because this will re-render automatically
             });

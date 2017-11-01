@@ -9,10 +9,11 @@ export const retrieveUser = (username, cb) => {
           type: 'UPDATE_USER',
           payload: data,
         });
-        if (cb) cb(data);
+        if (cb) cb(null, data);
       })
       .catch((err) => {
         console.log('Error retrieving user', err);
+        if (cb) cb(err, null);
       });
   };
 };

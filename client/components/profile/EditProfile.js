@@ -16,6 +16,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 
 import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
+import * as color from '../../styles/common';
 import uploadPicture from '../../lib/storageHelper';
 
 const styles = {
@@ -123,6 +124,7 @@ class EditProfile extends Component {
               large
               title="Save"
               onPress={this.saveProfile}
+              backgroundColor={color.PRIMARY}
             />
           </View>
         </View>

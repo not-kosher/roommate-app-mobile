@@ -13,6 +13,7 @@ import {
 import { logout } from '../../lib/authHelper';
 import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
+import * as color from '../../styles/common';
 import socket from '../../socket';
 
 const styles = {
@@ -122,6 +123,7 @@ class Profile extends Component {
             large
             title="Log Out"
             onPress={this.handleLogout}
+            backgroundColor={color.PRIMARY}
           />
         </View>
       </View>

@@ -49,6 +49,9 @@ class HouseNeedsView extends Component {
             if (roomie.id === need.posterId) {
               need.poster = roomie.firstName;
             }
+            if (roomie.id === need.claimerId) {
+              need.claimer = roomie.firstName;
+            }
           });
         });
         this.setState({ houseNeeds: onlyHouseNeeds });
@@ -77,8 +80,10 @@ class HouseNeedsView extends Component {
       .then(() => this.getNeeds())
       .catch(err => console.log('Error claiming task', err));
   }
-  completeNeed() {
-
+  completeNeed(taskId) {
+    axios.delete(`api/tasks/${taskId}`)
+      .then(() => this.getNeeds())
+      .catch(err => console.log('Error deleting task', err));
   }
   render() {
     return (
@@ -88,7 +93,7 @@ class HouseNeedsView extends Component {
           houseNeeds={this.state.houseNeeds}
           claimNeed={this.claimNeed}
           firstName={this.props.firstName}
-          completeNeed={this.props.completeNeed}
+          completeNeed={this.completeNeed}
         />
         {!this.state.addingNeed &&
           <Button

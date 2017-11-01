@@ -14,9 +14,6 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName }) => {
     <View>
       <Text>{houseNeed.text}</Text>
       <Text>Posted: {houseNeed.poster}</Text>
-      {houseNeed.claimer &&
-        <Text>Claimed: {houseNeed.claimer}</Text>
-      }
       {!houseNeed.claimerId &&
         <Button
           title="CLAIM"
@@ -25,6 +22,17 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName }) => {
             houseNeed.claimer = firstName;
           }}
         />
+      }
+      {houseNeed.claimer &&
+        <View>
+          <Text>Claimed: {houseNeed.claimer}</Text>
+          <Button
+            title="DONE"
+            onPress={() => {
+              completeNeed(houseNeed.id);
+            }}
+          />
+        </View>
       }
     </View>
   );

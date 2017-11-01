@@ -10,7 +10,7 @@ import {
 
 import HouseNeedEntry from './HouseNeedEntry';
 
-const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
+const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName, userId}) => {
   return (
     <View>
       <Text>HouseNeedList</Text>
@@ -23,6 +23,7 @@ const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
               claimNeed={claimNeed}
               completeNeed={completeNeed}
               firstName={firstName}
+              userId={userId}
             />
           );
         })

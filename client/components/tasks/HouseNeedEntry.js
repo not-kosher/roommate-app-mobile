@@ -9,7 +9,7 @@ import {
   Button,
 } from 'react-native-elements';
 
-const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName }) => {
+const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName, userId }) => {
   return (
     <View>
       <Text>{houseNeed.text}</Text>
@@ -26,13 +26,15 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName }) => {
       {houseNeed.claimer &&
         <View>
           <Text>Claimed: {houseNeed.claimer}</Text>
-          <Button
-            title="DONE"
-            onPress={() => {
-              completeNeed(houseNeed.id);
-            }}
-          />
         </View>
+      }
+      {houseNeed.claimerId === userId &&
+        <Button
+          title="DONE"
+          onPress={() => {
+            completeNeed(houseNeed.id);
+          }}
+        />
       }
     </View>
   );

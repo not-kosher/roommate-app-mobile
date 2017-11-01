@@ -93,6 +93,7 @@ class HouseNeedsView extends Component {
           houseNeeds={this.state.houseNeeds}
           claimNeed={this.claimNeed}
           firstName={this.props.firstName}
+          userId={this.props.userId}
           completeNeed={this.completeNeed}
         />
         {!this.state.addingNeed &&

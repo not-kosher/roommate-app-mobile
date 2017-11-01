@@ -94,6 +94,7 @@ class ChoresView extends Component {
           claimChore={this.claimChore}
           firstName={this.props.firstName}
           completeChore={this.completeChore}
+          userId={this.props.userId}
         />
         {!this.state.addingChore &&
           <Button

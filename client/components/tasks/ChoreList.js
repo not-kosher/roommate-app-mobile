@@ -6,7 +6,7 @@ import {
 
 import ChoreEntry from './ChoreEntry';
 
-const ChoreList = ({ chores, claimChore, firstName, completeChore }) => {
+const ChoreList = ({ chores, claimChore, firstName, completeChore, userId }) => {
   return (
     <View>
       <Text>ChoreList</Text>
@@ -19,6 +19,7 @@ const ChoreList = ({ chores, claimChore, firstName, completeChore }) => {
               claimChore={claimChore}
               firstName={firstName}
               completeChore={completeChore}
+              userId={userId}
             />
           );
         })

@@ -8,7 +8,7 @@ import {
   Button,
 } from 'react-native-elements';
 
-const ChoreEntry = ({ chore, claimChore, firstName, completeChore }) => {
+const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => {
   return (
     <View>
       <Text>{chore.text}</Text>
@@ -26,13 +26,15 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore }) => {
       {chore.claimer &&
         <View>
           <Text>Claimed:{chore.claimer}</Text>
-          <Button
-            title="DONE"
-            onPress={() => {
-              completeChore(chore.id);
-            }}
-          />
         </View>
+      }
+      {chore.claimerId === userId &&
+        <Button
+          title="DONE"
+          onPress={() => {
+            completeChore(chore.id);
+          }}
+        />
       }
     </View>
   );

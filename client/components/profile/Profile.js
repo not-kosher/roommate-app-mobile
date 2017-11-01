@@ -11,6 +11,7 @@ import {
 } from 'react-native-elements';
 
 import { logout } from '../../lib/authHelper';
+import { formatPhoneNumber } from '../../lib/utils';
 import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
 import * as color from '../../styles/common';
@@ -113,7 +114,7 @@ class Profile extends Component {
                 <Text>Phone</Text>
               </View>
               <View style={styles.infoCol2}>
-                <Text>{this.props.phone || ''}</Text>
+                <Text>{formatPhoneNumber(this.props.phone)}</Text>
               </View>
             </View>
           </Card>

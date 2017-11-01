@@ -18,6 +18,7 @@ import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
 import * as color from '../../styles/common';
 import uploadPicture from '../../lib/storageHelper';
+import { formatPhoneNumber, getPlainPhone } from '../../lib/utils';
 
 const styles = {
   editContainer: {
@@ -115,8 +116,8 @@ class EditProfile extends Component {
             <FormLabel>Phone Number</FormLabel>
             <FormInput
               placeholder="Enter your phone number"
-              value={this.state.user.phone}
-              onChangeText={phone => this.setState({ user: { ...this.state.user, phone } })}
+              value={formatPhoneNumber(this.state.user.phone)}
+              onChangeText={phone => this.setState({ user: { ...this.state.user, phone: getPlainPhone(phone) } })}
             />
           </View>
           <View style={styles.buttons}>

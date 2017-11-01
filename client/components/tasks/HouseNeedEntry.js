@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
 } from 'react-native';
 import {
   Card,
@@ -29,6 +28,6 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName }) => {
       }
     </View>
   );
-}
+};
 
 export default HouseNeedEntry;

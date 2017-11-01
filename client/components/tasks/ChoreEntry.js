@@ -2,11 +2,9 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
 } from 'react-native';
 import {
   Card,
-  Avatar,
   Button,
 } from 'react-native-elements';
 
@@ -30,7 +28,7 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore }) => {
       {chore.claimerId &&
         <View>
           <Text>Claimed:{chore.poster}</Text>
-          <Button 
+          <Button
             title="DONE"
             onPress={() => {
               completeChore(chore.id);
@@ -40,6 +38,6 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore }) => {
       }
     </View>
   );
-}
+};
 
 export default ChoreEntry;

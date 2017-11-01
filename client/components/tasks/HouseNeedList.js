@@ -2,14 +2,13 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
 } from 'react-native';
 import {
   Card,
   Avatar,
 } from 'react-native-elements';
 
-import HouseNeedEntry from './HouseNeedEntry'
+import HouseNeedEntry from './HouseNeedEntry';
 
 const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
   return (
@@ -30,6 +29,6 @@ const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
       }
     </View>
   );
-}
+};
 
 export default HouseNeedList;

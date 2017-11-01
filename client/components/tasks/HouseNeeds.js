@@ -58,7 +58,7 @@ class HouseNeedsView extends Component {
       });
   }
   postNeed() {
-    axios.post(`api/tasks/`, {
+    axios.post('api/tasks/', {
       houseId: this.props.houseId,
       posterId: this.props.userId,
       text: this.state.text,

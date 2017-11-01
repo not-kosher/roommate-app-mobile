@@ -30,7 +30,7 @@ class ChoresView extends Component {
       chores: [],
       text: '',
       addingChore: false,
-      taskId: ''
+      taskId: '',
     };
 
     this.getChores = this.getChores.bind(this);
@@ -43,24 +43,21 @@ class ChoresView extends Component {
   }
   getChores() {
     axios.get(`/api/tasks/${this.props.houseId}`)
-    .then((tasks) => {
-      const onlyChores = tasks.data.filter(chore => chore.type === 'chore');
-      onlyChores.forEach((chore) => {
-        this.props.roomies.forEach((roomie) => {
-          if (roomie.id === chore.posterId) {
-            chore.poster = roomie.firstName;
-          }
+      .then((tasks) => {
+        const onlyChores = tasks.data.filter(chore => chore.type === 'chore');
+        onlyChores.forEach((chore) => {
+          this.props.roomies.forEach((roomie) => {
+            if (roomie.id === chore.posterId) {
+              chore.poster = roomie.firstName;
+            }
+          });
         });
-      });
-      this.setState({ chores: onlyChores });
-    })
-    .catch((err) => {
-      this.setState({ chores: err});
-      console.log('Error retrieving tasks', err);
-    });
+        this.setState({ chores: onlyChores });
+      })
+      .catch(err => console.log('Error retrieving tasks', err));
   }
   postChore() {
-    axios.post(`api/tasks/`, {
+    axios.post('api/tasks/', {
       houseId: this.props.houseId,
       posterId: this.props.userId,
       text: this.state.text,
@@ -70,10 +67,9 @@ class ChoresView extends Component {
         this.getChores();
         this.setState({ addingChore: !this.state.addingChore });
       })
-      .catch(err => console.log('Error posting task', err));   
+      .catch(err => console.log('Error posting task', err));
   }
   claimChore(taskId) {
-    this.setState({ taskId: 'no!' })
     axios.put(`api/tasks/${taskId}`, {
       claimerId: this.props.userId,
     })
@@ -97,7 +93,10 @@ class ChoresView extends Component {
           completeChore={this.completeChore}
         />
         {!this.state.addingChore &&
-          <Button title="Add Chore" onPress={() => this.setState({ addingChore: !this.state.addingChore })} />
+          <Button
+            title="Add Chore"
+            onPress={() => this.setState({ addingChore: !this.state.addingChore })}
+          />
         }
         {this.state.addingChore &&
           <View style={styles.inputContainer}>
@@ -124,7 +123,7 @@ const mapStateToProps = (store) => {
   };
 };
 
-const ChoresViewRedux = connect(mapStateToProps, null)(ChoresView)
+const ChoresViewRedux = connect(mapStateToProps, null)(ChoresView);
 
 const Chores = StackNavigator({
   Chores: {

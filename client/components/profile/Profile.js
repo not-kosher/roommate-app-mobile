@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  TouchableOpacity,
 } from 'react-native';
+import {
+  Avatar,
+  Card,
+  Button,
+} from 'react-native-elements';
 
 import { logout } from '../../lib/authHelper';
 import { resetUser } from '../../redux/actions/userActions';
@@ -31,12 +35,33 @@ class Profile extends Component {
   render() {
     return (
       <View>
-        <Text>Profile</Text>
-        <TouchableOpacity onPress={this.handleLogout}>
-          <View>
-            <Text>Logout</Text>
-          </View>
-        </TouchableOpacity>
+        <View>
+          {this.props.imageUrl ?
+            <Avatar
+              xlarge
+              rounded
+              source={{ uri: this.props.imageUrl }}
+            />
+            :
+            <Avatar
+              xlarge
+              rounded
+              title={`${this.props.firstName[0]}${this.props.lastName[0]}`}
+            />
+          }
+        </View>
+        <View>
+          <Card>
+            <Text>{this.props.firstName}{this.props.lastName}</Text>
+          </Card>
+        </View>
+        <View>
+          <Button
+            large
+            title="Log Out"
+            onPress={this.handleLogout}
+          />
+        </View>
       </View>
     );
   }
@@ -44,6 +69,11 @@ class Profile extends Component {
 
 const mapStoreToProps = store => ({
   houseId: store.house.id,
+  username: store.user.username,
+  imageUrl: store.user.imageUrl,
+  firstName: store.user.firstName,
+  lastName: store.user.lastName,
+  phone: store.user.phone,
 });
 
 const mapDispatchToProps = dispatch => ({

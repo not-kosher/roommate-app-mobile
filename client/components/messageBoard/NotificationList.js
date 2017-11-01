@@ -1,10 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 
 import NotificationItem from './NotificationItem';
 
 const NotificationList = ({ notifications }) => (
-  <View>
+  <ScrollView>
     {
       notifications.map(notification => (
         <NotificationItem
@@ -13,7 +13,7 @@ const NotificationList = ({ notifications }) => (
         />
       ))
     }
-  </View>
+  </ScrollView>
 );
 
 export default NotificationList;

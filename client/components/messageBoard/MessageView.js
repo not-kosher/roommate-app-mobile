@@ -34,9 +34,11 @@ const styles = StyleSheet.create({
   avatarContainer: {
     flex: 1,
     marginTop: 15,
+    marginLeft: 5,
   },
   bubbleContainer: {
     flex: 8,
+    marginRight: 5,
   },
   nameText: {
     marginBottom: 4,

@@ -21,12 +21,12 @@ const styles = {
   },
   avatar: {
     flex: 1,
+    marginBottom: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   infoCard: {
     flex: 1,
-    margin: 5,
   },
   cardOuter: {
     flex: 1,

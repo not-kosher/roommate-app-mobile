@@ -57,6 +57,11 @@ const isValidEmail = (email) => {
   return regex.test(email);
 };
 
+const isValidPhone = (phone) => {
+  const regex = /[\d]{10,}/;
+  return regex.test(phone);
+};
+
 const parseError = (error) => {
   // converts the error to a readable error message
   const e = error.toString();
@@ -69,5 +74,5 @@ const parseError = (error) => {
 };
 
 export default {
-  passwordErrors, getPasswordErrors, isValidEmail, parseError,
+  passwordErrors, getPasswordErrors, isValidEmail, parseError, isValidPhone,
 };

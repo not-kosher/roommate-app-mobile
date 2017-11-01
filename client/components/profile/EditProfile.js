@@ -19,6 +19,7 @@ import { updateUser } from '../../redux/actions/userActions';
 import * as color from '../../styles/common';
 import uploadPicture from '../../lib/storageHelper';
 import { formatPhoneNumber, getPlainPhone } from '../../lib/utils';
+import form from '../../lib/formValidation';
 
 const styles = {
   editContainer: {
@@ -69,7 +70,8 @@ class EditProfile extends Component {
   }
 
   saveProfile() {
-    if (this.state.user.firstName && this.state.user.lastName) {
+    const validPhone = !(this.state.user.phone && !form.isValidPhone(this.state.user.phone));
+    if (this.state.user.firstName && this.state.user.lastName && validPhone) {
       this.setState({ isLoading: true });
       this.props.updateUser(this.state.user, () => {
         if (this.props.navigation) {
@@ -77,6 +79,8 @@ class EditProfile extends Component {
           this.props.navigation.goBack();
         }
       });
+    } else if (!validPhone) {
+      Alert.alert('Wrong Info', 'Please make sure your phone number is valid.');
     } else {
       Alert.alert('Missing Info', 'Please enter at least your first and last name.');
     }

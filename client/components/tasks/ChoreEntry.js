@@ -19,6 +19,7 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore }) => {
           title="CLAIM"
           onPress={() => {
             claimChore(chore.id);
+            chore.claimer = firstName;
           }}
         />
       }

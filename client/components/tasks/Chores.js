@@ -19,8 +19,21 @@ import ChoreList from './ChoreList';
 
 
 const styles = StyleSheet.create({
+
   choresContainer: {
-    flex: 1
+    flex: 1,
+  },
+  choresListContainer: {
+    flex: 6,
+  },
+  addChoreContainer: {
+    flex: 1,
+    margin: 5,
+    flexDirection: 'row',
+  },
+  submitFormColumn: {
+    flex: 1,
+    flexDirection: 'column',
   },
 });
 
@@ -32,7 +45,6 @@ class ChoresView extends Component {
       chores: [],
       text: '',
       addingChore: false,
-      taskId: '',
     };
 
     this.getChores = this.getChores.bind(this);
@@ -53,7 +65,7 @@ class ChoresView extends Component {
               chore.poster = roomie.firstName;
             } 
             if (roomie.id === chore.claimerId) {
-              chore.claimer = roomie.firstName
+              chore.claimer = roomie.firstName;
             }
           });
         });
@@ -98,22 +110,20 @@ class ChoresView extends Component {
             userId={this.props.userId}
           />
         </View>
-        {!this.state.addingChore &&
-          <Button
-            title="Add Chore"
-            onPress={() => this.setState({ addingChore: !this.state.addingChore })}
-          />
-        }
-        {this.state.addingChore &&
-          <View style={styles.inputContainer}>
-            <FormLabel style={styles.roomieLabel}>Chore:</FormLabel>
+        <View style={styles.addChoreContainer}>
+          <View style={styles.submitFormColumn}>
+            <FormLabel style={styles.label}>Chore:</FormLabel>
+          </View>
+          <View style={styles.submitFormColumn}>
             <FormInput
               containerStyle={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
-            <Button title="Submit" onPress={() => this.postChore()} />
           </View>
-        }
+          <View style={styles.submitFormColumn}>
+            <Button containerStyle={styles.submitButton} title="Submit" onPress={() => this.postChore()} />
+          </View>
+        </View>
       </View>
     );
   }

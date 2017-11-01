@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   DatePickerIOS,
   ScrollView,
+  StyleSheet,
+  Text,
 } from 'react-native';
 import {
   CheckBox,
@@ -15,23 +14,25 @@ import {
   Button,
 } from 'react-native-elements';
 
+import socket from '../../socket/index';
 import axios from '../../lib/customAxios';
 import { createBill, createCharge, getAllCharges } from '../../redux/actions/financialActions';
 
-const styles = {
+const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
   },
   inputContainer: {
     flex: 1,
     flexDirection: 'row',
+    margin: 5,
   },
   roomieLabel: {
     flex: 1,
     flexDirection: 'column',
   },
   roomieInput: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'column',
   },
   label: {
@@ -39,10 +40,14 @@ const styles = {
     flexDirection: 'column',
   },
   input: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'column',
   },
-};
+  button: {
+    backgroundColor: '#47a398',
+    margin: 5,
+  },
+});
 
 class AddBill extends Component {
   constructor(props) {
@@ -56,11 +61,14 @@ class AddBill extends Component {
       date: new Date(),
       billName: '',
       total: '',
+      setDate: false,
+      called: 'nope',
     };
 
     this.submitFinancial = this.submitFinancial.bind(this);
     this.createBill = this.createBill.bind(this);
     this.createCharges = this.createCharges.bind(this);
+    this.sendNotification = this.sendNotification.bind(this);
   }
   submitFinancial() {
     if (this.state.recurring) {
@@ -73,11 +81,12 @@ class AddBill extends Component {
       })
         .then((result) => {
           this.createBill(result.data[0].id);
+          this.sendNotification();
+          this.props.navigation.goBack();
         })
         .catch(err => this.setState({ success: JSON.stringify(err) }));
     } else {
       this.createBill();
-      this.props.navigation.state.params.getAllBills();
     }
   }
   createBill(recurringBill) {
@@ -107,22 +116,31 @@ class AddBill extends Component {
       );
     }
   }
+  sendNotification() {
+    this.setState({ called: 'you don did it' });
+    const billNotification = {
+      houseId: this.props.houseId,
+      userId: this.props.userId,
+      type: 'bill',
+      text: `${this.props.firstName} has added a bill of $${this.state.total} for ${this.state.billName}!`,
+    };
+    socket.emit('addNotification', billNotification);
+  }
   render() {
     return (
       <ScrollView style={styles.formContainer}>
+        <Text>{JSON.stringify(this.state.called)}</Text>
         <View style={styles.inputContainer}>
           <FormLabel style={styles.roomieLabel}>Bill name:</FormLabel>
           <FormInput
-            style={styles.roomieInput}
-            placeholder="Bill name"
+            containerStyle={styles.input}
             onChangeText={name => this.setState({ billName: name })}
           />
         </View>
         <View style={styles.inputContainer}>
-          <FormLabel style={styles.roomieLabel}>Total Ammmount: </FormLabel>
+          <FormLabel style={styles.roomieLabel}>Total: </FormLabel>
           <FormInput
-            style={styles.roomieInput}
-            placeholder="Total ammount"
+            containerStyle={styles.input}
             onChangeText={(total) => {
               this.setState({ total: total });
               this.setState({ share: (total / this.props.roomies.length).toFixed(2) });
@@ -136,21 +154,47 @@ class AddBill extends Component {
           this.state[roomie.id] = '';
           return (
             <View key={roomie.id} style={styles.inputContainer}>
-              <FormLabel style={styles.roomieLabel}>{roomie.firstName}</FormLabel>
+            <View style={{flex: 0.5, flexDirection: 'column'}}/>
+              <FormLabel style={styles.roomieLabel}>{roomie.firstName}:</FormLabel>
               <FormInput
                 containerStyle={styles.roomieInput}
                 defaultValue={this.state.share}
                 onChangeText={ammount => this.roomieAmmounts[roomie.id] = ammount}
               />
+            <View style={{flex: 0.5, flexDirection: 'column'}}/>
             </View>);
         })}
-        <DatePickerIOS
-          date={this.state.date}
-          mode="datetime"
-          onDateChange={date => this.setState({ date: date })}
-        />
+        {this.state.setDate &&
+          <View>
+            <DatePickerIOS
+              date={this.state.date}
+              minimumDate={this.state.date}
+              mode="date"
+              onDateChange={date => this.setState({ date: date })}
+            />
+            <Button
+              title="Done"
+              onPress={() => {
+                this.setState({ setDate: !this.state.setDate });
+              }}
+              buttonStyle={styles.button}
+            />
+          </View>
+        }
+        {!this.state.setDate &&
+          <Button
+            title="Add Due Date"
+            onPress={() => {
+              this.setState({ setDate: !this.state.setDate });
+            }}
+            buttonStyle={styles.button}
+          />
+        }
         <CheckBox
+          center
+          containerStyle={{ backgroundColor: 'whitesmoke' }}
           title="Recurring"
+          checkedColor="#47a398"
           checked={this.state.recurring}
           onPress={() => {
             this.setState({
@@ -158,7 +202,13 @@ class AddBill extends Component {
             });
           }}
         />
-        <Button title='Submit' onPress={() => this.submitFinancial()} />
+        <Button
+          title="Submit"
+          onPress={() => {
+            this.submitFinancial();
+          }}
+          buttonStyle={styles.button}
+        />
       </ScrollView>
     );
   }
@@ -168,6 +218,7 @@ class AddBill extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    firstName: store.user.firstName,
     userId: store.user.id,
     roomies: store.house.roomies,
     houseId: store.user.houseId,

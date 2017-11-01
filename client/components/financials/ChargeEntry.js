@@ -6,25 +6,33 @@ import {
 } from 'react-native';
 import {
   Card,
+  Avatar,
 } from 'react-native-elements';
 
 const styles = {
+  card: {
+    marginTop: 3,
+    marginBottom: 3,
+    marginLeft: 5,
+    marginRight: 5,
+  },
   header: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 5,
   },
-  positiveBalance: {
+  balanceContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  balance: {
     flex: 1,
     flexDirection: 'column',
     color: 'green',
-    fontSize: 22,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-  },
-  negativeBalance: {
-    flex: 1,
-    flexDirection: 'column',
-    color: 'red',
     fontSize: 22,
     fontWeight: 'bold',
     alignSelf: 'center',
@@ -33,40 +41,49 @@ const styles = {
     fontWeight: 'bold',
     fontSize: 16,
     flex: 2,
+    marginLeft: 5,
     flexDirection: 'column',
   },
-  positiveCharge: {
+  charge: {
     flex: 1,
     flexDirection: 'column',
+    margin: 2,
+  },
+  positive: {
     color: 'green',
   },
-  negativeCharge: {
-    flex: 1,
-    flexDirection: 'column',
+  negative: {
     color: 'red',
   },
 };
 
 const ChargeEntry = ({ charge, deleteCharge }) => {
   return (
-    <Card>
+    <Card containerStyle={styles.card}>
       <View style={styles.header}>
+        <Avatar
+          small
+          rounded
+          title={`${charge[0].firstName.slice(0, 1)}${charge[0].lastName.slice(0, 1)}`}
+        />
         <Text style={styles.roomieName}>{charge[0].firstName}</Text>
-        {charge[1] > 0 &&
-          <Text style={styles.negativeBalance}>-{charge[1].toFixed(2)}</Text>
-        }
-        {charge[1] < 0 &&
-          <Text style={styles.positiveBalance}>+{charge[1].toFixed(2) * -1}</Text>
-        }
-        {charge[1] === 0 &&
-          <Text>{charge[1].toFixed(2)}</Text>
-        }
+        <View style={styles.balanceContainer}>
+          {charge[1] > 0 &&
+            <Text style={{ ...styles.balance, ...styles.negative }}>-{charge[1].toFixed(2)}</Text>
+          }
+          {charge[1] < 0 &&
+            <Text style={{ ...styles.balance, ...styles.positive }}>+{charge[1].toFixed(2) * -1}</Text>
+          }
+          {charge[1] === 0 &&
+            <Text>{charge[1].toFixed(2)}</Text>
+          }
+        </View>
       </View>
       {charge[2].map((roomieOwsUsercharge) => {
         return (
           <View style={styles.header} key={roomieOwsUsercharge.id}>
-            <Text style={styles.positiveCharge}>{roomieOwsUsercharge.billText}</Text>
-            <Text style={styles.positiveCharge}>{roomieOwsUsercharge.total}</Text>
+            <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.billText}</Text>
+            <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.total}</Text>
             <TouchableOpacity onPress={() => deleteCharge(roomieOwsUsercharge.id)}>
               <Text>PAID!</Text>
             </TouchableOpacity>
@@ -76,8 +93,8 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
       {charge[3].map((userOwesRoomieCharge) => {
         return (
           <View style={styles.header} key={userOwesRoomieCharge.id}>
-            <Text style={styles.negativeCharge}>{userOwesRoomieCharge.billText}</Text>
-            <Text style={styles.negativeCharge}>{userOwesRoomieCharge.total}</Text>
+            <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.billText}</Text>
+            <Text style={{ ...styles.charge, ...styles.positive }}>{userOwesRoomieCharge.total}</Text>
             <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
               <Text>PAID!</Text>
             </TouchableOpacity>

@@ -2,10 +2,19 @@ import React from 'react';
 import {
   ScrollView,
   View,
-  Text,
+  StyleSheet,
 } from 'react-native';
 
 import BillEntry from './BillEntry';
+
+const styles = StyleSheet.create({
+  billList: {
+    flex: 1,
+  },
+  billEntry: {
+    flex: 1,
+  },
+});
 
 const BillList = ({ bills, deleteBill }) => {
   return (
@@ -20,13 +29,5 @@ const BillList = ({ bills, deleteBill }) => {
   );
 };
 
-const styles = {
-  billList: {
-    flex: 1,
-  },
-  billEntry: {
-    flex: 1,
-  },
-};
 
 export default BillList;

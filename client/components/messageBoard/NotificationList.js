@@ -1,10 +1,16 @@
 import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import NotificationItem from './NotificationItem';
 
+const styles = StyleSheet.create({
+  scrollView: {
+    paddingTop: 5,
+  },
+});
+
 const NotificationList = ({ notifications }) => (
-  <ScrollView>
+  <ScrollView style={styles.scrollView}>
     {
       notifications.map(notification => (
         <NotificationItem

@@ -69,15 +69,17 @@ class App extends Component {
     socket.emit('joinHouse', this.props.houseId);
 
     this.props.getNotifications(this.props.houseId);
-    console.log(`Roomies before call to get messages: ${this.props.roomies}`);
     this.props.getMessages(this.props.houseId, this.props.roomies);
 
     socket.on('newNotification', (notification) => {
       this.props.addNotification(notification);
+
+      if (notification.type === 'new roomie') {
+        this.props.getRoomies(this.props.houseId);
+      }
     });
 
     socket.on('newChatMessage', (messages) => {
-      console.log('ADDING NEW MESSAGE IN SOCKET');
       this.props.addMessage(messages);
     });
 

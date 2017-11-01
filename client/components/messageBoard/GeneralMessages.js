@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { View, StyleSheet } from 'react-native';
+import { GiftedChat, Bubble, Avatar, Send } from 'react-native-gifted-chat';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
 import { PRIMARY } from '../../styles/common';
+import MessageView from './MessageView';
+
+const styles = StyleSheet.create({
+  sendButton: {
+    marginRight: 8,
+    marginBottom: 3,
+    marginLeft: 5,
+  },
+});
 
 class GeneralMessagesView extends Component {
   onSend(messages = []) {
     socket.emit('addChatMessage', this.props.houseId, messages);
+  }
+
+  renderAvatar(props) {
+    return (
+      <Avatar
+        {...props}
+      />
+    );
   }
 
   renderBubble(props) {
@@ -28,17 +47,28 @@ class GeneralMessagesView extends Component {
     );
   }
 
-  // create component, import
-  // have that component take in props and log those to see what's there
-  // have that display the first name of the person
+  renderMessageView(props) {
+    return (
+      <MessageView
+        {...props}
+      />
+    );
+  }
 
-  // renderCustomView(props) {
-  //   return (
-  //     <CustomView
-  //       {...props}
-  //     />
-  //   );
-  // }
+  renderSend(props) {
+    return (
+      <Send {...props}>
+        <View>
+          <FontAwesome
+            style={styles.sendButton}
+            name="send"
+            color={PRIMARY}
+            size={35}
+          />
+        </View>
+      </Send>
+    );
+  }
 
   render() {
     return (
@@ -50,7 +80,10 @@ class GeneralMessagesView extends Component {
           name: this.props.firstName,
           avatar: this.props.imageUrl,
         }}
+        renderAvatar={this.renderAvatar}
         renderBubble={this.renderBubble}
+        renderMessage={this.renderMessageView}
+        renderSend={this.renderSend}
       />
     );
   }

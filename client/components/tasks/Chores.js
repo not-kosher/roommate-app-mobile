@@ -19,7 +19,9 @@ import ChoreList from './ChoreList';
 
 
 const styles = StyleSheet.create({
-
+  choresContainer: {
+    flex: 1
+  },
 });
 
 class ChoresView extends Component {
@@ -86,16 +88,16 @@ class ChoresView extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Chores</Text>
-        <Text>{this.state.taskId}</Text>
-        <ChoreList
-          chores={this.state.chores}
-          claimChore={this.claimChore}
-          firstName={this.props.firstName}
-          completeChore={this.completeChore}
-          userId={this.props.userId}
-        />
+      <View style={styles.choresContainer}>
+        <View style={styles.choresListContainer}>
+          <ChoreList
+            chores={this.state.chores}
+            claimChore={this.claimChore}
+            firstName={this.props.firstName}
+            completeChore={this.completeChore}
+            userId={this.props.userId}
+          />
+        </View>
         {!this.state.addingChore &&
           <Button
             title="Add Chore"

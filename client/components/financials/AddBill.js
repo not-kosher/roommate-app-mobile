@@ -97,6 +97,8 @@ class AddBill extends Component {
       recurringBill,
       this.props.roomies,
       (billId) => {
+        this.sendNotification();
+        this.props.navigation.goBack();
         this.createCharges(billId, () => {
           this.props.getAllCharges(this.props.houseId, this.props.roomies, this.props.userId);
         });

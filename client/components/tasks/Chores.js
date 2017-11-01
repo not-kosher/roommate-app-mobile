@@ -19,7 +19,35 @@ import ChoreList from './ChoreList';
 
 
 const styles = StyleSheet.create({
-
+  choresContainer: {
+    flex: 1,
+  },
+  choresListContainer: {
+    flex: 6,
+  },
+  addChoreContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#47a398',
+  },
+  submitFormColumnButton: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  submitFormColumnInput: {
+    flex: 2.5,
+    flexDirection: 'column',
+  },
+  input: {
+    padding: 0,
+    margin: 0,
+  },
+  submitButton: {
+    backgroundColor: '#47a398',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: 'white',
+  },
 });
 
 class ChoresView extends Component {
@@ -30,7 +58,6 @@ class ChoresView extends Component {
       chores: [],
       text: '',
       addingChore: false,
-      taskId: '',
     };
 
     this.getChores = this.getChores.bind(this);
@@ -49,6 +76,9 @@ class ChoresView extends Component {
           this.props.roomies.forEach((roomie) => {
             if (roomie.id === chore.posterId) {
               chore.poster = roomie.firstName;
+            } 
+            if (roomie.id === chore.claimerId) {
+              chore.claimer = roomie.firstName;
             }
           });
         });
@@ -83,31 +113,33 @@ class ChoresView extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Chores</Text>
-        <Text>{this.state.taskId}</Text>
-        <ChoreList
-          chores={this.state.chores}
-          claimChore={this.claimChore}
-          firstName={this.props.firstName}
-          completeChore={this.completeChore}
-        />
-        {!this.state.addingChore &&
-          <Button
-            title="Add Chore"
-            onPress={() => this.setState({ addingChore: !this.state.addingChore })}
+      <View style={styles.choresContainer}>
+        <View style={styles.choresListContainer}>
+          <ChoreList
+            chores={this.state.chores}
+            claimChore={this.claimChore}
+            firstName={this.props.firstName}
+            completeChore={this.completeChore}
+            userId={this.props.userId}
           />
-        }
-        {this.state.addingChore &&
-          <View style={styles.inputContainer}>
-            <FormLabel style={styles.roomieLabel}>Chore:</FormLabel>
+        </View>
+        <View style={styles.addChoreContainer}>
+          <View style={styles.submitFormColumnInput}>
             <FormInput
+              defaultValue="Add Chore"
               containerStyle={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
-            <Button title="Submit" onPress={() => this.postChore()} />
           </View>
-        }
+          <View style={styles.submitFormColumnButton}>
+            <Button
+              containerViewStyle={styles.submitButton}
+              title="Submit"
+              onPress={() => this.postChore()} 
+              backgroundColor="#47a398"
+            />
+          </View>
+        </View>
       </View>
     );
   }

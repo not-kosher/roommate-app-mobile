@@ -1,19 +1,21 @@
 import React from 'react';
 import {
-  View,
-  Text,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
-import {
-  Card,
-  Avatar,
-} from 'react-native-elements';
+
 
 import HouseNeedEntry from './HouseNeedEntry';
 
-const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
+const styles = StyleSheet.create({
+  needListContainer: {
+    flex: 1,
+  },
+});
+
+const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName, userId}) => {
   return (
-    <View>
-      <Text>HouseNeedList</Text>
+    <ScrollView style={styles.needListContainer}>
       {
         houseNeeds.map((houseNeed) => {
           return (
@@ -23,11 +25,12 @@ const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName }) => {
               claimNeed={claimNeed}
               completeNeed={completeNeed}
               firstName={firstName}
+              userId={userId}
             />
           );
         })
       }
-    </View>
+    </ScrollView>
   );
 };
 

@@ -1,15 +1,20 @@
 import React from 'react';
 import {
-  View,
-  Text,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
 
 import ChoreEntry from './ChoreEntry';
 
-const ChoreList = ({ chores, claimChore, firstName, completeChore }) => {
+const styles = StyleSheet.create({
+  choreListContainer: {
+    flex: 1,
+  },
+});
+
+const ChoreList = ({ chores, claimChore, firstName, completeChore, userId }) => {
   return (
-    <View>
-      <Text>ChoreList</Text>
+    <ScrollView style={styles.choreListContainer}>
       {
         chores.map((chore) => {
           return (
@@ -19,11 +24,12 @@ const ChoreList = ({ chores, claimChore, firstName, completeChore }) => {
               claimChore={claimChore}
               firstName={firstName}
               completeChore={completeChore}
+              userId={userId}
             />
           );
         })
       }
-    </View>
+    </ScrollView>
   );
 };
 

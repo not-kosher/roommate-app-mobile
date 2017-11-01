@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Image,
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   ImagePickerIOS,
   Alert,
 } from 'react-native';
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Button,
+  Avatar,
+} from 'react-native-elements';
 import { MaterialIndicator } from 'react-native-indicators';
 
 import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
+import * as color from '../../styles/common';
 import uploadPicture from '../../lib/storageHelper';
+import { formatPhoneNumber, getPlainPhone } from '../../lib/utils';
+import form from '../../lib/formValidation';
+
+const styles = {
+  editContainer: {
+    flex: 1,
+  },
+  avatar: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  form: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  buttons: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+};
 
 class EditProfile extends Component {
   constructor(props) {
@@ -45,7 +70,8 @@ class EditProfile extends Component {
   }
 
   saveProfile() {
-    if (this.state.user.firstName && this.state.user.lastName) {
+    const validPhone = !(this.state.user.phone && !form.isValidPhone(this.state.user.phone));
+    if (this.state.user.firstName && this.state.user.lastName && validPhone) {
       this.setState({ isLoading: true });
       this.props.updateUser(this.state.user, () => {
         if (this.props.navigation) {
@@ -53,6 +79,8 @@ class EditProfile extends Component {
           this.props.navigation.goBack();
         }
       });
+    } else if (!validPhone) {
+      Alert.alert('Wrong Info', 'Please make sure your phone number is valid.');
     } else {
       Alert.alert('Missing Info', 'Please enter at least your first and last name.');
     }
@@ -61,34 +89,49 @@ class EditProfile extends Component {
   render() {
     if (!this.state.isLoading) {
       return (
-        <View>
-          <Text>Edit Profile</Text>
-          <TouchableOpacity onPress={this.uploadPicture}>
-            <Image
+        <View style={styles.editContainer}>
+          <View style={styles.avatar}>
+            <Avatar
+              xlarge
+              rounded
               source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
-              style={{ height: 150, width: 150 }}
+              onPress={this.uploadPicture}
             />
-          </TouchableOpacity>
-          <TextInput
-            placeholder="First Name"
-            value={this.state.user.firstName}
-            onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
-          />
-          <TextInput
-            placeholder="Last Name"
-            value={this.state.user.lastName}
-            onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
-          />
-          <TextInput
-            placeholder="Phone Number"
-            value={this.state.user.phone}
-            onChangeText={phone => this.setState({ user: { ...this.state.user, phone } })}
-          />
-          <TouchableOpacity onPress={this.saveProfile} >
-            <View>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
+          </View>
+          <View style={styles.form}>
+            <FormLabel>First Name</FormLabel>
+            <FormInput
+              placeholder="Enter your first name"
+              value={this.state.user.firstName}
+              onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
+            />
+            <FormValidationMessage>
+              {this.state.user.firstName ? ' ' : 'This field is required'}
+            </FormValidationMessage>
+            <FormLabel>Last Name</FormLabel>
+            <FormInput
+              placeholder="Enter your last name"
+              value={this.state.user.lastName}
+              onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
+            />
+            <FormValidationMessage>
+              {this.state.user.lastName ? ' ' : 'This field is required'}
+            </FormValidationMessage>
+            <FormLabel>Phone Number</FormLabel>
+            <FormInput
+              placeholder="Enter your phone number"
+              value={formatPhoneNumber(this.state.user.phone)}
+              onChangeText={phone => this.setState({ user: { ...this.state.user, phone: getPlainPhone(phone) } })}
+            />
+          </View>
+          <View style={styles.buttons}>
+            <Button
+              large
+              title="Save"
+              onPress={this.saveProfile}
+              backgroundColor={color.PRIMARY}
+            />
+          </View>
         </View>
       );
     }

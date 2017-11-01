@@ -27,12 +27,26 @@ const styles = StyleSheet.create({
   },
   addChoreContainer: {
     flex: 1,
-    margin: 5,
     flexDirection: 'row',
+    backgroundColor: '#47a398',
   },
-  submitFormColumn: {
+  submitFormColumnButton: {
     flex: 1,
     flexDirection: 'column',
+  },
+  submitFormColumnInput: {
+    flex: 2.5,
+    flexDirection: 'column',
+  },
+  input: {
+    padding: 0,
+    margin: 0,
+  },
+  submitButton: {
+    backgroundColor: '#47a398',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: 'white',
   },
 });
 
@@ -110,17 +124,20 @@ class ChoresView extends Component {
           />
         </View>
         <View style={styles.addChoreContainer}>
-          <View style={styles.submitFormColumn}>
-            <FormLabel style={styles.label}>Chore:</FormLabel>
-          </View>
-          <View style={styles.submitFormColumn}>
+          <View style={styles.submitFormColumnInput}>
             <FormInput
+              defaultValue="Add Chore"
               containerStyle={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
           </View>
-          <View style={styles.submitFormColumn}>
-            <Button containerStyle={styles.submitButton} title="Submit" onPress={() => this.postChore()} />
+          <View style={styles.submitFormColumnButton}>
+            <Button
+              containerViewStyle={styles.submitButton}
+              title="Submit"
+              onPress={() => this.postChore()} 
+              backgroundColor="#47a398"
+            />
           </View>
         </View>
       </View>

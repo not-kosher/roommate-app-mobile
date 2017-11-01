@@ -57,7 +57,7 @@ class HouseNeedsView extends Component {
   getNeeds() {
     axios.get(`/api/tasks/${this.props.houseId}`)
       .then((tasks) => {
-        const onlyHouseNeeds = tasks.data.filter(chore => chore.type === 'houseneed');
+        const onlyHouseNeeds = tasks.data.filter(need => need.type === 'houseneed');
         onlyHouseNeeds.forEach((need) => {
           this.props.roomies.forEach((roomie) => {
             if (roomie.id === need.posterId) {
@@ -83,7 +83,7 @@ class HouseNeedsView extends Component {
     })
       .then(() => {
         this.getNeeds();
-        this.setState({ addingChore: !this.state.addingChore });
+        this.setState({ addingneed: !this.state.addingneed });
       })
       .catch(err => console.log('Error posting task', err));
   }
@@ -113,7 +113,7 @@ class HouseNeedsView extends Component {
         </View>
         <View style={styles.addNeedContainer}>
           <View style={styles.submitFormColumn}>
-            <FormLabel style={styles.roomieLabel}>Chore:</FormLabel>
+            <FormLabel style={styles.roomieLabel}>Need:</FormLabel>
           </View>
           <View style={styles.submitFormColumn}>
             <FormInput

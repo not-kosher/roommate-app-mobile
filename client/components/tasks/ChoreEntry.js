@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
   },
+  choreEntryContent: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   choreInfoColumn: {
     flex: 1,
     flexDirection: 'column',
@@ -29,7 +33,7 @@ const styles = StyleSheet.create({
 const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => {
   return (
     <Card containerStyle={styles.choreEntryContainer}>
-      <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={styles.choreEntryContent}>
         <View style={styles.choreInfoColumn}>
           <Text>{chore.text}</Text>
           <Text>{firstName}</Text>

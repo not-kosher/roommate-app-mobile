@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Image,
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   ImagePickerIOS,
   Alert,
 } from 'react-native';
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Button,
+  Avatar,
+} from 'react-native-elements';
 import { MaterialIndicator } from 'react-native-indicators';
 
 import defaultPic from '../../images/default_profile.jpg';
@@ -62,33 +65,41 @@ class EditProfile extends Component {
     if (!this.state.isLoading) {
       return (
         <View>
-          <Text>Edit Profile</Text>
-          <TouchableOpacity onPress={this.uploadPicture}>
-            <Image
-              source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
-              style={{ height: 150, width: 150 }}
-            />
-          </TouchableOpacity>
-          <TextInput
-            placeholder="First Name"
+          <Avatar
+            xlarge
+            rounded
+            source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
+            onPress={this.uploadPicture}
+          />
+          <FormLabel>First Name</FormLabel>
+          <FormInput
+            placeholder="Enter your first name"
             value={this.state.user.firstName}
             onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
           />
-          <TextInput
-            placeholder="Last Name"
+          <FormValidationMessage>
+            {this.state.user.firstName ? ' ' : 'This field is required'}
+          </FormValidationMessage>
+          <FormLabel>Last Name</FormLabel>
+          <FormInput
+            placeholder="Enter your last name"
             value={this.state.user.lastName}
             onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
           />
-          <TextInput
-            placeholder="Phone Number"
+          <FormValidationMessage>
+            {this.state.user.lastName ? ' ' : 'This field is required'}
+          </FormValidationMessage>
+          <FormLabel>Phone Number</FormLabel>
+          <FormInput
+            placeholder="Enter your phone number"
             value={this.state.user.phone}
             onChangeText={phone => this.setState({ user: { ...this.state.user, phone } })}
           />
-          <TouchableOpacity onPress={this.saveProfile} >
-            <View>
-              <Text>Save</Text>
-            </View>
-          </TouchableOpacity>
+          <Button
+            large
+            title="Save"
+            onPress={this.saveProfile}
+          />
         </View>
       );
     }

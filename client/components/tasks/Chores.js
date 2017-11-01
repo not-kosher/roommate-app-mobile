@@ -19,7 +19,6 @@ import ChoreList from './ChoreList';
 
 
 const styles = StyleSheet.create({
-
   choresContainer: {
     flex: 1,
   },

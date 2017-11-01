@@ -10,6 +10,8 @@ import {
 
 import HouseNeedEntry from './HouseNeedEntry';
 
+
+
 const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName, userId}) => {
   return (
     <View>

@@ -19,7 +19,21 @@ import HouseNeedList from './HouseNeedList';
 
 
 const styles = StyleSheet.create({
-
+  needsContainer: {
+    flex: 1,
+  },
+  needsListContainer: {
+    flex: 6,
+  },
+  addNeedContainer: {
+    flex: 1,
+    margin: 5,
+    flexDirection: 'row',
+  },
+  submitFormColumn: {
+    flex: 1,
+    flexDirection: 'column',
+  },
 });
 
 class HouseNeedsView extends Component {
@@ -87,28 +101,27 @@ class HouseNeedsView extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>HouseNeeds</Text>
-        <HouseNeedList
-          houseNeeds={this.state.houseNeeds}
-          claimNeed={this.claimNeed}
-          firstName={this.props.firstName}
-          userId={this.props.userId}
-          completeNeed={this.completeNeed}
-        />
-        {!this.state.addingNeed &&
-          <Button
-            title="Add House Need"
-            onPress={() => this.setState({ addingNeed: !this.state.addingNeed })}
+      <View style={styles.needsContainer}>
+        <View style={styles.needsListContainer}>
+          <HouseNeedList
+            houseNeeds={this.state.houseNeeds}
+            claimNeed={this.claimNeed}
+            firstName={this.props.firstName}
+            userId={this.props.userId}
+            completeNeed={this.completeNeed}
           />
-        }
-        {this.state.addingNeed &&
-          <View style={styles.inputContainer}>
+        </View>
+        <View style={styles.addNeedContainer}>
+          <View style={styles.submitFormColumn}>
             <FormLabel style={styles.roomieLabel}>Chore:</FormLabel>
+          </View>
+          <View style={styles.submitFormColumn}>
             <FormInput
               containerStyle={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
+          </View>
+          <View style={styles.submitFormColumn}>
             <Button
               title="Submit"
               onPress={() => {
@@ -117,7 +130,7 @@ class HouseNeedsView extends Component {
               }}
             />
           </View>
-        }
+        </View>
       </View>
     );
   }

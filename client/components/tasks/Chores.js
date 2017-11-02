@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import {
   View,
   StyleSheet,
-  Text,
+  TextInput,
 } from 'react-native';
 import {
   Button,
   FormInput,
   FormLabel,
+  Divider,
 } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 
@@ -27,9 +28,8 @@ const styles = StyleSheet.create({
     flex: 6,
   },
   addChoreContainer: {
-    flex: 1,
+
     flexDirection: 'row',
-    backgroundColor: '#47a398',
   },
   submitFormColumnButton: {
     flex: 1,
@@ -44,10 +44,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   submitButton: {
-    backgroundColor: '#47a398',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    borderColor: 'white',
+
   },
 });
 
@@ -127,9 +124,10 @@ class ChoresView extends Component {
           />
         </View>
         <View style={styles.addChoreContainer}>
+          <Divider />
           <View style={styles.submitFormColumnInput}>
-            <FormInput
-              defaultValue="Add Chore"
+            <TextInput
+              placeholder="Add Chore"
               containerStyle={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
@@ -139,7 +137,6 @@ class ChoresView extends Component {
               containerViewStyle={styles.submitButton}
               title="Submit"
               onPress={() => this.postChore()} 
-              backgroundColor="#47a398"
             />
           </View>
         </View>

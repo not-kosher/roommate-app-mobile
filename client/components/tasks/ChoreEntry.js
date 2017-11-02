@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Divider,
@@ -23,14 +24,14 @@ const numbersToMonths = {
   '10': 'Oct',
   '11': 'Nov',
   '12': 'Dev',
-}
+};
 
 const styles = StyleSheet.create({
   choreEntryContainer: {
-    paddingTop: 10,
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingBottom: 8,
+    paddingTop: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingBottom: 12,
   },
   choreEntryContent: {
     flex: 1,
@@ -39,8 +40,8 @@ const styles = StyleSheet.create({
   choreInfoColumn: {
     flex: 2,
     flexDirection: 'column',
-    paddingLeft: 8,
-    paddingRight: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   userName: {
     fontWeight: 'bold',
@@ -61,11 +62,12 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   button: {
-    margin: 0,
-    padding: 0,
+    padding: 5,
+    height: 25,
+    marginTop: 5,
+    borderRadius: 5,
     borderStyle: 'solid',
-    borderWidth: 2,
-    borderColor: 'black',
+    borderWidth: 1,
   },
 });
 
@@ -125,9 +127,11 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => 
 
           {!chore.claimerId &&
             <Button
-              title="CLAIM"
               backgroundColor="white"
-              containerViewStyle={styles.button}
+              title="CLAIM"
+              color="black"
+              fontSize={14}
+              buttonStyle={styles.button}
               onPress={() => {
                 claimChore(chore.id);
                 chore.claimer = firstName;
@@ -136,9 +140,11 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => 
           }
           {chore.claimerId === userId &&
             <Button
-              title="DONE"
-              containerViewStyle={styles.button}
               backgroundColor="white"
+              title="DONE"
+              color="black"
+              fontSize={14}
+              buttonStyle={styles.button}
               onPress={() => {
                 completeChore(chore.id);
               }}

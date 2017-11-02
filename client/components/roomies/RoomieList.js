@@ -1,16 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
-  View,
+  ScrollView,
 } from 'react-native';
 
 import RoomieEntry from './RoomieEntry';
 
 const RoomieList = (props) => {
   return (
-    <View>
-      {props.roomies.map(roomie => <RoomieEntry key={roomie.id} roomie={roomie} />)}
-    </View>
+    <ScrollView>
+      {props.roomies.map((roomie) => {
+        if (roomie.username !== props.username) {
+          return (<RoomieEntry key={roomie.id} roomie={roomie} />);
+        }
+        return null;
+      })}
+    </ScrollView>
   );
 };
 
-export default RoomieList;
+const mapStateToProps = (store) => {
+  return {
+    username: store.user.username,
+  };
+};
+
+export default connect(mapStateToProps)(RoomieList);

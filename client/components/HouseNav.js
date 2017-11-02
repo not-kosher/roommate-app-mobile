@@ -14,13 +14,20 @@ import TasksNav from './tasks/TasksNav';
 // custom drawer items container
 const styles = StyleSheet.create({
   nameContainer: {
-    marginTop: 35,
+    marginTop: 28,
     marginLeft: 20,
   },
   name: {
     color: color.WHITE,
     fontWeight: '500',
     fontSize: 24,
+  },
+  divider: {
+    backgroundColor: color.TEXT_M_GRAY,
+    marginTop: 7,
+    height: 1,
+    width: 230,
+    alignSelf: 'center',
   },
   container: {
     flex: 1,
@@ -45,6 +52,7 @@ const DrawerContent = props => (
     <View style={styles.nameContainer}>
       <Text style={styles.name}>{props.houseName}</Text>
     </View>
+    <View style={styles.divider}/>
     <DrawerItems {...props} />
   </View>
 );
@@ -97,6 +105,7 @@ const HouseNav = DrawerNavigator(
     },
   },
   {
+    drawerWidth: 250,
     contentComponent: DrawerContentRedux,
     contentOptions: {
       activeTintColor: color.PRIMARY,

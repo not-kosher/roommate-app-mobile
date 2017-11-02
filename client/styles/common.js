@@ -3,6 +3,7 @@ export const TEXT_L_GRAY = '#bdbdbd';
 export const TEXT_M_GRAY = '#383838';
 export const TEXT_D_GRAY = '#262626';
 export const BG_L_GRAY = '#f7f7f7';
+export const BG_M_GRAY = '#dddddd';
 export const BG_D_GRAY = '#262626';
 export const DIV_GRAY = '#d3d3d3';
 export const WHITE = '#ffffff';

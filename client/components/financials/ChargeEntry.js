@@ -7,6 +7,7 @@ import {
 import {
   Card,
   Avatar,
+  Divider,
 } from 'react-native-elements';
 
 const styles = {
@@ -28,6 +29,14 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  chargeCatergoryHeader: {
+    fontWeight: '600',
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  divider: {
+    marginTop: 8,
   },
   balance: {
     flex: 1,
@@ -80,7 +89,10 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
         </View>
       </View>
       {charge[2].length > 0 &&
-        <Text>They Owe:</Text>
+        <View>
+          <Divider style={styles.divider} />
+          <Text style={styles.chargeCatergoryHeader}>They Owe:</Text>
+        </View>
       }
       {charge[2].map((roomieOwsUsercharge) => {
         return (
@@ -94,7 +106,10 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
         );
       })}
       {charge[3].length > 0 &&
-        <Text>You Owe:</Text>
+        <View>
+          <Divider style={styles.divider} />
+          <Text style={styles.chargeCatergoryHeader}>You Owe:</Text>
+        </View>
       }
       {charge[3].map((userOwesRoomieCharge) => {
         return (

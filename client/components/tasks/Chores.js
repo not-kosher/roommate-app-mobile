@@ -8,9 +8,6 @@ import {
   Text,
 } from 'react-native';
 import {
-  Button,
-  FormInput,
-  FormLabel,
   Divider,
 } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';

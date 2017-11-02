@@ -88,9 +88,11 @@ class HouseNeedsView extends Component {
           this.props.roomies.forEach((roomie) => {
             if (roomie.id === need.posterId) {
               need.poster = roomie.firstName;
+              need.posterImage = roomie.imageUrl
             }
             if (roomie.id === need.claimerId) {
               need.claimer = roomie.firstName;
+              need.claimerImage = roomie.imageUrl
             }
           });
         });

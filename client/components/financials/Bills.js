@@ -18,6 +18,7 @@ import { getAllBills, deleteBill, deleteAllChargesForBill, getAllCharges } from 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   billListContainer: {
     flex: 1,

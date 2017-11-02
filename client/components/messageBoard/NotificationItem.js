@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { PRIMARY, P_LIGHT } from '../../styles/common';
+import { TEXT_L_GRAY, TEXT_D_GRAY, DIV_GRAY } from '../../styles/common';
 
 
 const styles = StyleSheet.create({
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     borderBottomWidth: 1,
-    borderColor: P_LIGHT,
+    borderColor: DIV_GRAY,
     paddingBottom: 8,
   },
   iconContainer: {
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    color: TEXT_D_GRAY,
   },
 });
 
@@ -40,10 +41,10 @@ const createIcon = (name, color, size) => (
 );
 
 const typeToIcon = {
-  bill: createIcon('account-balance', PRIMARY, 32),
-  chore: createIcon('content-paste', PRIMARY, 32),
-  'house needs': createIcon('shopping-basket', PRIMARY, 32),
-  'new roomie': createIcon('person-add', PRIMARY, 32),
+  bill: createIcon('account-balance', TEXT_L_GRAY, 32),
+  chore: createIcon('content-paste', TEXT_L_GRAY, 32),
+  'house needs': createIcon('shopping-basket', TEXT_L_GRAY, 32),
+  'new roomie': createIcon('person-add', TEXT_L_GRAY, 32),
 };
 
 

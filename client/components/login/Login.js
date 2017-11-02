@@ -3,19 +3,20 @@ import { connect } from 'react-redux';
 import {
   View,
   Alert,
+  Modal,
 } from 'react-native';
 import {
   FormInput,
   FormLabel,
   Button,
 } from 'react-native-elements';
-import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
 import form from '../../lib/formValidation';
 import * as color from '../../styles/common';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies, updateSocketReady } from '../../redux/actions/houseActions';
+import TintedLoading from '../loading/TintedLoading';
 
 const styles = {
   formContainer: {
@@ -69,45 +70,49 @@ class Login extends Component {
   }
 
   render() {
-    if (!this.state.isLoggingIn) {
-      return (
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <FormLabel>Email</FormLabel>
-            <FormInput
-              placeholder="Enter your email"
-              onChangeText={usernameInput => this.setState({ usernameInput })}
-              value={this.state.usernameInput}
-              autoCorrect={false}
-              autoCapitalize="none"
-            />
-            <FormLabel>Password</FormLabel>
-            <FormInput
-              placeholder="Enter your password"
-              onChangeText={passwordInput => this.setState({ passwordInput })}
-              value={this.state.passwordInput}
-              autoCorrect={false}
-              autoCapitalize="none"
-              secureTextEntry
-              selectTextOnFocus
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              large
-              icon={{ name: 'done' }}
-              title="Log In"
-              onPress={this.handleLogin}
-              disabled={!(this.state.usernameInput && this.state.passwordInput)}
-              backgroundColor={color.PRIMARY}
-              disabledStyle={styles.buttonDisabled}
-            />
-          </View>
-        </View>
-      );
-    }
+    return (
+      <View style={styles.formContainer}>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={this.state.isLoggingIn}
+        >
+          <TintedLoading />
+        </Modal>
 
-    return <MaterialIndicator />;
+        <View style={styles.inputContainer}>
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            placeholder="Enter your email"
+            onChangeText={usernameInput => this.setState({ usernameInput })}
+            value={this.state.usernameInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+          />
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            placeholder="Enter your password"
+            onChangeText={passwordInput => this.setState({ passwordInput })}
+            value={this.state.passwordInput}
+            autoCorrect={false}
+            autoCapitalize="none"
+            secureTextEntry
+            selectTextOnFocus
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            large
+            icon={{ name: 'done' }}
+            title="Log In"
+            onPress={this.handleLogin}
+            disabled={!(this.state.usernameInput && this.state.passwordInput)}
+            backgroundColor={color.PRIMARY}
+            disabledStyle={styles.buttonDisabled}
+          />
+        </View>
+      </View>
+    );
   }
 }
 

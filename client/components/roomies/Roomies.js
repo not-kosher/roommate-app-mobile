@@ -1,20 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View } from 'react-native';
+import { Button } from 'react-native-elements';
 
+import * as color from '../../styles/common';
 import RoomieList from './RoomieList';
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: color.BG_L_GRAY,
+  },
+  buttonContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+};
 
 const Roomies = (props) => {
   return (
-    <View>
+    <View style={styles.container}>
       <RoomieList roomies={props.roomies} />
-      <TouchableOpacity onPress={() => props.navigation.navigate('AddRoomie')}>
-        <Text>Add Roomie</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Add Roomie"
+          backgroundColor={color.PRIMARY}
+          onPress={() => props.navigation.navigate('AddRoomie')}
+        />
+      </View>
     </View>
   );
 };

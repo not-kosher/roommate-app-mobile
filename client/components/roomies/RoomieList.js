@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-  View,
+  ScrollView,
 } from 'react-native';
 
 import RoomieEntry from './RoomieEntry';
 
 const RoomieList = (props) => {
   return (
-    <View>
+    <ScrollView>
       {props.roomies.map(roomie => <RoomieEntry key={roomie.id} roomie={roomie} />)}
-    </View>
+    </ScrollView>
   );
 };
 

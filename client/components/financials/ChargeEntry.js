@@ -70,11 +70,20 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.header}>
-        <Avatar
-          small
-          rounded
-          title={`${charge[0].firstName.slice(0, 1)}${charge[0].lastName.slice(0, 1)}`}
-        />
+        {charge[0].imageUrl &&
+          <Avatar
+            small
+            rounded
+            source={{ uri: charge[0].imageUrl }}
+          />
+        }
+        {!charge[0].imageUrl &&
+          <Avatar
+            small
+            rounded
+            title={`${charge[0].firstName.slice(0, 1)}${charge[0].lastName.slice(0, 1)}`}
+          />
+        }
         <Text style={styles.roomieName}>{charge[0].firstName}</Text>
         <View style={styles.balanceContainer}>
           {charge[1] > 0 &&

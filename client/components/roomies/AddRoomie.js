@@ -32,6 +32,12 @@ class AddRoomie extends Component {
   }
 
   sendEmail() {
+    const message = `You have been invited to join ${this.props.houseName} by ${this.props.firstName} ${this.props.lastName}!
+    
+    Download the Abodie app and sign up! When prompted, enter the following house key to join this house:
+    ${this.props.key}
+    
+    Enjoy!`;
     mailChimpAxios({
       method: 'POST',
       url: MAILCHIMP_LISTURL,
@@ -40,7 +46,7 @@ class AddRoomie extends Component {
           {
             email_address: this.state.emailInput,
             merge_fields: {
-              FNAME: 'LILLIAN IS BOSS',
+              FNAME: message,
             },
             status: 'subscribed',
           },
@@ -54,7 +60,7 @@ class AddRoomie extends Component {
         this.clearText();
         Alert.alert('Success', 'You have succesfully added a roomie!');
       })
-      .catch(err => Alert.alert('Error', 'Roommate could not be added. Make sure you have entered a valid email adress.'));
+      .catch(err => Alert.alert('Error', 'Roommate could not be added! Make sure you have entered a valid email adress.'));
   }
 
   clearText() {
@@ -83,7 +89,10 @@ class AddRoomie extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    username: store.user.username,
+    firstName: store.user.firstName,
+    LastName: store.user.lastName,
+    houseName: store.house.name,
+    key: store.house.id,
   };
 };
 

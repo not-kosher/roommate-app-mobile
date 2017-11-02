@@ -1,29 +1,25 @@
 import React from 'react';
 import { PulseIndicator } from 'react-native-indicators';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { PRIMARY, WHITE } from '../../styles/common';
 
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-  },
-  loadingText: {
-    flex: 1,
-    textAlign: 'center',
-    paddingTop: 290,
-    fontSize: 30,
+    backgroundColor: PRIMARY,
   },
   indicator: {
     flex: 1,
-    paddingBottom: 290,
   },
 });
 
 const FullScreenLoading = () => (
   <View style={styles.page}>
-    <Text style={styles.loadingText}>
-      Abodie
-    </Text>
-    <PulseIndicator style={styles.indicator} />
+    <PulseIndicator
+      style={styles.indicator}
+      size={80}
+      color={WHITE}
+    />
   </View>
 );
 

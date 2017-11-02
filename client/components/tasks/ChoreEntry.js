@@ -1,71 +1,180 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
   StyleSheet,
 } from 'react-native';
 import {
-  Card,
+  Divider,
   Button,
+  Avatar,
 } from 'react-native-elements';
+
+const numbersToMonths = {
+  '01': 'Jan',
+  '02': 'Feb',
+  '03': 'Mar',
+  '04': 'Apr',
+  '05': 'May',
+  '06': 'Jun',
+  '07': 'Jul',
+  '08': 'Aug',
+  '09': 'Sep',
+  '10': 'Oct',
+  '11': 'Nov',
+  '12': 'Dev',
+};
 
 const styles = StyleSheet.create({
   choreEntryContainer: {
-    marginTop: 3,
-    marginBottom: 3,
-    marginLeft: 5,
-    marginRight: 5,
+    paddingTop: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingBottom: 12,
   },
   choreEntryContent: {
     flex: 1,
     flexDirection: 'row',
   },
   choreInfoColumn: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'column',
+    paddingLeft: 12,
+    paddingRight: 12,
+  },
+  userName: {
+    fontWeight: 'bold',
+  },
+  userAction: {
+    flex: 1,
+    flexDirection: 'row',
   },
   choreButtonColumn: {
     flex: 1,
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  choreTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  choreText: {
+    fontSize: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  date: {
+    fontSize: 10,
+  },
+  divider: {
+    marginTop: 16,
+  },
+  button: {
+    padding: 5,
+    height: 25,
+    borderStyle: 'solid',
+    borderWidth: 1,
   },
 });
 
-const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => {
-  return (
-    <Card containerStyle={styles.choreEntryContainer}>
-      <View style={styles.choreEntryContent}>
-        <View style={styles.choreInfoColumn}>
-          <Text>{chore.text}</Text>
-          <Text>{firstName}</Text>
-          <Text>Posted:{chore.poster}</Text>
-          {chore.claimer &&
-            <View>
-              <Text>Claimed:{chore.claimer}</Text>
+class ChoreEntry extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      chore: {},
+    };
+  }
+  componentWillMount() {
+    this.setState({ chore: this.props.chore });
+  }
+  render() {
+    return (
+      <View style={styles.choreEntryContainer}>
+
+        <View style={styles.choreEntryContent}>
+          <View>
+            {this.state.chore.posterImage && !this.state.chore.claimerId &&
+              <Avatar
+                rounded
+                medium
+                source={{ uri: this.state.chore.posterImage }} 
+              />
+            }
+            {this.state.chore.claimerImage &&
+              <Avatar
+                rounded
+                medium
+                source={{ uri: this.state.chore.claimerImage }} 
+              />
+            }
+            {!this.state.chore.posterImage && !this.state.chore.claimerId &&
+              <Avatar
+                rounded
+                medium
+                title={this.state.chore.poster.slice(0, 1)} 
+              />
+            }
+            {!this.state.chore.claimerImage && this.state.chore.claimerId &&
+              <Avatar
+                rounded
+                medium
+                title={this.state.chore.claimer.slice(0, 1)} 
+              />
+            }
+          </View>
+          <View style={styles.choreInfoColumn}>
+            {!this.state.chore.claimer &&
+              <View style={styles.userAction}>
+                <Text style={styles.userName}>{this.state.chore.poster}</Text>
+                <Text> posted</Text>
+              </View>
+            }
+            {this.state.chore.claimer &&
+              <View style={styles.userAction}>
+                <Text style={styles.userName}>{this.state.chore.claimer}</Text>
+                <Text> claimed</Text>
+              </View>
+            }
+            <Text style={styles.date}>{`${numbersToMonths[this.state.chore.updatedAt.slice(5, 7)]} ${this.state.chore.updatedAt.slice(8, 10)}`}</Text>
+            <View style={styles.choreTextContainer}>
+              <Text style={styles.choreText}>{this.state.chore.text}</Text>
             </View>
-          }
+          </View>
+          <View style={styles.choreButtonColumn}>
+            {!this.state.chore.claimerId && !this.state.chore.claimer &&
+              <Button
+                backgroundColor="white"
+                title="CLAIM"
+                color="black"
+                fontSize={14}
+                buttonStyle={styles.button}
+                onPress={() => {
+                  this.setState({ chore: { ...this.state.chore, ...{ claimer: this.props.firstName, claimerId: this.props.userId } } });
+                  this.props.claimChore(this.state.chore.id);
+                }}
+              />
+            }
+            {this.state.chore.claimerId === this.props.userId &&
+              <Button
+                backgroundColor="white"
+                title="DONE"
+                color="black"
+                fontSize={14}
+                buttonStyle={styles.button}
+                onPress={() => {
+                  this.props.completeChore(this.state.chore.id);
+                }}
+              />
+            }
+          </View>
         </View>
-        <View style={styles.choreButtonColumn}>
-          {!chore.claimerId &&
-            <Button
-              title="CLAIM"
-              onPress={() => {
-                claimChore(chore.id);
-                chore.claimer = firstName;
-              }}
-            />
-          }
-          {chore.claimerId === userId &&
-            <Button
-              title="DONE"
-              onPress={() => {
-                completeChore(chore.id);
-              }}
-            />
-          }
-        </View>
+        <Divider style={styles.divider} />
       </View>
-    </Card>
-  );
-};
+    );
+  }
+}
+
 
 export default ChoreEntry;

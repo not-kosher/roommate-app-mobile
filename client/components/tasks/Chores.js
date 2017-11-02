@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import {
   View,
   StyleSheet,
+  TextInput,
+  TouchableOpacity,
   Text,
 } from 'react-native';
 import {
-  Button,
-  FormInput,
-  FormLabel,
+  Divider,
 } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 
@@ -21,14 +21,18 @@ import ChoreList from './ChoreList';
 const styles = StyleSheet.create({
   choresContainer: {
     flex: 1,
+    backgroundColor: 'white',
   },
   choresListContainer: {
     flex: 6,
   },
+  divider: {
+    backgroundColor: '#262626',
+    height: 0.5,
+  },
   addChoreContainer: {
-    flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#47a398',
+    justifyContent: 'center',
   },
   submitFormColumnButton: {
     flex: 1,
@@ -37,16 +41,24 @@ const styles = StyleSheet.create({
   submitFormColumnInput: {
     flex: 2.5,
     flexDirection: 'column',
+    justifyContent: 'center',
   },
   input: {
-    padding: 0,
-    margin: 0,
+    margin: 8,
+    flex: 1,
   },
   submitButton: {
-    backgroundColor: '#47a398',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    borderColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 22,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'grey',
+
+  },
+  submitText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 
@@ -76,9 +88,11 @@ class ChoresView extends Component {
           this.props.roomies.forEach((roomie) => {
             if (roomie.id === chore.posterId) {
               chore.poster = roomie.firstName;
+              chore.posterImage = roomie.imageUrl
             } 
             if (roomie.id === chore.claimerId) {
               chore.claimer = roomie.firstName;
+              chore.claimerImage = roomie.imageUrl
             }
           });
         });
@@ -93,9 +107,14 @@ class ChoresView extends Component {
       text: this.state.text,
       type: 'chore',
     })
-      .then(() => {
-        this.getChores();
-        this.setState({ addingChore: !this.state.addingChore });
+      .then((chore) => {
+        const newChore = chore.data[0];
+        newChore.poster = this.props.firstName;
+        this.state.chores.push(newChore);
+        this.setState({
+          addingChore: !this.state.addingChore,
+          chores: this.state.chores,
+        });
       })
       .catch(err => console.log('Error posting task', err));
   }
@@ -103,12 +122,22 @@ class ChoresView extends Component {
     axios.put(`api/tasks/${taskId}`, {
       claimerId: this.props.userId,
     })
-      .then(() => this.getChores())
+      .then((task) => {
+        this.state.chores.forEach((chore) => {
+          if (chore.id === task.id) {
+            chore.claimer = this.props.firstName;
+            chore.claimerId = this.props.userId;
+          };
+        });
+        this.setState({ chores: this.state.chores });
+      })
       .catch(err => console.log('Error claiming task', err));
   }
   completeChore(taskId) {
     axios.delete(`api/tasks/${taskId}`)
-      .then(() => this.getChores())
+      .then((task) => {
+        this.setState({ chores: this.state.chores.filter(chore => chore.id !== taskId) });
+      })
       .catch(err => console.log('Error deleting task', err));
   }
   render() {
@@ -123,21 +152,26 @@ class ChoresView extends Component {
             userId={this.props.userId}
           />
         </View>
+        <Divider style={styles.divider} />
         <View style={styles.addChoreContainer}>
           <View style={styles.submitFormColumnInput}>
-            <FormInput
-              defaultValue="Add Chore"
-              containerStyle={styles.input}
+            <TextInput
+              ref={component => this._choreInput = component}
+              placeholder="Add Chore"
+              style={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
           </View>
           <View style={styles.submitFormColumnButton}>
-            <Button
-              containerViewStyle={styles.submitButton}
-              title="Submit"
-              onPress={() => this.postChore()} 
-              backgroundColor="#47a398"
-            />
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={() => {
+                this.postChore();
+                this._choreInput.setNativeProps({text: ''});
+              }}
+            >
+              <Text style={styles.submitText}>SUBMIT</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

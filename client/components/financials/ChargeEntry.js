@@ -7,6 +7,7 @@ import {
 import {
   Card,
   Avatar,
+  Divider,
 } from 'react-native-elements';
 
 const styles = {
@@ -28,6 +29,14 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  chargeCatergoryHeader: {
+    fontWeight: '600',
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  divider: {
+    marginTop: 8,
   },
   balance: {
     flex: 1,
@@ -61,11 +70,20 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.header}>
-        <Avatar
-          small
-          rounded
-          title={`${charge[0].firstName.slice(0, 1)}${charge[0].lastName.slice(0, 1)}`}
-        />
+        {charge[0].imageUrl &&
+          <Avatar
+            small
+            rounded
+            source={{ uri: charge[0].imageUrl }}
+          />
+        }
+        {!charge[0].imageUrl &&
+          <Avatar
+            small
+            rounded
+            title={`${charge[0].firstName.slice(0, 1)}${charge[0].lastName.slice(0, 1)}`}
+          />
+        }
         <Text style={styles.roomieName}>{charge[0].firstName}</Text>
         <View style={styles.balanceContainer}>
           {charge[1] > 0 &&
@@ -79,10 +97,16 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           }
         </View>
       </View>
+      {charge[2].length > 0 &&
+        <View>
+          <Divider style={styles.divider} />
+          <Text style={styles.chargeCatergoryHeader}>They Owe:</Text>
+        </View>
+      }
       {charge[2].map((roomieOwsUsercharge) => {
         return (
           <View style={styles.header} key={roomieOwsUsercharge.id}>
-            <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.billText}</Text>
+            <Text style={styles.charge}>{roomieOwsUsercharge.billText}</Text>
             <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.total}</Text>
             <TouchableOpacity onPress={() => deleteCharge(roomieOwsUsercharge.id)}>
               <Text>PAID!</Text>
@@ -90,14 +114,20 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           </View>
         );
       })}
+      {charge[3].length > 0 &&
+        <View>
+          <Divider style={styles.divider} />
+          <Text style={styles.chargeCatergoryHeader}>You Owe:</Text>
+        </View>
+      }
       {charge[3].map((userOwesRoomieCharge) => {
         return (
           <View style={styles.header} key={userOwesRoomieCharge.id}>
-            <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.billText}</Text>
-            <Text style={{ ...styles.charge, ...styles.positive }}>{userOwesRoomieCharge.total}</Text>
-            <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
+            <Text style={styles.charge}>{userOwesRoomieCharge.billText}</Text>
+            <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.total}</Text>
+            {/* <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
               <Text>PAID!</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         );
       })}

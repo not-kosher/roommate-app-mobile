@@ -25,8 +25,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 10,
-    backgroundColor: '#47a398',
-    borderRadius: 10,
+    backgroundColor: '#2C5651',
   },
 });
 
@@ -70,7 +69,12 @@ class BillsView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <BillList style={styles.billListContainer} bills={this.props.bills} deleteBill={this.deleteBill} />
+        <BillList
+          style={styles.billListContainer}
+          bills={this.props.bills}
+          deleteBill={this.deleteBill}
+          userId={this.props.userId}
+        />
         <Button
           buttonStyle={styles.button}
           title='Add Bill'

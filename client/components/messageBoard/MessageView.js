@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { P_DARK } from '../../styles/common';
+import { TEXT_M_GRAY } from '../../styles/common';
 
 const MessageView = (props) => {
   const isOtherUser = !(props.currentMessage.user.name === props.user.name);
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   nameText: {
     marginBottom: 4,
     marginLeft: 3,
-    color: P_DARK,
+    color: TEXT_M_GRAY,
   },
 });
 

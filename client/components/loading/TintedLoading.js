@@ -1,17 +1,18 @@
 import React from 'react';
 import { MaterialIndicator } from 'react-native-indicators';
 import { View, StyleSheet } from 'react-native';
+import { WHITE } from '../../styles/common';
 
 const styles = StyleSheet.create({
   loading: {
-    backgroundColor: '#00000022',
+    backgroundColor: '#dddddd',
     flex: 1,
   },
 });
 
 const TintedLoading = () => (
   <View style={styles.loading}>
-    <MaterialIndicator color="#ffffff" />
+    <MaterialIndicator color={WHITE} />
   </View>
 );
 

@@ -23,22 +23,28 @@ class App extends Component {
 
     this.state = {
       isLoaded: false,
+      isGettingHouse: false,
     };
   }
 
   componentWillMount() {
     auth.reAuthUser((username) => {
       if (username) {
+        this.setState({ isGettingHouse: true });
         this.props.retrieveUser(username, (err, user) => {
           if (err) {
             Alert.alert('Error', 'There was an unknown error, please log in manually');
             this.setState({ isLoaded: true });
           } else if (user) {
-            this.props.getHouse(user.houseId, () => {
-              this.props.getRoomies(user.houseId, () => {
-                this.props.updateSocketReady(true);
+            this.props.getHouse(user.houseId, (err) => {
+              if (err) {
                 this.setState({ isLoaded: true });
-              });
+              } else {
+                this.props.getRoomies(user.houseId, () => {
+                  this.props.updateSocketReady(true);
+                  this.setState({ isLoaded: true });
+                });
+              }
             });
           }
         });
@@ -88,7 +94,7 @@ class App extends Component {
 
   render() {
     if (!this.state.isLoaded) {
-      return <FullScreenLoading />;
+      return <FullScreenLoading displayBall={this.state.isGettingHouse} />;
     }
 
     if (!this.props.username) {

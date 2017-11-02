@@ -15,7 +15,7 @@ import form from '../../lib/formValidation';
 import * as color from '../../styles/common';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies, updateSocketReady } from '../../redux/actions/houseActions';
-import TintedLoading from '../loading/TintedLoading';
+import FullScreenLoading from '../loading/FullScreenLoading';
 
 const styles = {
   formContainer: {
@@ -107,7 +107,7 @@ class Login extends Component {
       );
     }
 
-    return <TintedLoading />;
+    return <FullScreenLoading displayBall />;
   }
 }
 

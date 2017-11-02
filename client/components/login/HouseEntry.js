@@ -11,7 +11,7 @@ import {
 import { createHouse, updateSocketReady } from '../../redux/actions/houseActions';
 import { joinHouse } from '../../redux/actions/userActions';
 import socket from '../../socket';
-import TintedLoading from '../loading/TintedLoading';
+import FullScreenLoading from '../loading/FullScreenLoading';
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -32,7 +32,6 @@ class HouseEntry extends Component {
     this.props.createHouse(this.state.createName, (houseId) => {
       AsyncStorage.setItem('houseId', `${houseId}`);
       this.props.updateSocketReady(true);
-      // this.setState({ isProcessing: false });
     });
   }
 
@@ -41,7 +40,6 @@ class HouseEntry extends Component {
 
     this.props.joinHouse(this.state.joinKey, () => {
       this.props.updateSocketReady(true);
-      // this.setState({ isProcessing: false });
 
       const joinNotification = {
         houseId: this.state.joinKey, // need to have houseId later
@@ -85,7 +83,7 @@ class HouseEntry extends Component {
       );
     }
 
-    return <TintedLoading />;
+    return <FullScreenLoading displayBall />;
   }
 }
 

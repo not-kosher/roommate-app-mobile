@@ -55,7 +55,7 @@ const Splash = props => (
           large
           title="Log In"
           onPress={() => props.navigation.navigate('Login')}
-          backgroundColor={color.SECONDARY}
+          backgroundColor={color.PRIMARY}
         />
       </View>
     </View>

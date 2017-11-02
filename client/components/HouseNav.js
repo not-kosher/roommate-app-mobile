@@ -14,7 +14,7 @@ import TasksNav from './tasks/TasksNav';
 // custom drawer items container
 const styles = StyleSheet.create({
   nameContainer: {
-    marginTop: 35,
+    marginTop: 28,
     marginLeft: 20,
   },
   name: {
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: color.TEXT_M_GRAY,
-    marginTop: 10,
+    marginTop: 7,
     height: 1,
     width: 230,
     alignSelf: 'center',

@@ -3,16 +3,34 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   Alert,
 } from 'react-native';
+import {
+  FormInput,
+  FormLabel,
+  Button,
+} from 'react-native-elements';
 import {
   MAILCHIMP_BASEURL,
   MAILCHIMP_LISTURL,
   MAILCHIMP_AUTH,
 } from 'react-native-dotenv';
+
+import * as color from '../../styles/common';
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: color.BG_L_GRAY,
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+};
 
 const mailChimpAxios = axios.create({
   baseURL: MAILCHIMP_BASEURL,
@@ -69,18 +87,26 @@ class AddRoomie extends Component {
 
   render() {
     return (
-      <View>
-        <TextInput
-          placeholder="Email adress"
-          autoCapitalize="none"
-          onChangeText={emailInput => this.setState({ emailInput })}
-          value={this.state.emailInput}
-        />
-        <TouchableOpacity
-          onPress={() => this.sendEmail()}
-        >
-          <Text>Invite Roomie</Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.formContainer}>
+          <FormLabel>
+            Email Address
+          </FormLabel>
+          <FormInput
+            placeholder="Enter an email to send an invite"
+            value={this.state.emailInput}
+            autoCapitalize="none"
+            onChangeText={emailInput => this.setState({ emailInput })}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            large
+            title="Invite"
+            onPress={() => this.sendEmail()}
+            backgroundColor={color.PRIMARY}
+          />
+        </View>
       </View>
 
     );

@@ -24,6 +24,7 @@ import TintedLoading from '../loading/TintedLoading';
 const styles = {
   editContainer: {
     flex: 1,
+    backgroundColor: color.BG_L_GRAY,
   },
   avatar: {
     flex: 2,

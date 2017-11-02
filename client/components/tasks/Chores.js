@@ -77,11 +77,11 @@ class ChoresView extends Component {
           this.props.roomies.forEach((roomie) => {
             if (roomie.id === chore.posterId) {
               chore.poster = roomie.firstName;
-              chore.image = roomie.imageUrl
+              chore.posterImage = roomie.imageUrl
             } 
             if (roomie.id === chore.claimerId) {
               chore.claimer = roomie.firstName;
-              chore.image = roomie.imageUrl
+              chore.claimerImage = roomie.imageUrl
             }
           });
         });

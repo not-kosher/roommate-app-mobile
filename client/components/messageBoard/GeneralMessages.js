@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { GiftedChat, Bubble, Avatar, Send } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, Send } from 'react-native-gifted-chat';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
-import { PRIMARY, WHITE, BG_L_GRAY } from '../../styles/common';
+import { PRIMARY, WHITE, BG_L_GRAY, BG_M_GRAY } from '../../styles/common';
 import MessageView from './MessageView';
 import CustomAvatar from './CustomAvatar';
 
@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 3,
     marginLeft: 5,
+  },
+  chatContainer: {
+    flex: 1,
+    backgroundColor: BG_L_GRAY,
   },
 });
 
@@ -38,7 +42,7 @@ class GeneralMessagesView extends Component {
         {...props}
         wrapperStyle={{
           left: {
-            backgroundColor: BG_L_GRAY,
+            backgroundColor: BG_M_GRAY,
           },
           right: {
             backgroundColor: PRIMARY,
@@ -73,19 +77,21 @@ class GeneralMessagesView extends Component {
 
   render() {
     return (
-      <GiftedChat
-        messages={this.props.messages}
-        onSend={messages => this.onSend(messages)}
-        user={{
-          _id: this.props.userId,
-          name: this.props.firstName,
-          avatar: this.props.imageUrl,
-        }}
-        renderAvatar={this.renderAvatar}
-        renderBubble={this.renderBubble}
-        renderMessage={this.renderMessageView}
-        renderSend={this.renderSend}
-      />
+      <View style={{ flex: 1, backgroundColor: BG_L_GRAY }}>
+        <GiftedChat
+          messages={this.props.messages}
+          onSend={messages => this.onSend(messages)}
+          user={{
+            _id: this.props.userId,
+            name: this.props.firstName,
+            avatar: this.props.imageUrl,
+          }}
+          renderAvatar={this.renderAvatar}
+          renderBubble={this.renderBubble}
+          renderMessage={this.renderMessageView}
+          renderSend={this.renderSend}
+        />
+      </View>
     );
   }
 }

@@ -22,6 +22,7 @@ import socket from '../../socket';
 const styles = {
   profileContainer: {
     flex: 1,
+    backgroundColor: color.BG_L_GRAY,
   },
   avatar: {
     flex: 1,
@@ -44,13 +45,20 @@ const styles = {
   },
   infoCol1: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     justifyContent: 'center',
+    paddingRight: 10,
   },
   infoCol2: {
     flex: 2,
     alignItems: 'flex-start',
     justifyContent: 'center',
+  },
+  category: {
+    color: color.TEXT_L_GRAY,
+  },
+  info: {
+    color: color.TEXT_D_GRAY,
   },
   buttonContainer: {
     flex: 1,
@@ -99,26 +107,26 @@ class Profile extends Component {
           <Card containerStyle={styles.cardOuter} wrapperStyle={styles.cardInner}>
             <View style={styles.infoRow}>
               <View style={styles.infoCol1}>
-                <Text>Name</Text>
+                <Text style={styles.category}>Name</Text>
               </View>
               <View style={styles.infoCol2}>
-                <Text>{`${this.props.firstName} ${this.props.lastName}`}</Text>
+                <Text style={styles.info}>{`${this.props.firstName} ${this.props.lastName}`}</Text>
               </View>
             </View>
             <View style={styles.infoRow}>
               <View style={styles.infoCol1}>
-                <Text>Email</Text>
+                <Text style={styles.category}>Email</Text>
               </View>
               <View style={styles.infoCol2}>
-                <Text>{this.props.username}</Text>
+                <Text style={styles.info}>{this.props.username}</Text>
               </View>
             </View>
             <View style={styles.infoRow}>
               <View style={styles.infoCol1}>
-                <Text>Phone</Text>
+                <Text style={styles.category}>Phone</Text>
               </View>
               <View style={styles.infoCol2}>
-                <Text>{formatPhoneNumber(this.props.phone)}</Text>
+                <Text style={styles.info}>{formatPhoneNumber(this.props.phone)}</Text>
               </View>
             </View>
           </Card>

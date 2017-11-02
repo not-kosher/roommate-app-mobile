@@ -7,11 +7,39 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
+import {
+  FormInput,
+  FormLabel,
+  Button,
+} from 'react-native-elements';
 
+import * as color from '../../styles/common';
 import { createHouse, updateSocketReady } from '../../redux/actions/houseActions';
 import { joinHouse } from '../../redux/actions/userActions';
 import socket from '../../socket';
 import FullScreenLoading from '../loading/FullScreenLoading';
+
+const styles = {
+  container: {
+    flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  formContainer: {
+    flex: 1,
+    marginTop: 60,
+    marginBottom: 60,
+    justifyContent: 'space-between',
+  },
+  backgroundWhite: {
+    backgroundColor: color.WHITE,
+  },
+  backgroundGray: {
+    backgroundColor: color.BG_L_GRAY,
+  },
+};
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -56,29 +84,39 @@ class HouseEntry extends Component {
   render() {
     if (!this.state.isProcessing) {
       return (
-        <View>
-          <Text>Create a house</Text>
-          <TextInput
-            placeholder="House Name"
-            value={this.state.createName}
-            onChangeText={createName => this.setState({ createName })}
-          />
-          <TouchableOpacity onPress={this.handleCreate}>
-            <View>
-              <Text>Create</Text>
+        <View style={styles.container}>
+          <View style={{ ...styles.innerContainer, ...styles.backgroundWhite }}>
+            <View style={styles.formContainer}>
+              <FormLabel>Join a house with your friends!</FormLabel>
+              <FormInput
+                placeholder="Enter the house key"
+                value={this.state.joinKey}
+                onChangeText={joinKey => this.setState({ joinKey })}
+              />
+              <Button
+                large
+                title="Join"
+                onPress={this.handleJoin}
+                backgroundColor={color.PRIMARY}
+              />
             </View>
-          </TouchableOpacity>
-          <Text>Join a house</Text>
-          <TextInput
-            placeholder="House Key"
-            value={this.state.joinKey}
-            onChangeText={joinKey => this.setState({ joinKey })}
-          />
-          <TouchableOpacity onPress={this.handleJoin}>
-            <View>
-              <Text>Join</Text>
+          </View>
+          <View style={{ ...styles.innerContainer, ...styles.backgroundGray }}>
+            <View style={styles.formContainer}>
+              <FormLabel>{'Don\'t have a house to join? Create one!'}</FormLabel>
+              <FormInput
+                placeholder="Enter a house name"
+                value={this.state.createName}
+                onChangeText={createName => this.setState({ createName })}
+              />
+              <Button
+                large
+                title="Create"
+                onPress={this.handleCreate}
+                backgroundColor={color.PRIMARY}
+              />
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
       );
     }

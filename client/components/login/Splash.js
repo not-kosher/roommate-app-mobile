@@ -13,7 +13,7 @@ import * as color from '../../styles/common';
 const styles = {
   splashContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: color.PRIMARY,
   },
   logoContainer: {
     flex: 2,

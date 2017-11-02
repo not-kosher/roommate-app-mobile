@@ -1,16 +1,13 @@
 import { StackNavigator } from 'react-navigation';
 
+import * as color from '../../styles/common';
 import Splash from './Splash';
 import Login from './Login';
 import Signup from './Signup';
 
 const LoginNav = StackNavigator({
-  // route config
   Splash: {
     screen: Splash,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle: { borderBottomColor: 'white', backgroundColor: 'white' },
-    }),
   },
   Signup: {
     screen: Signup,
@@ -24,6 +21,13 @@ const LoginNav = StackNavigator({
       title: 'Log In',
     }),
   },
+}, {
+  navigationOptions: ({ navigation }) => ({
+    headerStyle: { borderBottomColor: color.PRIMARY, backgroundColor: color.PRIMARY },
+    headerBackTitleStyle: { color: color.WHITE },
+    headerTitleStyle: { color: color.WHITE },
+    headerTintColor: color.WHITE,
+  }),
 });
 
 export default LoginNav;

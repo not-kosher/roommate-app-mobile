@@ -23,12 +23,14 @@ class App extends Component {
 
     this.state = {
       isLoaded: false,
+      isGettingHouse: false,
     };
   }
 
   componentWillMount() {
     auth.reAuthUser((username) => {
       if (username) {
+        this.setState({ isGettingHouse: true });
         this.props.retrieveUser(username, (err, user) => {
           if (err) {
             Alert.alert('Error', 'There was an unknown error, please log in manually');
@@ -88,7 +90,7 @@ class App extends Component {
 
   render() {
     if (!this.state.isLoaded) {
-      return <FullScreenLoading />;
+      return <FullScreenLoading displayBall={this.state.isGettingHouse} />;
     }
 
     if (!this.props.username) {

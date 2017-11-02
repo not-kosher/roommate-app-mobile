@@ -1,6 +1,6 @@
 import React from 'react';
 import { PulseIndicator } from 'react-native-indicators';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { PRIMARY, WHITE } from '../../styles/common';
 
 const styles = StyleSheet.create({
@@ -8,18 +8,41 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: PRIMARY,
   },
-  indicator: {
+  displayContainer: {
     flex: 1,
+  },
+  textContainer: {
+    flex: 7,
+    justifyContent: 'flex-end',
+    paddingBottom: 15,
+  },
+  text: {
+    textAlign: 'center',
+    color: WHITE,
+    fontSize: 20,
+  },
+  indicator: {
+    flex: 8,
+    justifyContent: 'flex-start',
   },
 });
 
-const FullScreenLoading = () => (
+const FullScreenLoading = ({ displayBall }) => (
   <View style={styles.page}>
-    <PulseIndicator
-      style={styles.indicator}
-      size={80}
-      color={WHITE}
-    />
+    {displayBall &&
+      <View style={styles.displayContainer}>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>
+            Getting your house
+          </Text>
+        </View>
+        <PulseIndicator
+          style={styles.indicator}
+          size={64}
+          color={WHITE}
+        />
+      </View>
+    }
   </View>
 );
 

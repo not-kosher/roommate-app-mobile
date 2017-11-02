@@ -70,6 +70,7 @@ class HouseNeedsView extends Component {
       houseNeeds: [],
       addingNeed: false,
       text: '',
+      need: '',
     };
 
     this.getNeeds = this.getNeeds.bind(this);
@@ -109,9 +110,14 @@ class HouseNeedsView extends Component {
       text: this.state.text,
       type: 'houseneed',
     })
-      .then(() => {
-        this.getNeeds();
-        this.setState({ addingneed: !this.state.addingneed });
+      .then((need) => {
+        const newNeed = need.data[0];
+        newNeed.poster = this.props.firstName;
+        this.state.houseNeeds.push(newNeed);
+        this.setState({
+          addingneed: !this.state.addingneed,
+          houseNeeds: this.state.houseNeeds,
+        });
       })
       .catch(err => console.log('Error posting task', err));
   }
@@ -130,6 +136,7 @@ class HouseNeedsView extends Component {
   render() {
     return (
       <View style={styles.needsContainer}>
+        <Text>{JSON.stringify(this.state.need)}</Text>
         <View style={styles.needsListContainer}>
           <HouseNeedList
             houseNeeds={this.state.houseNeeds}
@@ -169,6 +176,7 @@ class HouseNeedsView extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    firstName: store.user.firstName,
     roomies: store.house.roomies,
     houseId: store.user.houseId,
     userId: store.user.id,

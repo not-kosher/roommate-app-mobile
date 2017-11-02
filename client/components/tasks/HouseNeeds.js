@@ -130,7 +130,9 @@ class HouseNeedsView extends Component {
   }
   completeNeed(taskId) {
     axios.delete(`api/tasks/${taskId}`)
-      .then(() => this.getNeeds())
+      .then(() => {
+        this.setState({ houseNeeds: this.state.houseNeeds.filter(need => need.id !== taskId) })
+      })
       .catch(err => console.log('Error deleting task', err));
   }
   render() {

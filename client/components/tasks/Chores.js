@@ -135,7 +135,7 @@ class ChoresView extends Component {
   }
   completeChore(taskId) {
     axios.delete(`api/tasks/${taskId}`)
-      .then((task) => {
+      .then(() => {
         this.setState({ chores: this.state.chores.filter(chore => chore.id !== taskId) });
       })
       .catch(err => console.log('Error deleting task', err));

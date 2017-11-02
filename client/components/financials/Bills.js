@@ -71,7 +71,12 @@ class BillsView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <BillList style={styles.billListContainer} bills={this.props.bills} deleteBill={this.deleteBill} />
+        <BillList
+          style={styles.billListContainer}
+          bills={this.props.bills}
+          deleteBill={this.deleteBill}
+          userId={this.props.userId}
+        />
         <Button
           buttonStyle={styles.button}
           title='Add Bill'

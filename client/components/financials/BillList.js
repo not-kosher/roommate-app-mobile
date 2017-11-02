@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const BillList = ({ bills, deleteBill }) => {
+const BillList = ({ bills, deleteBill, userId }) => {
   return (
     <View style={styles.billList}>
       <ScrollView style={styles.billEntry}>
         {bills.map((bill) => {
-          return <BillEntry bill={bill} key={bill.id} deleteBill={deleteBill} />;
+          return <BillEntry bill={bill} key={bill.id} deleteBill={deleteBill} userId={userId} />;
         })}
 
       </ScrollView>

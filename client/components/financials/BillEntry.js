@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BillEntry = ({ bill, deleteBill }) => {
+const BillEntry = ({ bill, deleteBill, userId }) => {
   return (
     <Card containerStyle={{ margin: 6, padding: 10 }}>
       {bill !== undefined &&
@@ -78,7 +78,9 @@ const BillEntry = ({ bill, deleteBill }) => {
           </View>
           <View style={styles.billTotal}>
             <Text style={styles.billTotalText}>{`$${bill.total}`}</Text>
-            <Button title='PAID' buttonStyle={styles.button} onPress={() => deleteBill(bill)} />
+            {bill.posterId === userId &&
+              <Button title='PAID' buttonStyle={styles.button} onPress={() => deleteBill(bill)} />
+            }
           </View>
         </View>
       }

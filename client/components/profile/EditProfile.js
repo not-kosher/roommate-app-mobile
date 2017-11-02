@@ -114,6 +114,7 @@ class EditProfile extends Component {
               placeholder="Enter your first name"
               value={this.state.user.firstName}
               inputStyle={styles.input}
+              autoCorrect={false}
               onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
             />
             <FormValidationMessage>
@@ -124,6 +125,7 @@ class EditProfile extends Component {
               placeholder="Enter your last name"
               value={this.state.user.lastName}
               inputStyle={styles.input}
+              autoCorrect={false}
               onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
             />
             <FormValidationMessage>
@@ -134,6 +136,7 @@ class EditProfile extends Component {
               placeholder="Enter your phone number"
               value={formatPhoneNumber(this.state.user.phone)}
               inputStyle={styles.input}
+              autoCorrect={false}
               maxLength={14}
               onChangeText={phone => this.setState({ user: { ...this.state.user, phone: getPlainPhone(phone) } })}
             />

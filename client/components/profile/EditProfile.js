@@ -12,7 +12,6 @@ import {
   Button,
   Avatar,
 } from 'react-native-elements';
-import { MaterialIndicator } from 'react-native-indicators';
 
 import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
@@ -20,6 +19,7 @@ import * as color from '../../styles/common';
 import uploadPicture from '../../lib/storageHelper';
 import { formatPhoneNumber, getPlainPhone } from '../../lib/utils';
 import form from '../../lib/formValidation';
+import TintedLoading from '../loading/TintedLoading';
 
 const styles = {
   editContainer: {
@@ -140,7 +140,7 @@ class EditProfile extends Component {
       );
     }
 
-    return <MaterialIndicator />;
+    return <TintedLoading />;
   }
 }
 

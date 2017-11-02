@@ -10,7 +10,10 @@ const messageReducer = (state = initialState, action) => {
       return { ...state, messages: action.payload };
 
     case 'ADD_MESSAGE':
-      return { ...state, messages: GiftedChat.append(state.messages, action.payload ) };
+      return { ...state, messages: GiftedChat.append(state.messages, action.payload) };
+
+    case 'RESET_MESSAGES':
+      return { ...state, ...initialState };
 
     default: {
       return state;

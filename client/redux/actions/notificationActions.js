@@ -21,3 +21,5 @@ export const addNotification = notification => (
     });
   }
 );
+
+export const resetNotifications = () => ({ type: 'RESET_NOTIFICATIONS' });

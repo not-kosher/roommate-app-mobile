@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     paddingTop: 290,
+    fontSize: 30,
   },
   indicator: {
     flex: 1,
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
 const FullScreenLoading = () => (
   <View style={styles.page}>
     <Text style={styles.loadingText}>
-      Abode
+      Abodie
     </Text>
     <PulseIndicator style={styles.indicator} />
   </View>

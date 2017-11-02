@@ -10,6 +10,9 @@ const notificationReducer = (state = initialState, action) => {
     case 'ADD_NOTIFICATION':
       return { ...state, notifications: [action.payload].concat(state.notifications) };
 
+    case 'RESET_NOTIFICATIONS':
+      return { ...state, ...initialState };
+
     default: {
       return state;
     }

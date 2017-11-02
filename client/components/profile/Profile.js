@@ -14,6 +14,8 @@ import { logout } from '../../lib/authHelper';
 import { formatPhoneNumber } from '../../lib/utils';
 import { resetUser } from '../../redux/actions/userActions';
 import { resetHouse } from '../../redux/actions/houseActions';
+import { resetMessages } from '../../redux/actions/messageActions';
+import { resetNotifications } from '../../redux/actions/notificationActions';
 import * as color from '../../styles/common';
 import socket from '../../socket';
 
@@ -70,6 +72,8 @@ class Profile extends Component {
       socket.off('newChatMessage');
       this.props.resetHouse();
       this.props.resetUser();
+      this.props.resetNotificatiions();
+      this.props.resetMessages();
     });
   }
 
@@ -147,6 +151,12 @@ const mapDispatchToProps = dispatch => ({
   },
   resetHouse: () => {
     dispatch(resetHouse());
+  },
+  resetMessages: () => {
+    dispatch(resetMessages());
+  },
+  resetNotificatiions: () => {
+    dispatch(resetNotifications());
   },
 });
 

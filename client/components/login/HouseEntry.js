@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
-import { MaterialIndicator } from 'react-native-indicators';
 
 import { createHouse, updateSocketReady } from '../../redux/actions/houseActions';
 import { joinHouse } from '../../redux/actions/userActions';
 import socket from '../../socket';
+import TintedLoading from '../loading/TintedLoading';
 
 class HouseEntry extends Component {
   constructor(props) {
@@ -85,7 +85,7 @@ class HouseEntry extends Component {
       );
     }
 
-    return <MaterialIndicator />;
+    return <TintedLoading />;
   }
 }
 

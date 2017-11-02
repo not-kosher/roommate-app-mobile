@@ -42,3 +42,6 @@ export const addMessage = messages => (
     });
   }
 );
+
+export const resetMessages = () => ({ type: 'RESET_MESSAGES' });
+

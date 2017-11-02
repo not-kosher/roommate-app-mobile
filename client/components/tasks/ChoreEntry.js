@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -78,89 +78,103 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => {
-  return (
-    <View style={styles.choreEntryContainer}>
-      <View style={styles.choreEntryContent}>
-        <View>
-          {chore.posterImage && !chore.claimerId &&
-            <Avatar
-              rounded
-              medium
-              source={{ uri: chore.posterImage }} 
-            />
-          }
-          {chore.claimerImage &&
-            <Avatar
-              rounded
-              medium
-              source={{ uri: chore.claimerImage }} 
-            />
-          }
-          {!chore.posterImage && !chore.claimerId &&
-            <Avatar
-              rounded
-              medium
-              title={chore.poster.slice(0, 1)} 
-            />
-          }
-          {!chore.claimerImage && chore.claimerId &&
-            <Avatar
-              rounded
-              medium
-              title={chore.claimer.slice(0, 1)} 
-            />
-          }
-        </View>
-        <View style={styles.choreInfoColumn}>
-          {!chore.claimer &&
-            <View style={styles.userAction}>
-              <Text style={styles.userName}>{chore.poster}</Text>
-              <Text> posted</Text>
+class ChoreEntry extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      chore: {},
+    };
+  }
+  componentWillMount() {
+    this.setState({ chore: this.props.chore });
+  }
+  render() {
+    return (
+      <View style={styles.choreEntryContainer}>
+
+        <View style={styles.choreEntryContent}>
+          <View>
+            {this.state.chore.posterImage && !this.state.chore.claimerId &&
+              <Avatar
+                rounded
+                medium
+                source={{ uri: this.state.chore.posterImage }} 
+              />
+            }
+            {this.state.chore.claimerImage &&
+              <Avatar
+                rounded
+                medium
+                source={{ uri: this.state.chore.claimerImage }} 
+              />
+            }
+            {!this.state.chore.posterImage && !this.state.chore.claimerId &&
+              <Avatar
+                rounded
+                medium
+                title={this.state.chore.poster.slice(0, 1)} 
+              />
+            }
+            {!this.state.chore.claimerImage && this.state.chore.claimerId &&
+              <Avatar
+                rounded
+                medium
+                title={this.state.chore.claimer.slice(0, 1)} 
+              />
+            }
+          </View>
+          <View style={styles.choreInfoColumn}>
+            {!this.state.chore.claimer &&
+              <View style={styles.userAction}>
+                <Text style={styles.userName}>{this.state.chore.poster}</Text>
+                <Text> posted</Text>
+              </View>
+            }
+            {this.state.chore.claimer &&
+              <View style={styles.userAction}>
+                <Text style={styles.userName}>{this.state.chore.claimer}</Text>
+                <Text> claimed</Text>
+              </View>
+            }
+            <Text style={styles.date}>{`${numbersToMonths[this.state.chore.updatedAt.slice(5, 7)]} ${this.state.chore.updatedAt.slice(8, 10)}`}</Text>
+            <View style={styles.choreTextContainer}>
+              <Text style={styles.choreText}>{this.state.chore.text}</Text>
             </View>
-          }
-          {chore.claimer &&
-            <View style={styles.userAction}>
-              <Text style={styles.userName}>{chore.claimer}</Text>
-              <Text> claimed</Text>
-            </View>
-          }
-          <Text style={styles.date}>{`${numbersToMonths[chore.updatedAt.slice(5, 7)]} ${chore.updatedAt.slice(8, 10)}`}</Text>
-          <View style={styles.choreTextContainer}>
-            <Text style={styles.choreText}>{chore.text}</Text>
+          </View>
+          <View style={styles.choreButtonColumn}>
+            {!this.state.chore.claimerId && !this.state.chore.claimer &&
+              <Button
+                backgroundColor="white"
+                title="CLAIM"
+                color="black"
+                fontSize={14}
+                buttonStyle={styles.button}
+                onPress={() => {
+                  this.setState({ chore: { ...this.state.chore, ...{ claimer: this.props.firstName, claimerId: this.props.userId } } });
+                  this.props.claimChore(this.state.chore.id);
+                }}
+              />
+            }
+            {this.state.chore.claimerId === this.props.userId &&
+              <Button
+                backgroundColor="white"
+                title="DONE"
+                color="black"
+                fontSize={14}
+                buttonStyle={styles.button}
+                onPress={() => {
+                  this.props.completeChore(this.state.chore.id);
+                }}
+              />
+            }
           </View>
         </View>
-        <View style={styles.choreButtonColumn}>
-          {!chore.claimerId && !chore.claimer &&
-            <Button
-              backgroundColor="white"
-              title="CLAIM"
-              color="black"
-              fontSize={14}
-              buttonStyle={styles.button}
-              onPress={() => {
-                claimChore(chore.id);
-                chore.claimer = firstName;
-              }}
-            />
-          }
-          {chore.claimerId === userId || chore.claimer === firstName &&
-            <Button
-              backgroundColor="white"
-              title="DONE"
-              color="black"
-              fontSize={14}
-              buttonStyle={styles.button}
-              onPress={() => {
-                completeChore(chore.id);
-              }}
-            />
-          }
-        </View>
+        <Divider style={styles.divider} />
       </View>
-      <Divider style={styles.divider} />
-    </View>
-  );
-};
+    );
+  }
+}
+
 
 export default ChoreEntry;

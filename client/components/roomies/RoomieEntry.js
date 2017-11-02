@@ -24,6 +24,9 @@ const styles = {
     flex: 3,
     padding: 5,
   },
+  nameView: {
+    paddingBottom: 5,
+  },
   name: {
     fontSize: 16,
     fontWeight: '500',
@@ -74,7 +77,9 @@ const RoomieEntry = ({ roomie }) => {
         }
       </View>
       <View style={styles.infoView}>
-        <Text style={styles.name}>{`${roomie.firstName} ${roomie.lastName}`}</Text>
+        <View style={styles.nameView}>
+          <Text style={styles.name}>{`${roomie.firstName} ${roomie.lastName}`}</Text>
+        </View>
         <View style={styles.infoRow}>
           <View style={styles.infoCol1}>
             <Text style={styles.category}>Email</Text>

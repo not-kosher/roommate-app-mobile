@@ -9,13 +9,15 @@ const styles = StyleSheet.create({
   notificationContainer: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 5,
-    marginBottom: 5,
     marginLeft: 5,
     marginRight: 5,
     borderBottomWidth: 1,
     borderColor: DIV_GRAY,
+    paddingRight: 5,
+    paddingLeft: 5,
     paddingBottom: 8,
+    paddingTop: 8,
+    alignItems: 'center',
   },
   iconContainer: {
     alignItems: 'center',
@@ -23,11 +25,10 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignItems: 'center',
-    marginTop: 2,
     marginLeft: 5,
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     color: TEXT_D_GRAY,
   },
 });

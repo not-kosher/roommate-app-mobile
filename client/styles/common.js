@@ -1,6 +1,11 @@
-export const PRIMARY = '#47a398';
-export const P_LIGHT = '#7ad5c9';
-export const P_DARK = '#00746a';
-export const SECONDARY = '#84ccc8';
-export const S_LIGHT = '#b6fffb';
-export const S_DARK = '#539b97';
+export const PRIMARY = '#62aaa4';
+export const TEXT_L_GRAY = '#bdbdbd';
+export const TEXT_M_GRAY = '#383838';
+export const TEXT_D_GRAY = '#262626';
+export const BG_L_GRAY = '#f7f7f7';
+export const BG_D_GRAY = '#262626';
+export const DIV_GRAY = '#d3d3d3';
+export const WHITE = '#ffffff';
+export const BLACK = '#000000';
+export const RED = '#d8363c';
+export const GREEN = '#488b33';

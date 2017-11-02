@@ -10,13 +10,13 @@ import {
   FormLabel,
   Button,
 } from 'react-native-elements';
-import { MaterialIndicator } from 'react-native-indicators';
 
 import * as auth from '../../lib/authHelper';
 import form from '../../lib/formValidation';
 import * as color from '../../styles/common';
 import { retrieveUser } from '../../redux/actions/userActions';
 import { getHouse, getRoomies, updateSocketReady } from '../../redux/actions/houseActions';
+import TintedLoading from '../loading/TintedLoading';
 
 const styles = {
   formContainer: {
@@ -31,10 +31,6 @@ const styles = {
   },
   buttonDisabled: {
     backgroundColor: '#c3e0dc',
-  },
-  loading: {
-    backgroundColor: '#00000022',
-    flex: 1,
   },
 };
 
@@ -81,9 +77,7 @@ class Login extends Component {
           transparent={true}
           visible={this.state.isLoggingIn}
         >
-          <View style={styles.loading}>
-            <MaterialIndicator />
-          </View>
+          <TintedLoading />
         </Modal>
 
         <View style={styles.inputContainer}>

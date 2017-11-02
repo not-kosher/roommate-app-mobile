@@ -1,13 +1,20 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import HouseNavBack from '../HouseNavBack';
 import NotificationList from './NotificationList';
+import { PRIMARY } from '../../styles/common';
+
+const styles = StyleSheet.create({
+  viewContainer: {
+    flex: 1,
+  },
+});
 
 const NotificationsView = ({ notifications }) => (
-  <View>
+  <View style={styles.viewContainer}>
     <NotificationList notifications={notifications} />
   </View>
 );
@@ -25,6 +32,12 @@ const Notifications = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: 'Notifications',
       headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: {
+        backgroundColor: PRIMARY,
+      },
+      headerTitleStyle: {
+        color: '#ffffff',
+      },
     }),
   },
 });

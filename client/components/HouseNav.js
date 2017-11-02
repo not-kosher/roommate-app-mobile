@@ -9,7 +9,6 @@ import RoomiesNav from './roomies/RoomiesNav';
 import ProfileNav from './profile/ProfileNav';
 import TasksNav from './tasks/TasksNav';
 
-
 // custom drawer items container
 const styles = StyleSheet.create({
   container: {
@@ -42,7 +41,6 @@ const HouseNav = DrawerNavigator(
     // initialRouteName: 'ProfileNav',
 
     // drawerWidth:
-    // drawerBackgroundColor
     contentComponent: DrawerContent,
   },
 );

@@ -7,6 +7,7 @@ import {
 import {
   Card,
   Button,
+  Avatar,
 } from 'react-native-elements';
 
 const styles = StyleSheet.create({
@@ -24,25 +25,55 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  userName: {
+    fontWeight: 'bold'
+  },
+  userAction: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   choreButtonColumn: {
     flex: 1,
     flexDirection: 'column',
+  },
+  choreText: {
+    fontSize: 16,
   },
 });
 
 const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => {
   return (
-    <Card containerStyle={styles.choreEntryContainer}>
+    <View style={styles.choreEntryContainer}>
       <View style={styles.choreEntryContent}>
+        <View>
+          {chore.image &&
+            <Avatar
+              rounded
+              source={{ uri: chore.image }} 
+            />
+          }
+          {!chore.image &&
+            <Avatar
+              rounded
+              title={firstName.splice(0, 1)} 
+            />
+          }
+        </View>
         <View style={styles.choreInfoColumn}>
-          <Text>{chore.text}</Text>
-          <Text>{firstName}</Text>
-          <Text>Posted:{chore.poster}</Text>
-          {chore.claimer &&
-            <View>
-              <Text>Claimed:{chore.claimer}</Text>
+          {!chore.claimer &&
+            <View style={styles.userAction}>
+              <Text style={styles.userName}>{chore.poster}</Text>
+              <Text> posted</Text>
             </View>
           }
+          {chore.claimer &&
+            <View style={styles.userAction}>
+              <Text style={styles.userName}>{chore.claimer}</Text>
+              <Text> claimed</Text>
+            </View>
+          }
+
+          <Text style={styles.choreText}>{chore.text}</Text>
         </View>
         <View style={styles.choreButtonColumn}>
           {!chore.claimerId &&
@@ -64,7 +95,7 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => 
           }
         </View>
       </View>
-    </Card>
+    </View>
   );
 };
 

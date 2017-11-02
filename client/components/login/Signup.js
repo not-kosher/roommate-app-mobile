@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   View,
   Alert,
-  Modal,
 } from 'react-native';
 import {
   FormInput,
@@ -98,55 +97,51 @@ class Signup extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.formContainer}>
-        <Modal
-          animationType="none"
-          transparent={true}
-          visible={this.state.isSigningUp}
-        >
-          <TintedLoading />
-        </Modal>
+    if (!this.state.isSigningUp) {
+      return (
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <FormLabel>Email</FormLabel>
+            <FormInput
+              placeholder="Enter your email"
+              onChangeText={this.updateUsername}
+              value={this.state.usernameInput}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+            <FormLabel>Password</FormLabel>
+            <FormInput
+              placeholder="Enter a password"
+              onChangeText={this.updatePassword}
+              onFocus={() => this.setState({ showRequirements: true })}
+              value={this.state.passwordInput}
+              autoCorrect={false}
+              autoCapitalize="none"
+              secureTextEntry
+              selectTextOnFocus
+            />
+            {(this.state.showRequirements && !this.state.validPassword) &&
+              <FormValidationMessage>
+                {`${this.state.passwordErrors.join('\n')}`}
+              </FormValidationMessage>
+            }
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              large
+              icon={{ name: 'done' }}
+              title="Sign Up"
+              onPress={this.handleSignup}
+              disabled={!(this.state.usernameInput && this.state.passwordInput)}
+              backgroundColor={color.PRIMARY}
+              disabledStyle={styles.buttonDisabled}
+            />
+          </View>
+        </View>
+      );
+    }
 
-        <View style={styles.inputContainer}>
-          <FormLabel>Email</FormLabel>
-          <FormInput
-            placeholder="Enter your email"
-            onChangeText={this.updateUsername}
-            value={this.state.usernameInput}
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
-          <FormLabel>Password</FormLabel>
-          <FormInput
-            placeholder="Enter a password"
-            onChangeText={this.updatePassword}
-            onFocus={() => this.setState({ showRequirements: true })}
-            value={this.state.passwordInput}
-            autoCorrect={false}
-            autoCapitalize="none"
-            secureTextEntry
-            selectTextOnFocus
-          />
-          {(this.state.showRequirements && !this.state.validPassword) &&
-            <FormValidationMessage>
-              {`${this.state.passwordErrors.join('\n')}`}
-            </FormValidationMessage>
-          }
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            large
-            icon={{ name: 'done' }}
-            title="Sign Up"
-            onPress={this.handleSignup}
-            disabled={!(this.state.usernameInput && this.state.passwordInput)}
-            backgroundColor={color.PRIMARY}
-            disabledStyle={styles.buttonDisabled}
-          />
-        </View>
-      </View>
-    );
+    return <TintedLoading />;
   }
 }
 

@@ -4,6 +4,8 @@ import {
   View,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import {
   Button,
@@ -27,9 +29,13 @@ const styles = StyleSheet.create({
   choresListContainer: {
     flex: 6,
   },
+  divider: {
+    backgroundColor: '#262626',
+    height: 0.5,
+  },
   addChoreContainer: {
-
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   submitFormColumnButton: {
     flex: 1,
@@ -38,13 +44,24 @@ const styles = StyleSheet.create({
   submitFormColumnInput: {
     flex: 2.5,
     flexDirection: 'column',
+    justifyContent: 'center',
   },
   input: {
-    padding: 0,
-    margin: 0,
+    margin: 8,
+    flex: 1,
   },
   submitButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 22,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'grey',
 
+  },
+  submitText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 
@@ -123,21 +140,26 @@ class ChoresView extends Component {
             userId={this.props.userId}
           />
         </View>
+        <Divider style={styles.divider} />
         <View style={styles.addChoreContainer}>
-          <Divider />
           <View style={styles.submitFormColumnInput}>
             <TextInput
+              ref={component => this._choreInput = component}
               placeholder="Add Chore"
-              containerStyle={styles.input}
+              style={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
           </View>
           <View style={styles.submitFormColumnButton}>
-            <Button
-              containerViewStyle={styles.submitButton}
-              title="Submit"
-              onPress={() => this.postChore()} 
-            />
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={() => {
+                this.postChore();
+                this._choreInput.setNativeProps({text: ''});
+              }}
+            >
+              <Text style={styles.submitText}>SUBMIT</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

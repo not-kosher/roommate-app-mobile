@@ -54,9 +54,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  choreTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
   choreText: {
     fontSize: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  date: {
+    fontSize: 10,
   },
   divider: {
     marginTop: 16,
@@ -64,7 +74,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 5,
     height: 25,
-    marginTop: 5,
     borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,
@@ -118,13 +127,12 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => 
               <Text> claimed</Text>
             </View>
           }
-
-          <Text style={styles.choreText}>{chore.text}</Text>
+          <Text style={styles.date}>{`${numbersToMonths[chore.updatedAt.slice(5, 7)]} ${chore.updatedAt.slice(8, 10)}`}</Text>
+          <View style={styles.choreTextContainer}>
+            <Text style={styles.choreText}>{chore.text}</Text>
+          </View>
         </View>
         <View style={styles.choreButtonColumn}>
-          
-          <Text>{`${numbersToMonths[chore.updatedAt.slice(5, 7)]} ${chore.updatedAt.slice(8, 10)}`}</Text>
-
           {!chore.claimerId &&
             <Button
               backgroundColor="white"

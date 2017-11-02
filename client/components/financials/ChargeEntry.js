@@ -125,9 +125,9 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           <View style={styles.header} key={userOwesRoomieCharge.id}>
             <Text style={styles.charge}>{userOwesRoomieCharge.billText}</Text>
             <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.total}</Text>
-            <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
+            {/* <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
               <Text>PAID!</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         );
       })}

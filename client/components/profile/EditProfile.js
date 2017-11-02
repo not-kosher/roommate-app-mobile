@@ -35,6 +35,12 @@ const styles = {
     flex: 3,
     justifyContent: 'center',
   },
+  label: {
+    color: color.TEXT_L_GRAY,
+  },
+  input: {
+    color: color.TEXT_M_GRAY,
+  },
   buttons: {
     flex: 1,
     justifyContent: 'center',
@@ -103,28 +109,31 @@ class EditProfile extends Component {
             />
           </View>
           <View style={styles.form}>
-            <FormLabel>First Name</FormLabel>
+            <FormLabel labelStyle={styles.label}>First Name</FormLabel>
             <FormInput
               placeholder="Enter your first name"
               value={this.state.user.firstName}
+              inputStyle={styles.input}
               onChangeText={firstName => this.setState({ user: { ...this.state.user, firstName } })}
             />
             <FormValidationMessage>
               {this.state.user.firstName ? ' ' : 'This field is required'}
             </FormValidationMessage>
-            <FormLabel>Last Name</FormLabel>
+            <FormLabel labelStyle={styles.label}>Last Name</FormLabel>
             <FormInput
               placeholder="Enter your last name"
               value={this.state.user.lastName}
+              inputStyle={styles.input}
               onChangeText={lastName => this.setState({ user: { ...this.state.user, lastName } })}
             />
             <FormValidationMessage>
               {this.state.user.lastName ? ' ' : 'This field is required'}
             </FormValidationMessage>
-            <FormLabel>Phone Number</FormLabel>
+            <FormLabel labelStyle={styles.label}>Phone Number</FormLabel>
             <FormInput
               placeholder="Enter your phone number"
               value={formatPhoneNumber(this.state.user.phone)}
+              inputStyle={styles.input}
               maxLength={14}
               onChangeText={phone => this.setState({ user: { ...this.state.user, phone: getPlainPhone(phone) } })}
             />

@@ -8,11 +8,12 @@ export const getHouse = (id, cb = () => {}) => {
           type: 'UPDATE_HOUSE',
           payload: data,
         });
-        
+
         cb();
       })
       .catch((err) => {
         console.log('Error retrieving house', err);
+        cb(err);
       });
   };
 };

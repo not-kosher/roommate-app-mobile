@@ -22,6 +22,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 24,
   },
+  divider: {
+    backgroundColor: color.TEXT_M_GRAY,
+    marginTop: 10,
+    height: 1,
+    width: 230,
+    alignSelf: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: color.BG_D_GRAY,
@@ -45,6 +52,7 @@ const DrawerContent = props => (
     <View style={styles.nameContainer}>
       <Text style={styles.name}>{props.houseName}</Text>
     </View>
+    <View style={styles.divider}/>
     <DrawerItems {...props} />
   </View>
 );
@@ -97,6 +105,7 @@ const HouseNav = DrawerNavigator(
     },
   },
   {
+    drawerWidth: 250,
     contentComponent: DrawerContentRedux,
     contentOptions: {
       activeTintColor: color.PRIMARY,

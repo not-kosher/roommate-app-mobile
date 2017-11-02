@@ -73,7 +73,10 @@ class EditProfile extends Component {
     const validPhone = !(this.state.user.phone && !form.isValidPhone(this.state.user.phone));
     if (this.state.user.firstName && this.state.user.lastName && validPhone) {
       this.setState({ isLoading: true });
-      this.props.updateUser(this.state.user, () => {
+      const userInfo = this.state.user;
+      // make sure not to update db with empty string as phone number
+      if (userInfo.phone === '') userInfo.phone = null;
+      this.props.updateUser(userInfo, () => {
         if (this.props.navigation) {
           this.setState({ isLoading: false });
           this.props.navigation.goBack();
@@ -121,6 +124,7 @@ class EditProfile extends Component {
             <FormInput
               placeholder="Enter your phone number"
               value={formatPhoneNumber(this.state.user.phone)}
+              maxLength={14}
               onChangeText={phone => this.setState({ user: { ...this.state.user, phone: getPlainPhone(phone) } })}
             />
           </View>

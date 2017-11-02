@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {
   MAILCHIMP_BASEURL,
@@ -24,55 +25,56 @@ class AddRoomie extends Component {
 
     this.state = {
       emailInput: '',
-      err: '',
     };
 
     this.sendEmail = this.sendEmail.bind(this);
     this.clearText = this.clearText.bind(this);
   }
+
   sendEmail() {
     mailChimpAxios({
       method: 'POST',
       url: MAILCHIMP_LISTURL,
       data: {
-        'members': [
+        members: [
           {
-            'email_address': this.state.emailInput,
-            "merge_fields": {
-              "FNAME": "LILLIAN IS BOSS",
+            email_address: this.state.emailInput,
+            merge_fields: {
+              FNAME: 'LILLIAN IS BOSS',
             },
-            'status': 'subscribed',
+            status: 'subscribed',
           },
         ],
       },
       headers: {
-        'Authorization': MAILCHIMP_AUTH,
+        Authorization: MAILCHIMP_AUTH,
       },
     })
       .then(() => {
         this.clearText();
-        alert('You have succesfully added a roomie!');
+        Alert.alert('Success', 'You have succesfully added a roomie!');
       })
-      .catch(err => alert('Roommate could not be added, make sure you have entered a valid email adress'));
+      .catch(err => Alert.alert('Error', 'Roommate could not be added. Make sure you have entered a valid email adress.'));
   }
+
   clearText() {
-    this._textInput.setNativeProps({text: ''});
+    this.setState({ emailInput: '' });
   }
+
   render() {
     return (
       <View>
         <TextInput
-          ref={component => this._textInput = component}
           placeholder="Email adress"
           autoCapitalize="none"
           onChangeText={emailInput => this.setState({ emailInput })}
           value={this.state.emailInput}
         />
-        <TouchableOpacity 
-          onPress={() => this.sendEmail()}>
+        <TouchableOpacity
+          onPress={() => this.sendEmail()}
+        >
           <Text>Invite Roomie</Text>
         </TouchableOpacity>
-        <Text>{this.state.err}</Text>
       </View>
 
     );

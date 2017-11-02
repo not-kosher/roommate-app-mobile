@@ -50,12 +50,6 @@ class AddRoomie extends Component {
   }
 
   sendEmail() {
-    const message = `You have been invited to join ${this.props.houseName} by ${this.props.firstName} ${this.props.lastName}!
-    
-    Download the Abodie app and sign up! When prompted, enter the following house key to join this house:
-    ${this.props.key}
-    
-    Enjoy!`;
     mailChimpAxios({
       method: 'POST',
       url: MAILCHIMP_LISTURL,
@@ -64,7 +58,7 @@ class AddRoomie extends Component {
           {
             email_address: this.state.emailInput,
             merge_fields: {
-              FNAME: message,
+              FNAME: `${this.props.houseKey}`,
             },
             status: 'subscribed',
           },
@@ -108,17 +102,13 @@ class AddRoomie extends Component {
           />
         </View>
       </View>
-
     );
   }
 }
 
 const mapStateToProps = (store) => {
   return {
-    firstName: store.user.firstName,
-    LastName: store.user.lastName,
-    houseName: store.house.name,
-    key: store.house.id,
+    houseKey: store.house.id,
   };
 };
 

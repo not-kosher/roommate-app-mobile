@@ -7,8 +7,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
-import { PRIMARY, WHITE, BG_L_GRAY, TEXT_D_GRAY } from '../../styles/common';
+import { PRIMARY, WHITE, BG_L_GRAY } from '../../styles/common';
 import MessageView from './MessageView';
+import CustomAvatar from './CustomAvatar';
 
 const styles = StyleSheet.create({
   sendButton: {
@@ -25,7 +26,7 @@ class GeneralMessagesView extends Component {
 
   renderAvatar(props) {
     return (
-      <Avatar
+      <CustomAvatar
         {...props}
       />
     );

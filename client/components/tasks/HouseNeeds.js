@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import {
   View,
   StyleSheet,
+  TextInput,
+  TouchableOpacity,
   Text,
 } from 'react-native';
 import {
-  FormInput,
-  FormLabel,
-  Button,
+  Divider,
 } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 
@@ -21,18 +21,44 @@ import HouseNeedList from './HouseNeedList';
 const styles = StyleSheet.create({
   needsContainer: {
     flex: 1,
+    backgroundColor: 'white',
   },
   needsListContainer: {
     flex: 6,
   },
-  addNeedContainer: {
-    flex: 1,
-    margin: 5,
-    flexDirection: 'row',
+  divider: {
+    backgroundColor: '#262626',
+    height: 0.5,
   },
-  submitFormColumn: {
+  addNeedContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  submitFormColumnButton: {
     flex: 1,
     flexDirection: 'column',
+  },
+  submitFormColumnInput: {
+    flex: 2.5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  input: {
+    margin: 8,
+    flex: 1,
+  },
+  submitButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 22,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'grey',
+
+  },
+  submitText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 
@@ -111,24 +137,26 @@ class HouseNeedsView extends Component {
             completeNeed={this.completeNeed}
           />
         </View>
+        <Divider style={styles.divider} />
         <View style={styles.addNeedContainer}>
-          <View style={styles.submitFormColumn}>
-            <FormLabel style={styles.roomieLabel}>Need:</FormLabel>
-          </View>
-          <View style={styles.submitFormColumn}>
-            <FormInput
-              containerStyle={styles.input}
+          <View style={styles.submitFormColumnInput}>
+            <TextInput
+              ref={component => this._needInput = component}
+              placeholder="Add House Need"
+              style={styles.input}
               onChangeText={task => this.setState({ text: task })}
             />
           </View>
-          <View style={styles.submitFormColumn}>
-            <Button
-              title="Submit"
+          <View style={styles.submitFormColumnButton}>
+            <TouchableOpacity
+              style={styles.submitButton}
               onPress={() => {
                 this.postNeed();
-                this.setState({ addingNeed: !this.state.addingNeed });
+                this._needInput.setNativeProps({text: ''});
               }}
-            />
+            >
+              <Text style={styles.submitText}>SUBMIT</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

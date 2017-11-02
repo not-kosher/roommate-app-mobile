@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   billTotalText: {
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: 25,
   },
   billHeader: {
@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     height: 20,
     marginTop: 5,
     backgroundColor: '#47a398',
-    borderRadius: 5,
   },
 });
 

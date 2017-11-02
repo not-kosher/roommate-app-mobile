@@ -79,10 +79,13 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           }
         </View>
       </View>
+      {charge[2].length > 0 &&
+        <Text>They Owe:</Text>
+      }
       {charge[2].map((roomieOwsUsercharge) => {
         return (
           <View style={styles.header} key={roomieOwsUsercharge.id}>
-            <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.billText}</Text>
+            <Text style={styles.charge}>{roomieOwsUsercharge.billText}</Text>
             <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.total}</Text>
             <TouchableOpacity onPress={() => deleteCharge(roomieOwsUsercharge.id)}>
               <Text>PAID!</Text>
@@ -90,11 +93,14 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           </View>
         );
       })}
+      {charge[3].length > 0 &&
+        <Text>You Owe:</Text>
+      }
       {charge[3].map((userOwesRoomieCharge) => {
         return (
           <View style={styles.header} key={userOwesRoomieCharge.id}>
-            <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.billText}</Text>
-            <Text style={{ ...styles.charge, ...styles.positive }}>{userOwesRoomieCharge.total}</Text>
+            <Text style={styles.charge}>{userOwesRoomieCharge.billText}</Text>
+            <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.total}</Text>
             <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
               <Text>PAID!</Text>
             </TouchableOpacity>

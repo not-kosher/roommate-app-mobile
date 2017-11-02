@@ -131,7 +131,7 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => 
           </View>
         </View>
         <View style={styles.choreButtonColumn}>
-          {!chore.claimerId &&
+          {!chore.claimerId && !chore.claimer &&
             <Button
               backgroundColor="white"
               title="CLAIM"
@@ -144,7 +144,7 @@ const ChoreEntry = ({ chore, claimChore, firstName, completeChore, userId }) => 
               }}
             />
           }
-          {chore.claimerId === userId &&
+          {chore.claimerId === userId || chore.claimer === firstName &&
             <Button
               backgroundColor="white"
               title="DONE"

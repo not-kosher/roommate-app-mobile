@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
   button: {
     margin: 10,
     backgroundColor: '#2C5651',
-    borderRadius: 10,
-
   },
 });
 

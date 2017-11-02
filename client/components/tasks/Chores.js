@@ -70,6 +70,7 @@ class ChoresView extends Component {
       chores: [],
       text: '',
       addingChore: false,
+      id: '',
     };
 
     this.getChores = this.getChores.bind(this);
@@ -107,9 +108,14 @@ class ChoresView extends Component {
       text: this.state.text,
       type: 'chore',
     })
-      .then(() => {
-        this.getChores();
-        this.setState({ addingChore: !this.state.addingChore });
+      .then((chore) => {
+        const newChore = chore.data[0];
+        newChore.poster = this.props.firstName;
+        this.state.chores.push(newChore);
+        this.setState({
+          addingChore: !this.state.addingChore,
+          chores: this.state.chores,
+        });
       })
       .catch(err => console.log('Error posting task', err));
   }
@@ -117,7 +123,15 @@ class ChoresView extends Component {
     axios.put(`api/tasks/${taskId}`, {
       claimerId: this.props.userId,
     })
-      .then(() => this.getChores())
+      .then((task) => {
+        this.state.chores.forEach((chore) => {
+          if (chore.id === task.id) {
+            chore.claimer = this.props.firstName;
+            chore.claimerId = this.props.userId;
+          };
+        });
+        this.setState({ chores: this.state.chores });
+      })
       .catch(err => console.log('Error claiming task', err));
   }
   completeChore(taskId) {
@@ -128,6 +142,7 @@ class ChoresView extends Component {
   render() {
     return (
       <View style={styles.choresContainer}>
+      <Text>{JSON.stringify(this.state.id)}</Text>
         <View style={styles.choresListContainer}>
           <ChoreList
             chores={this.state.chores}

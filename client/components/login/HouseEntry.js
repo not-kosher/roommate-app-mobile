@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
 import {

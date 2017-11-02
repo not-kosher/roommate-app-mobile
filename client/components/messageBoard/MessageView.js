@@ -28,12 +28,12 @@ const MessageView = (props) => {
 const styles = StyleSheet.create({
   messageContainer: {
     backgroundColor: '#00000000',
-    marginBottom: 10,
+    marginBottom: 8,
     flexDirection: 'row',
   },
   avatarContainer: {
     flex: 1,
-    marginTop: 15,
+    marginTop: 7,
     marginLeft: 5,
   },
   bubbleContainer: {
@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginLeft: 3,
     color: TEXT_M_GRAY,
+    fontSize: 12,
+    fontWeight: '600',
   },
 });
 

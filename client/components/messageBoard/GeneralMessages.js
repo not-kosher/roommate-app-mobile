@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import HouseNavBack from '../HouseNavBack';
 import socket from '../../socket';
-import { PRIMARY } from '../../styles/common';
+import { PRIMARY, WHITE, BG_L_GRAY, TEXT_D_GRAY } from '../../styles/common';
 import MessageView from './MessageView';
 
 const styles = StyleSheet.create({
@@ -37,7 +37,7 @@ class GeneralMessagesView extends Component {
         {...props}
         wrapperStyle={{
           left: {
-            backgroundColor: '#f0f0f0',
+            backgroundColor: BG_L_GRAY,
           },
           right: {
             backgroundColor: PRIMARY,
@@ -108,6 +108,13 @@ const GeneralMessages = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: 'Messages',
       headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: {
+        backgroundColor: PRIMARY,
+        borderBottomColor: PRIMARY,
+      },
+      headerTitleStyle: {
+        color: WHITE,
+      },
     }),
   },
 });

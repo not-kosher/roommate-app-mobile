@@ -5,11 +5,12 @@ import { View, StyleSheet } from 'react-native';
 
 import HouseNavBack from '../HouseNavBack';
 import NotificationList from './NotificationList';
-import { PRIMARY } from '../../styles/common';
+import { PRIMARY, WHITE, BG_L_GRAY } from '../../styles/common';
 
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
+    backgroundColor: BG_L_GRAY,
   },
 });
 
@@ -34,9 +35,10 @@ const Notifications = StackNavigator({
       headerLeft: <HouseNavBack navigation={navigation} />,
       headerStyle: {
         backgroundColor: PRIMARY,
+        borderBottomColor: PRIMARY,
       },
       headerTitleStyle: {
-        color: '#ffffff',
+        color: WHITE,
       },
     }),
   },

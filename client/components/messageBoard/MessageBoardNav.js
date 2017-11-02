@@ -5,7 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Notifications from './Notifications';
 import GeneralMessages from './GeneralMessages';
-import { PRIMARY } from '../../styles/common';
+import { PRIMARY, DIV_GRAY } from '../../styles/common';
 
 Notifications.navigationOptions = {
   tabBarLabel: 'Notifications',
@@ -45,6 +45,10 @@ const MessageBoardNav = TabNavigator(
     tabBarOptions: {
       labelStyle: {
         color: PRIMARY,
+      },
+      tabStyle: {
+        borderTopWidth: 1,
+        borderTopColor: DIV_GRAY,
       },
     },
   },

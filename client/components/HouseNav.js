@@ -1,7 +1,7 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
-import { View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import * as color from '../styles/common';
@@ -13,6 +13,15 @@ import TasksNav from './tasks/TasksNav';
 
 // custom drawer items container
 const styles = StyleSheet.create({
+  nameContainer: {
+    marginTop: 35,
+    marginLeft: 20,
+  },
+  name: {
+    color: color.WHITE,
+    fontWeight: '500',
+    fontSize: 24,
+  },
   container: {
     flex: 1,
     backgroundColor: color.BG_D_GRAY,
@@ -33,9 +42,20 @@ const createIcon = (name, clr) => (
 
 const DrawerContent = props => (
   <View style={styles.container}>
+    <View style={styles.nameContainer}>
+      <Text style={styles.name}>{props.houseName}</Text>
+    </View>
     <DrawerItems {...props} />
   </View>
 );
+
+const mapStateToProps = (store) => {
+  return {
+    houseName: store.house.name,
+  };
+};
+
+const DrawerContentRedux = connect(mapStateToProps)(DrawerContent);
 
 const HouseNav = DrawerNavigator(
   {
@@ -77,11 +97,7 @@ const HouseNav = DrawerNavigator(
     },
   },
   {
-    // drawer config
-    // initialRouteName: 'ProfileNav',
-
-    // drawerWidth:
-    contentComponent: DrawerContent,
+    contentComponent: DrawerContentRedux,
     contentOptions: {
       activeTintColor: color.PRIMARY,
       activeBackgroundColor: color.TEXT_M_GRAY,

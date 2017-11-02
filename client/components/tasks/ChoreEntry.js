@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 5,
     height: 25,
-    borderRadius: 5,
     borderStyle: 'solid',
     borderWidth: 1,
   },

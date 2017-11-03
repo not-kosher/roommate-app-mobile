@@ -13,7 +13,6 @@ import {
   Avatar,
 } from 'react-native-elements';
 
-import defaultPic from '../../images/default_profile.jpg';
 import { updateUser } from '../../redux/actions/userActions';
 import * as color from '../../styles/common';
 import uploadPicture from '../../lib/storageHelper';
@@ -101,12 +100,21 @@ class EditProfile extends Component {
       return (
         <View style={styles.editContainer}>
           <View style={styles.avatar}>
-            <Avatar
-              xlarge
-              rounded
-              source={this.state.user.imageUrl ? { uri: this.state.user.imageUrl } : defaultPic}
-              onPress={this.uploadPicture}
-            />
+            {this.props.imageUrl ?
+              <Avatar
+                xlarge
+                rounded
+                source={{ uri: this.props.imageUrl }}
+                onPress={this.uploadPicture}
+              />
+              :
+              <Avatar
+                xlarge
+                rounded
+                icon={{ name: 'add-a-photo' }}
+                onPress={this.uploadPicture}
+              />
+            }
           </View>
           <View style={styles.form}>
             <FormLabel labelStyle={styles.label}>First Name</FormLabel>

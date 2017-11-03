@@ -5,26 +5,26 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Chores from './Chores';
 import HouseNeeds from './HouseNeeds';
 
-import { PRIMARY } from '../../styles/common';
+import * as color from '../../styles/common';
 
 Chores.navigationOptions = {
   tabBarLabel: 'Chores',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({ tintColor }) => (
     <MaterialIcons
       name="content-paste"
       size={26}
-      style={{ color: PRIMARY }}
+      style={{ color: tintColor }}
     />
   ),
 };
 
 HouseNeeds.navigationOptions = {
   tabBarLabel: 'House Needs',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({ tintColor }) => (
     <MaterialIcons
       name="shopping-basket"
       size={26}
-      style={{ color: PRIMARY }}
+      style={{ color: tintColor }}
     />
   ),
 };
@@ -40,9 +40,11 @@ const TasksNav = TabNavigator(
   },
   {
     tabBarOptions: {
-      labelStyle: {
-        color: PRIMARY,
+      tabStyle: {
+        backgroundColor: color.WHITE,
       },
+      inactiveTintColor: color.TEXT_L_GRAY,
+      activeTintColor: color.PRIMARY,
     },
   },
 );

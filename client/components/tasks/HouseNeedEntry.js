@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 8,
     height: 35,
-    backgroundColor: color.PRIMARY,
   },
 });
 
@@ -155,6 +154,7 @@ class HouseNeedEntry extends Component {
               <Button
                 title="CLAIM"
                 color={color.WHITE}
+                backgroundColor={color.PRIMARY}
                 fontSize={18}
                 buttonStyle={styles.button}
                 onPress={() => {

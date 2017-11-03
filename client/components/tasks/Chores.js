@@ -23,7 +23,7 @@ import ChoreList from './ChoreList';
 const styles = StyleSheet.create({
   choresContainer: {
     flex: 1,
-    backgroundColor: color.WHITE,
+    backgroundColor: color.BG_L_GRAY,
   },
   choresListContainer: {
     flex: 6,
@@ -153,7 +153,7 @@ class ChoresView extends Component {
       text: `has added ${this.state.text} to chores`,
       username: this.props.firstName,
     };
-    socket.emit('addNotificication', choreNotification);
+    socket.emit('addNotification', choreNotification);
   }
   render() {
     return (

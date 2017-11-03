@@ -14,6 +14,7 @@ import { StackNavigator } from 'react-navigation';
 
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
+import * as color from '../../styles/common';
 
 import HouseNeedList from './HouseNeedList';
 
@@ -21,13 +22,13 @@ import HouseNeedList from './HouseNeedList';
 const styles = StyleSheet.create({
   needsContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: color.WHITE,
   },
   needsListContainer: {
     flex: 6,
   },
   divider: {
-    backgroundColor: '#262626',
+    backgroundColor: color.DIV_GRAY,
     height: 0.5,
   },
   addNeedContainer: {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 22,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'grey',
+    backgroundColor: color.PRIMARY,
 
   },
   submitText: {
@@ -68,7 +69,6 @@ class HouseNeedsView extends Component {
 
     this.state = {
       houseNeeds: [],
-      addingNeed: false,
       text: '',
     };
 
@@ -109,9 +109,14 @@ class HouseNeedsView extends Component {
       text: this.state.text,
       type: 'houseneed',
     })
-      .then(() => {
-        this.getNeeds();
-        this.setState({ addingneed: !this.state.addingneed });
+      .then((need) => {
+        const newNeed = need.data[0];
+        newNeed.poster = this.props.firstName;
+        this.state.houseNeeds.push(newNeed);
+        this.setState({
+          addingneed: !this.state.addingneed,
+          houseNeeds: this.state.houseNeeds,
+        });
       })
       .catch(err => console.log('Error posting task', err));
   }
@@ -119,12 +124,22 @@ class HouseNeedsView extends Component {
     axios.put(`api/tasks/${taskId}`, {
       claimerId: this.props.userId,
     })
-      .then(() => this.getNeeds())
+      .then((task) => {
+        this.state.houseNeeds.forEach((need) => {
+          if (need.id === task.id) {
+            need.claimer = this.props.firstName;
+            need.claimerId = this.props.userId;
+          }
+        });
+        this.setState({ houseNeeds: this.state.houseNeeds });
+      })
       .catch(err => console.log('Error claiming task', err));
   }
   completeNeed(taskId) {
     axios.delete(`api/tasks/${taskId}`)
-      .then(() => this.getNeeds())
+      .then(() => {
+        this.setState({ houseNeeds: this.state.houseNeeds.filter(need => need.id !== taskId) })
+      })
       .catch(err => console.log('Error deleting task', err));
   }
   render() {
@@ -169,6 +184,7 @@ class HouseNeedsView extends Component {
 const mapStateToProps = (store) => {
   return {
     username: store.user.username,
+    firstName: store.user.firstName,
     roomies: store.house.roomies,
     houseId: store.user.houseId,
     userId: store.user.id,

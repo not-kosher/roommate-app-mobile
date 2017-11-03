@@ -10,6 +10,8 @@ import {
   Avatar,
 } from 'react-native-elements';
 
+import * as color from '../../styles/common';
+
 const numbersToMonths = {
   '01': 'Jan',
   '02': 'Feb',
@@ -44,10 +46,14 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontWeight: 'bold',
+    color: color.TEXT_D_GRAY,
   },
   userAction: {
     flex: 1,
     flexDirection: 'row',
+  },
+  userActionText: {
+    color: color.TEXT_L_GRAY,
   },
   needButtonColumn: {
     flex: 1,
@@ -63,18 +69,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 10,
     paddingBottom: 10,
+    color: color.TEXT_D_GRAY,
   },
   date: {
-    fontSize: 10,
+    fontSize: 12,
+    marginTop: 3,
+    color: color.TEXT_L_GRAY,
   },
   divider: {
     marginTop: 16,
+    backgroundColor: color.DIV_GRAY,
   },
   button: {
-    padding: 5,
-    height: 25,
-    borderStyle: 'solid',
-    borderWidth: 1,
+    padding: 8,
+    height: 30,
+    marginTop: 5,
+    backgroundColor: color.PRIMARY,
   },
 });
 
@@ -116,13 +126,13 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName, userId 
           {!houseNeed.claimer &&
             <View style={styles.userAction}>
               <Text style={styles.userName}>{houseNeed.poster}</Text>
-              <Text> posted</Text>
+              <Text style={styles.userActionText}> posted</Text>
             </View>
           }
           {houseNeed.claimer &&
             <View style={styles.userAction}>
               <Text style={styles.userName}>{houseNeed.claimer}</Text>
-              <Text> claimed</Text>
+              <Text style={styles.userActionText}> claimed</Text>
             </View>
           }
           <Text style={styles.date}>{`${numbersToMonths[houseNeed.updatedAt.slice(5, 7)]} ${houseNeed.updatedAt.slice(8, 10)}`}</Text>
@@ -133,9 +143,8 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName, userId 
         <View style={styles.needButtonColumn} >
           {!houseNeed.claimerId &&
             <Button
-              backgroundColor="white"
               title="CLAIM"
-              color="black"
+              color={color.WHITE}
               fontSize={14}
               buttonStyle={styles.button}
               onPress={() => {
@@ -144,11 +153,10 @@ const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName, userId 
               }}
             />
           }
-          {houseNeed.claimerId === userId &&
+          {houseNeed.claimerId === userId || houseNeed.claimer === firstName &&
             <Button
-              backgroundColor="white"
               title="DONE"
-              color="black"
+              color={color.WHITE}
               fontSize={14}
               buttonStyle={styles.button}
               onPress={() => {

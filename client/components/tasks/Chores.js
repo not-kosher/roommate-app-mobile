@@ -14,6 +14,7 @@ import { StackNavigator } from 'react-navigation';
 
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
+import * as color from '../../styles/common';
 
 import ChoreList from './ChoreList';
 
@@ -21,13 +22,13 @@ import ChoreList from './ChoreList';
 const styles = StyleSheet.create({
   choresContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: color.WHITE,
   },
   choresListContainer: {
     flex: 6,
   },
   divider: {
-    backgroundColor: '#262626',
+    backgroundColor: color.DIV_GRAY,
     height: 0.5,
   },
   addChoreContainer: {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 22,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'grey',
+    backgroundColor: color.PRIMARY,
 
   },
   submitText: {
@@ -127,7 +128,7 @@ class ChoresView extends Component {
           if (chore.id === task.id) {
             chore.claimer = this.props.firstName;
             chore.claimerId = this.props.userId;
-          };
+          }
         });
         this.setState({ chores: this.state.chores });
       })
@@ -135,7 +136,7 @@ class ChoresView extends Component {
   }
   completeChore(taskId) {
     axios.delete(`api/tasks/${taskId}`)
-      .then((task) => {
+      .then(() => {
         this.setState({ chores: this.state.chores.filter(chore => chore.id !== taskId) });
       })
       .catch(err => console.log('Error deleting task', err));

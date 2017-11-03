@@ -5,26 +5,26 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Notifications from './Notifications';
 import GeneralMessages from './GeneralMessages';
-import { PRIMARY, DIV_GRAY } from '../../styles/common';
+import * as color from '../../styles/common';
 
 Notifications.navigationOptions = {
   tabBarLabel: 'Notifications',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({ focused, tintColor }) => (
     <MaterialIcons
       name={focused ? 'notifications' : 'notifications-none'}
       size={26}
-      style={{ color: PRIMARY }}
+      style={{ color: tintColor }}
     />
   ),
 };
 
 GeneralMessages.navigationOptions = {
   tabBarLabel: 'Messages',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({ focused, tintColor }) => (
     <MaterialCommunityIcons
       name={focused ? 'message' : 'message-outline'}
       size={26}
-      style={{ color: PRIMARY }}
+      style={{ color: tintColor }}
     />
   ),
 };
@@ -43,9 +43,11 @@ const MessageBoardNav = TabNavigator(
     // navigator config
     lazy: true,
     tabBarOptions: {
-      labelStyle: {
-        color: PRIMARY,
+      tabStyle: {
+        backgroundColor: color.WHITE,
       },
+      inactiveTintColor: color.TEXT_L_GRAY,
+      activeTintColor: color.PRIMARY,
     },
   },
 );

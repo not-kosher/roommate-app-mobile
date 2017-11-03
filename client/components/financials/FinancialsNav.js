@@ -40,9 +40,6 @@ const FinancialNav = TabNavigator(
   {
     lazy: true,
     tabBarOptions: {
-      // labelStyle: {
-      //   color: color.PRIMARY,
-      // },
       tabStyle: {
         backgroundColor: color.WHITE,
       },

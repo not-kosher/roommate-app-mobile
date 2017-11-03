@@ -20,6 +20,7 @@ import FullScreenLoading from '../loading/FullScreenLoading';
 const styles = {
   formContainer: {
     flex: 1,
+    backgroundColor: color.BG_L_GRAY,
   },
   inputContainer: {
     flex: 1,

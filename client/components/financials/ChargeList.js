@@ -9,7 +9,7 @@ import ChargeEntry from './ChargeEntry';
 
 const ChargeList = ({ charges, deleteCharge, username }) => {
   return (
-    <ScrollView style={{ backgroundColor: color.BG_L_GRAY }}>
+    <ScrollView style={{ backgroundColor: color.BG_L_GRAY, flex: 1 }}>
       {charges.map((charge, key) => {
         if (charge[0].username !== username) {
           return <ChargeEntry charge={charge} key={key} deleteCharge={deleteCharge} />;

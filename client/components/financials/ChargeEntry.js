@@ -8,6 +8,7 @@ import {
   Card,
   Avatar,
   Divider,
+  Button,
 } from 'react-native-elements';
 
 import * as color from '../../styles/common';
@@ -24,13 +25,21 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 5,
+    marginBottom: 15,
+  },
+  headerOwe: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 5,
   },
   balanceContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    // justifyContent: 'center',
+    // alignSelf: 'center',
   },
   chargeCategoryHeader: {
     color: color.TEXT_L_GRAY,
@@ -47,26 +56,42 @@ const styles = {
     color: color.GREEN,
     fontSize: 22,
     fontWeight: 'bold',
+    textAlign: 'right',
   },
   roomieName: {
     color: color.TEXT_D_GRAY,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
     flex: 1,
     marginLeft: 5,
     flexDirection: 'column',
   },
-  charge: {
+  chargeName: {
+    color: color.TEXT_M_GRAY,
+    flex: 1.5,
+    flexDirection: 'column',
+    margin: 2,
+    fontSize: 16,
+  },
+  chargeValue: {
     color: color.TEXT_M_GRAY,
     flex: 1,
     flexDirection: 'column',
     margin: 2,
+    fontSize: 16,
   },
   positive: {
     color: color.GREEN,
   },
   negative: {
     color: color.RED,
+  },
+  button: {
+    height: 30,
+    width: 75,
+  },
+  buttonContainer: {
+    flex: 1,
   },
 };
 
@@ -89,7 +114,7 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           />
         }
         <Text style={styles.roomieName}>{charge[0].firstName}</Text>
-        <View style={styles.balanceContainer}>
+
           {charge[1] > 0 &&
             <Text style={{ ...styles.balance, ...styles.negative }}>-{charge[1].toFixed(2)}</Text>
           }
@@ -99,7 +124,7 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           {charge[1] === 0 &&
             <Text>{charge[1].toFixed(2)}</Text>
           }
-        </View>
+
       </View>
       {charge[2].length > 0 &&
         <View>
@@ -110,11 +135,16 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
       {charge[2].map((roomieOwsUsercharge) => {
         return (
           <View style={styles.header} key={roomieOwsUsercharge.id}>
-            <Text style={styles.charge}>{roomieOwsUsercharge.billText}</Text>
-            <Text style={{ ...styles.charge, ...styles.positive }}>{roomieOwsUsercharge.total}</Text>
-            <TouchableOpacity onPress={() => deleteCharge(roomieOwsUsercharge.id)}>
-              <Text>PAID!</Text>
-            </TouchableOpacity>
+            <Text style={styles.chargeName}>{roomieOwsUsercharge.billText}</Text>
+            <Text style={{ ...styles.chargeValue, ...styles.positive }}>{roomieOwsUsercharge.total}</Text>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="PAID"
+                onPress={() => deleteCharge(roomieOwsUsercharge.id)}
+                backgroundColor={color.PRIMARY}
+                buttonStyle={styles.button}
+              />
+            </View>
           </View>
         );
       })}
@@ -126,9 +156,10 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
       }
       {charge[3].map((userOwesRoomieCharge) => {
         return (
-          <View style={styles.header} key={userOwesRoomieCharge.id}>
-            <Text style={styles.charge}>{userOwesRoomieCharge.billText}</Text>
-            <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.total}</Text>
+          <View style={styles.headerOwe} key={userOwesRoomieCharge.id}>
+            <Text style={styles.chargeName}>{userOwesRoomieCharge.billText}</Text>
+            <Text style={{ ...styles.chargeValue, ...styles.negative }}>{userOwesRoomieCharge.total}</Text>
+            <View style={styles.buttonContainer}/>
           </View>
         );
       })}

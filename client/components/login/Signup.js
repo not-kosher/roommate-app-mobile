@@ -20,6 +20,7 @@ import TintedLoading from '../loading/TintedLoading';
 const styles = {
   formContainer: {
     flex: 1,
+    backgroundColor: color.BG_L_GRAY,
   },
   inputContainer: {
     flex: 1,

@@ -192,14 +192,23 @@ const mapStateToProps = (store) => {
 
 const ChoresViewRedux = connect(mapStateToProps, null)(ChoresView);
 
-const Chores = StackNavigator({
-  Chores: {
-    screen: ChoresViewRedux,
+const Chores = StackNavigator(
+  {
+    Chores: {
+      screen: ChoresViewRedux,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Chores',
+        headerLeft: <HouseNavBack navigation={navigation} />,
+      }),
+    },
+  },
+  {
     navigationOptions: ({ navigation }) => ({
-      title: 'Chores',
-      headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: { borderBottomColor: color.PRIMARY, backgroundColor: color.PRIMARY },
+      headerTitleStyle: { color: color.WHITE },
+      headerTintColor: color.WHITE,
     }),
   },
-});
+);
 
 export default Chores;

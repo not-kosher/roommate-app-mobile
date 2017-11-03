@@ -169,7 +169,7 @@ class HouseNeedsView extends Component {
               style={styles.submitButton}
               onPress={() => {
                 this.postNeed();
-                this._needInput.setNativeProps({text: ''});
+                this._needInput.setNativeProps({ text: '' });
               }}
             >
               <Text style={styles.submitText}>SUBMIT</Text>
@@ -194,14 +194,23 @@ const mapStateToProps = (store) => {
 const HouseNeedsViewRedux = connect(mapStateToProps, null)(HouseNeedsView);
 
 
-const HouseNeeds = StackNavigator({
-  HouseNeeds: {
-    screen: HouseNeedsViewRedux,
+const HouseNeeds = StackNavigator(
+  {
+    HouseNeeds: {
+      screen: HouseNeedsViewRedux,
+      navigationOptions: ({ navigation }) => ({
+        title: 'HouseNeeds',
+        headerLeft: <HouseNavBack navigation={navigation} />,
+      }),
+    },
+  },
+  {
     navigationOptions: ({ navigation }) => ({
-      title: 'HouseNeeds',
-      headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: { borderBottomColor: color.PRIMARY, backgroundColor: color.PRIMARY },
+      headerTitleStyle: { color: color.WHITE },
+      headerTintColor: color.WHITE,
     }),
   },
-});
+);
 
 export default HouseNeeds;

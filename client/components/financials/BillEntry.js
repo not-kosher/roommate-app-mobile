@@ -38,8 +38,6 @@ const styles = StyleSheet.create({
   billEntry: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   billDetails: {
     flex: 2,
@@ -50,11 +48,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   billTotalText: {
     fontWeight: '600',
     fontSize: 25,
-    color: color.TEXT_D_GRAY,
+    color: color.TEXT_M_GRAY,
   },
   billHeader: {
     fontWeight: '600',
@@ -62,7 +61,6 @@ const styles = StyleSheet.create({
     color: color.TEXT_D_GRAY,
   },
   billInfoRow: {
-    flex: 1,
     flexDirection: 'row',
   },
   billInfoLabel: {
@@ -73,7 +71,8 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 5,
-    height: 20,
+    height: 40,
+    width: 100,
     marginTop: 5,
     backgroundColor: color.PRIMARY,
   },

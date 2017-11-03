@@ -4,11 +4,12 @@ import {
   ScrollView,
 } from 'react-native';
 
+import * as color from '../../styles/common';
 import ChargeEntry from './ChargeEntry';
 
 const ChargeList = ({ charges, deleteCharge, username }) => {
   return (
-    <ScrollView >
+    <ScrollView style={{ backgroundColor: color.BG_L_GRAY }}>
       {charges.map((charge, key) => {
         if (charge[0].username !== username) {
           return <ChargeEntry charge={charge} key={key} deleteCharge={deleteCharge} />;

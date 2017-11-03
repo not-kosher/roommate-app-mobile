@@ -73,16 +73,17 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 12,
+    marginTop: 3,
     color: color.TEXT_L_GRAY,
   },
   divider: {
     marginTop: 16,
+    backgroundColor: color.DIV_GRAY,
   },
   button: {
     padding: 8,
     height: 30,
-    marginTop: 5,
-    backgroundColor: '#47a398',
+    backgroundColor: color.PRIMARY,
   },
 });
 

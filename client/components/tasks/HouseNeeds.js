@@ -14,6 +14,7 @@ import { StackNavigator } from 'react-navigation';
 
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
+import * as color from '../../styles/common';
 
 import HouseNeedList from './HouseNeedList';
 
@@ -21,13 +22,13 @@ import HouseNeedList from './HouseNeedList';
 const styles = StyleSheet.create({
   needsContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: color.WHITE,
   },
   needsListContainer: {
     flex: 6,
   },
   divider: {
-    backgroundColor: '#262626',
+    backgroundColor: color.DIV_GRAY,
     height: 0.5,
   },
   addNeedContainer: {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 22,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'grey',
+    backgroundColor: color.PRIMARY,
 
   },
   submitText: {
@@ -68,9 +69,7 @@ class HouseNeedsView extends Component {
 
     this.state = {
       houseNeeds: [],
-      addingNeed: false,
       text: '',
-      need: '',
     };
 
     this.getNeeds = this.getNeeds.bind(this);
@@ -146,7 +145,6 @@ class HouseNeedsView extends Component {
   render() {
     return (
       <View style={styles.needsContainer}>
-        <Text>{JSON.stringify(this.state.need)}</Text>
         <View style={styles.needsListContainer}>
           <HouseNeedList
             houseNeeds={this.state.houseNeeds}

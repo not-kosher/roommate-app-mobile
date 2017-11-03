@@ -22,13 +22,13 @@ import ChoreList from './ChoreList';
 const styles = StyleSheet.create({
   choresContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: color.WHITE,
   },
   choresListContainer: {
     flex: 6,
   },
   divider: {
-    backgroundColor: color.TEXT_L_GRAY,
+    backgroundColor: color.DIV_GRAY,
     height: 0.5,
   },
   addChoreContainer: {

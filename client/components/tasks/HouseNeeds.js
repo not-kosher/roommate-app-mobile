@@ -125,7 +125,15 @@ class HouseNeedsView extends Component {
     axios.put(`api/tasks/${taskId}`, {
       claimerId: this.props.userId,
     })
-      .then(() => this.getNeeds())
+      .then((task) => {
+        this.state.houseNeeds.forEach((need) => {
+          if (need.id === task.id) {
+            need.claimer = this.props.firstName;
+            need.claimerId = this.props.userId;
+          }
+        });
+        this.setState({ houseNeeds: this.state.houseNeeds });
+      })
       .catch(err => console.log('Error claiming task', err));
   }
   completeNeed(taskId) {

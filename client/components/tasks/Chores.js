@@ -127,7 +127,7 @@ class ChoresView extends Component {
           if (chore.id === task.id) {
             chore.claimer = this.props.firstName;
             chore.claimerId = this.props.userId;
-          };
+          }
         });
         this.setState({ chores: this.state.chores });
       })

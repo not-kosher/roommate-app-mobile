@@ -10,6 +10,8 @@ import {
   Avatar,
 } from 'react-native-elements';
 
+import * as color from '../../styles/common';
+
 const numbersToMonths = {
   '01': 'Jan',
   '02': 'Feb',
@@ -44,10 +46,14 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontWeight: 'bold',
+    color: color.TEXT_D_GRAY,
   },
   userAction: {
     flex: 1,
     flexDirection: 'row',
+  },
+  userActionText: {
+    color: color.TEXT_L_GRAY,
   },
   choreButtonColumn: {
     flex: 1,
@@ -63,9 +69,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 10,
     paddingBottom: 10,
+    color: color.TEXT_D_GRAY,
   },
   date: {
     fontSize: 10,
+    color: color.TEXT_L_GRAY,
   },
   divider: {
     marginTop: 16,
@@ -128,13 +136,13 @@ class ChoreEntry extends Component {
             {!this.state.chore.claimer &&
               <View style={styles.userAction}>
                 <Text style={styles.userName}>{this.state.chore.poster}</Text>
-                <Text> posted</Text>
+                <Text style={styles.userActionText}> posted</Text>
               </View>
             }
             {this.state.chore.claimer &&
               <View style={styles.userAction}>
                 <Text style={styles.userName}>{this.state.chore.claimer}</Text>
-                <Text> claimed</Text>
+                <Text style={styles.userActionText}> claimed</Text>
               </View>
             }
             <Text style={styles.date}>{`${numbersToMonths[this.state.chore.updatedAt.slice(5, 7)]} ${this.state.chore.updatedAt.slice(8, 10)}`}</Text>

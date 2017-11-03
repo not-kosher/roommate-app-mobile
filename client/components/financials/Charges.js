@@ -32,7 +32,7 @@ class ChargesView extends Component {
   }
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         {<ChargeList charges={this.props.formattedCharges} deleteCharge={this.deleteCharge} />}
       </View>
     );

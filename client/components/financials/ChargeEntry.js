@@ -10,6 +10,8 @@ import {
   Divider,
 } from 'react-native-elements';
 
+import * as color from '../../styles/common';
+
 const styles = {
   card: {
     marginTop: 3,
@@ -27,10 +29,11 @@ const styles = {
   balanceContainer: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
-  chargeCatergoryHeader: {
+  chargeCategoryHeader: {
+    color: color.TEXT_L_GRAY,
     fontWeight: '600',
     marginTop: 5,
     marginBottom: 5,
@@ -41,28 +44,29 @@ const styles = {
   balance: {
     flex: 1,
     flexDirection: 'column',
-    color: 'green',
+    color: color.GREEN,
     fontSize: 22,
     fontWeight: 'bold',
-    alignSelf: 'center',
   },
   roomieName: {
+    color: color.TEXT_D_GRAY,
     fontWeight: 'bold',
     fontSize: 16,
-    flex: 2,
+    flex: 1,
     marginLeft: 5,
     flexDirection: 'column',
   },
   charge: {
+    color: color.TEXT_M_GRAY,
     flex: 1,
     flexDirection: 'column',
     margin: 2,
   },
   positive: {
-    color: 'green',
+    color: color.GREEN,
   },
   negative: {
-    color: 'red',
+    color: color.RED,
   },
 };
 
@@ -100,7 +104,7 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
       {charge[2].length > 0 &&
         <View>
           <Divider style={styles.divider} />
-          <Text style={styles.chargeCatergoryHeader}>They Owe:</Text>
+          <Text style={styles.chargeCategoryHeader}>They Owe:</Text>
         </View>
       }
       {charge[2].map((roomieOwsUsercharge) => {
@@ -117,7 +121,7 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
       {charge[3].length > 0 &&
         <View>
           <Divider style={styles.divider} />
-          <Text style={styles.chargeCatergoryHeader}>You Owe:</Text>
+          <Text style={styles.chargeCategoryHeader}>You Owe:</Text>
         </View>
       }
       {charge[3].map((userOwesRoomieCharge) => {
@@ -125,9 +129,6 @@ const ChargeEntry = ({ charge, deleteCharge }) => {
           <View style={styles.header} key={userOwesRoomieCharge.id}>
             <Text style={styles.charge}>{userOwesRoomieCharge.billText}</Text>
             <Text style={{ ...styles.charge, ...styles.negative }}>{userOwesRoomieCharge.total}</Text>
-            {/* <TouchableOpacity onPress={() => deleteCharge(userOwesRoomieCharge.id)}>
-              <Text>PAID!</Text>
-            </TouchableOpacity> */}
           </View>
         );
       })}

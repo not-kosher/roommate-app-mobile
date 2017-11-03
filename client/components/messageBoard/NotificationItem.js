@@ -22,11 +22,13 @@ const styles = StyleSheet.create({
   iconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
   textContainer: {
     alignItems: 'center',
     marginLeft: 5,
     flexDirection: 'row',
+    flex: 8,
   },
   usernameText: {
     fontSize: 14,
@@ -64,8 +66,12 @@ const NotificationItem = ({ notification }) => (
     <View
       style={styles.textContainer}
     >
-      <Text style={styles.usernameText}>{notification.username}</Text>
-      <Text style={styles.text}>{` ${notification.text}`}</Text>
+      <View>
+        <Text style={styles.text}>
+          <Text style={styles.usernameText} multiline>{notification.username}</Text>
+          {` ${notification.text}`}
+        </Text>
+      </View>
     </View>
   </View>
 );

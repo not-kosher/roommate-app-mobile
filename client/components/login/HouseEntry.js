@@ -55,8 +55,20 @@ class HouseEntry extends Component {
     this.setState({ isProcessing: true });
 
     this.props.createHouse(this.state.createName, (houseId) => {
-      AsyncStorage.setItem('houseId', `${houseId}`);
-      this.props.updateSocketReady(true);
+      this.props.joinHouse(houseId, () => {
+        AsyncStorage.setItem('houseId', `${houseId}`);
+        this.props.updateSocketReady(true);
+
+        const joinNotification = {
+          houseId,
+          userId: this.props.userId,
+          type: 'new roomie',
+          text: 'has created the house!',
+          username: `${this.props.firstName} ${this.props.lastName}`,
+        };
+
+        socket.emit('addNotification', joinNotification);
+      });
     });
   }
 
@@ -64,6 +76,7 @@ class HouseEntry extends Component {
     this.setState({ isProcessing: true });
 
     this.props.joinHouse(this.state.joinKey, () => {
+      AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
       this.props.updateSocketReady(true);
 
       const joinNotification = {
@@ -76,7 +89,6 @@ class HouseEntry extends Component {
 
       socket.emit('addNotification', joinNotification);
     });
-    AsyncStorage.setItem('houseId', `${this.state.joinKey}`);
   }
 
   render() {

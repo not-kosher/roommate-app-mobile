@@ -23,16 +23,6 @@ export const createHouse = (name, cb) => {
     axios.post('/api/houses', { name })
       .then(({ data }) => {
         cb(data.id);
-        // update house info
-        dispatch({
-          type: 'UPDATE_HOUSE',
-          payload: data,
-        });
-        // update house id on user
-        dispatch({
-          type: 'UPDATE_USER',
-          payload: { houseId: data.id },
-        });
       })
       .catch((err) => {
         console.log('Error creating the house', err);

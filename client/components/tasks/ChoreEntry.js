@@ -72,17 +72,17 @@ const styles = StyleSheet.create({
     color: color.TEXT_D_GRAY,
   },
   date: {
-    fontSize: 10,
+    fontSize: 12,
     color: color.TEXT_L_GRAY,
   },
   divider: {
     marginTop: 16,
   },
   button: {
-    padding: 5,
-    height: 25,
-    borderStyle: 'solid',
-    borderWidth: 1,
+    padding: 8,
+    height: 30,
+    marginTop: 5,
+    backgroundColor: '#47a398',
   },
 });
 
@@ -153,9 +153,8 @@ class ChoreEntry extends Component {
           <View style={styles.choreButtonColumn}>
             {!this.state.chore.claimerId && !this.state.chore.claimer &&
               <Button
-                backgroundColor="white"
                 title="CLAIM"
-                color="black"
+                color={color.WHITE}
                 fontSize={14}
                 buttonStyle={styles.button}
                 onPress={() => {
@@ -166,10 +165,9 @@ class ChoreEntry extends Component {
             }
             {this.state.chore.claimerId === this.props.userId &&
               <Button
-                backgroundColor="white"
                 title="DONE"
-                color="black"
                 fontSize={14}
+                color={color.WHITE}
                 buttonStyle={styles.button}
                 onPress={() => {
                   this.props.completeChore(this.state.chore.id);

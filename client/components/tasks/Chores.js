@@ -14,6 +14,7 @@ import { StackNavigator } from 'react-navigation';
 
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
+import * as color from '../../styles/common';
 
 import ChoreList from './ChoreList';
 
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 6,
   },
   divider: {
-    backgroundColor: '#262626',
+    backgroundColor: color.TEXT_L_GRAY,
     height: 0.5,
   },
   addChoreContainer: {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 22,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'grey',
+    backgroundColor: color.PRIMARY,
 
   },
   submitText: {

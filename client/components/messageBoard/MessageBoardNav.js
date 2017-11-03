@@ -46,10 +46,6 @@ const MessageBoardNav = TabNavigator(
       labelStyle: {
         color: PRIMARY,
       },
-      // tabStyle: {
-      //   borderTopWidth: 1,
-      //   borderTopColor: DIV_GRAY,
-      // },
     },
   },
 );

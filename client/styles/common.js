@@ -1,4 +1,7 @@
 export const PRIMARY = '#62aaa4';
+export const PRIMARY_D1 = '#559092';
+export const PRIMARY_D2 = '#528d88';
+export const PRIMARY_D3 = '#59a6a0';
 export const TEXT_L_GRAY = '#bdbdbd';
 export const TEXT_M_GRAY = '#383838';
 export const TEXT_D_GRAY = '#262626';

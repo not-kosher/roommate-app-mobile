@@ -16,7 +16,7 @@ const styles = {
     backgroundColor: color.PRIMARY,
   },
   logoContainer: {
-    flex: 2,
+    flex: 1.7,
   },
   logo: {
     flex: 1,
@@ -27,8 +27,7 @@ const styles = {
     flex: 1,
   },
   buttonView: {
-    flex: 1,
-    margin: 5,
+    marginBottom: 35,
   },
 };
 
@@ -47,7 +46,7 @@ const Splash = props => (
           large
           title="Sign Up"
           onPress={() => props.navigation.navigate('Signup')}
-          backgroundColor={color.PRIMARY}
+          backgroundColor={color.PRIMARY_D2}
         />
       </View>
       <View style={styles.buttonView}>
@@ -55,7 +54,7 @@ const Splash = props => (
           large
           title="Log In"
           onPress={() => props.navigation.navigate('Login')}
-          backgroundColor={color.PRIMARY}
+          backgroundColor={color.PRIMARY_D2}
         />
       </View>
     </View>

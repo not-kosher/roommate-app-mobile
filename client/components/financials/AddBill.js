@@ -28,8 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     margin: 5,
-    marginBottom: 10,
-    marginTop: 10,
+    marginTop: 20,
   },
   label: {
     flex: 1,
@@ -43,6 +42,13 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: color.PRIMARY,
     margin: 5,
+  },
+  checkbox: {
+    backgroundColor: color.BG_L_GRAY,
+  },
+  checkboxLabel: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   dateButton: {
     flex: 2,
@@ -180,7 +186,7 @@ class AddBill extends Component {
         })}
         <Modal
           transparent
-          animationType="slide"
+          animationType="fade"
           visible={this.state.setDate}
         >
           <View style={styles.modalContainer}>
@@ -214,20 +220,23 @@ class AddBill extends Component {
             containerViewStyle={styles.dateButton}
           />
         </View>
-        <CheckBox
-          center
-          iconRight
-          containerStyle={{ backgroundColor: color.BG_L_GRAY, borderWidth: 0 }}
-          title="This is a recurring bill"
-          checkedColor={color.PRIMARY}
-          checked={this.state.recurring}
-          onPress={() => {
-            this.setState({
-              recurring: !(this.state.recurring),
-            });
-          }}
-        />
+        <View style={styles.inputContainer}>
+          <FormLabel style={styles.checkboxLabel}>Recurring bill?</FormLabel>
+          <CheckBox
+            left
+            iconRight
+            containerStyle={{ flex: 1, backgroundColor: color.BG_L_GRAY, borderWidth: 0 }}
+            checkedColor={color.PRIMARY}
+            checked={this.state.recurring}
+            onPress={() => {
+              this.setState({
+                recurring: !(this.state.recurring),
+              });
+            }}
+          />
+        </View>
         <Button
+          large
           title="Submit"
           onPress={() => {
             this.submitFinancial();

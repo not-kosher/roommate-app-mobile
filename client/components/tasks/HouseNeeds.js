@@ -169,7 +169,7 @@ class HouseNeedsView extends Component {
               style={styles.submitButton}
               onPress={() => {
                 this.postNeed();
-                this._needInput.setNativeProps({text: ''});
+                this._needInput.setNativeProps({ text: '' });
               }}
             >
               <Text style={styles.submitText}>SUBMIT</Text>

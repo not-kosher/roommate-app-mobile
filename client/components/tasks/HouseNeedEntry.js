@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     color: color.TEXT_L_GRAY,
   },
   needButtonColumn: {
-    flex: 1,
+    flex: 1.5,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -82,93 +82,104 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 8,
-    height: 30,
-    marginTop: 5,
+    height: 35,
     backgroundColor: color.PRIMARY,
   },
 });
 
-const HouseNeedEntry = ({ houseNeed, claimNeed, completeNeed, firstName, userId }) => {
-  return (
-    <View style={styles.needEntryContainer}>
-      <View style={styles.needEntryContent}>
-        <View>
-          {houseNeed.posterImage && !houseNeed.claimerId &&
-            <Avatar
-              rounded
-              medium
-              source={{ uri: houseNeed.posterImage }} 
-            />
-          }
-          {houseNeed.claimerImage &&
-            <Avatar
-              rounded
-              medium
-              source={{ uri: houseNeed.claimerImage }} 
-            />
-          }
-          {!houseNeed.posterImage && !houseNeed.claimerId &&
-            <Avatar
-              rounded
-              medium
-              title={houseNeed.poster.slice(0, 1)} 
-            />
-          }
-          {!houseNeed.claimerImage && houseNeed.claimerId &&
-            <Avatar
-              rounded
-              medium
-              title={houseNeed.claimer.slice(0, 1)} 
-            />
-          }
-        </View>
-        <View style={styles.needInfoColumn} >
-          {!houseNeed.claimer &&
-            <View style={styles.userAction}>
-              <Text style={styles.userName}>{houseNeed.poster}</Text>
-              <Text style={styles.userActionText}> posted</Text>
+class HouseNeedEntry extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      need: {},
+    };
+  }
+  componentWillMount() {
+    this.setState({ need: this.props.houseNeed });
+  }
+  render() {
+    return (
+      <View style={styles.needEntryContainer}>
+        <View style={styles.needEntryContent}>
+          <View>
+            {this.state.need.posterImage && !this.state.need.claimerId &&
+              <Avatar
+                rounded
+                medium
+                source={{ uri: this.state.need.posterImage }} 
+              />
+            }
+            {this.state.need.claimerImage &&
+              <Avatar
+                rounded
+                medium
+                source={{ uri: this.state.need.claimerImage }} 
+              />
+            }
+            {!this.state.need.posterImage && !this.state.need.claimerId &&
+              <Avatar
+                rounded
+                medium
+                title={this.state.need.poster.slice(0, 1)} 
+              />
+            }
+            {!this.state.need.claimerImage && this.state.need.claimerId &&
+              <Avatar
+                rounded
+                medium
+                title={this.state.need.claimer.slice(0, 1)} 
+              />
+            }
+          </View>
+          <View style={styles.needInfoColumn} >
+            {!this.state.need.claimer &&
+              <View style={styles.userAction}>
+                <Text style={styles.userName}>{this.state.need.poster}</Text>
+                <Text style={styles.userActionText}> posted</Text>
+              </View>
+            }
+            {this.state.need.claimer &&
+              <View style={styles.userAction}>
+                <Text style={styles.userName}>{this.state.need.claimer}</Text>
+                <Text style={styles.userActionText}> claimed</Text>
+              </View>
+            }
+            <Text style={styles.date}>{`${numbersToMonths[this.state.need.updatedAt.slice(5, 7)]} ${this.state.need.updatedAt.slice(8, 10)}`}</Text>
+            <View style={styles.needTextContainer}>
+              <Text style={styles.needText}>{this.state.need.text}</Text>
             </View>
-          }
-          {houseNeed.claimer &&
-            <View style={styles.userAction}>
-              <Text style={styles.userName}>{houseNeed.claimer}</Text>
-              <Text style={styles.userActionText}> claimed</Text>
-            </View>
-          }
-          <Text style={styles.date}>{`${numbersToMonths[houseNeed.updatedAt.slice(5, 7)]} ${houseNeed.updatedAt.slice(8, 10)}`}</Text>
-          <View style={styles.needTextContainer}>
-            <Text style={styles.needText}>{houseNeed.text}</Text>
+          </View>
+          <View style={styles.needButtonColumn} >
+            {!this.state.need.claimerId &&
+              <Button
+                title="CLAIM"
+                color={color.WHITE}
+                fontSize={18}
+                buttonStyle={styles.button}
+                onPress={() => {
+                  this.props.claimNeed(this.state.need.id);
+                  this.setState({ need: { ...this.state.need, ...{ claimer: this.props.firstName, claimerId: this.props.userId } } });
+                }}
+              />
+            }
+            {this.state.need.claimerId === this.props.userId &&
+              <Button
+                title="DONE"
+                color={color.WHITE}
+                fontSize={18}
+                buttonStyle={styles.button}
+                onPress={() => {
+                  this.props.completeNeed(this.state.need.id);
+                }}
+              />
+            }
           </View>
         </View>
-        <View style={styles.needButtonColumn} >
-          {!houseNeed.claimerId &&
-            <Button
-              title="CLAIM"
-              color={color.WHITE}
-              fontSize={14}
-              buttonStyle={styles.button}
-              onPress={() => {
-                claimNeed(houseNeed.id);
-                houseNeed.claimer = firstName;
-              }}
-            />
-          }
-          {houseNeed.claimerId === userId || houseNeed.claimer === firstName &&
-            <Button
-              title="DONE"
-              color={color.WHITE}
-              fontSize={14}
-              buttonStyle={styles.button}
-              onPress={() => {
-                completeNeed(houseNeed.id);
-              }}
-            />
-          }
-        </View>
+        <Divider style={styles.divider} />
       </View>
-      <Divider style={styles.divider} />
-    </View>
-  );
+    );
+  };
 };
 
 export default HouseNeedEntry;

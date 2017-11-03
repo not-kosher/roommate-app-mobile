@@ -1,11 +1,11 @@
 import React from 'react';
 import { MaterialIndicator } from 'react-native-indicators';
 import { View, StyleSheet } from 'react-native';
-import { WHITE } from '../../styles/common';
+import { WHITE, BG_M_GRAY } from '../../styles/common';
 
 const styles = StyleSheet.create({
   loading: {
-    backgroundColor: '#dddddd',
+    backgroundColor: BG_M_GRAY,
     flex: 1,
   },
 });

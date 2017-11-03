@@ -47,8 +47,8 @@ const MessageBoardNav = TabNavigator(
         color: PRIMARY,
       },
       tabStyle: {
-        borderTopWidth: 1,
-        borderTopColor: DIV_GRAY,
+        // borderTopWidth: 1,
+        // borderTopColor: DIV_GRAY,
       },
     },
   },

@@ -70,7 +70,8 @@ class HouseEntry extends Component {
         houseId: this.state.joinKey, // need to have houseId later
         userId: this.props.userId,
         type: 'new roomie',
-        text: `${this.props.firstName} ${this.props.lastName} has joined the house!`,
+        text: 'has joined the house!',
+        username: `${this.props.firstName} ${this.props.lastName}`,
       };
 
       socket.emit('addNotification', joinNotification);

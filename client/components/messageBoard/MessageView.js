@@ -2,6 +2,32 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TEXT_M_GRAY } from '../../styles/common';
 
+const styles = StyleSheet.create({
+  messageContainer: {
+    backgroundColor: '#00000000',
+    marginBottom: 8,
+    marginRight: 5,
+    marginLeft: 5,
+    flexDirection: 'row',
+  },
+  avatarContainer: {
+    flex: 1,
+    marginTop: 7,
+    marginLeft: 5,
+  },
+  bubbleContainer: {
+    flex: 8,
+    marginLeft: 9,
+  },
+  nameText: {
+    marginBottom: 4,
+    marginLeft: 3,
+    color: TEXT_M_GRAY,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+});
+
 const MessageView = (props) => {
   const isOtherUser = !(props.currentMessage.user.name === props.user.name);
 
@@ -14,7 +40,7 @@ const MessageView = (props) => {
       }
 
       <View style={styles.bubbleContainer}>
-        {isOtherUser && 
+        {isOtherUser &&
           <Text style={styles.nameText}>
             {props.currentMessage.user.name}
           </Text>
@@ -24,29 +50,5 @@ const MessageView = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  messageContainer: {
-    backgroundColor: '#00000000',
-    marginBottom: 8,
-    flexDirection: 'row',
-  },
-  avatarContainer: {
-    flex: 1,
-    marginTop: 7,
-    marginLeft: 5,
-  },
-  bubbleContainer: {
-    flex: 8,
-    marginRight: 5,
-  },
-  nameText: {
-    marginBottom: 4,
-    marginLeft: 3,
-    color: TEXT_M_GRAY,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-});
 
 export default MessageView;

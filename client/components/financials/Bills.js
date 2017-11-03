@@ -9,6 +9,7 @@ import {
 } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 
+import * as color from '../../styles/common';
 import HouseNavBack from '../HouseNavBack';
 import BillList from './BillList';
 import AddBill from './AddBill';
@@ -116,15 +117,29 @@ const mapDispatchToProps = (dispatch) => {
 
 const BillsViewRedux = connect(mapStateToProps, mapDispatchToProps)(BillsView);
 
-const Bills = StackNavigator({
-  Bills: {
-    screen: BillsViewRedux,
+const Bills = StackNavigator(
+  {
+    Bills: {
+      screen: BillsViewRedux,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Bills',
+        headerLeft: <HouseNavBack navigation={navigation} />,
+      }),
+    },
+    AddBill: {
+      screen: AddBill,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Add Bill',
+      }),
+    },
+  },
+  {
     navigationOptions: ({ navigation }) => ({
-      title: 'Bills',
-      headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: { borderBottomColor: color.PRIMARY, backgroundColor: color.PRIMARY },
+      headerTitleStyle: { color: color.WHITE },
+      headerTintColor: color.WHITE,
     }),
   },
-  AddBill: { screen: AddBill },
-});
+);
 
 export default Bills;

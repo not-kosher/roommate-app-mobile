@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+import * as color from '../../styles/common';
 import HouseNavBack from '../HouseNavBack';
 import ChargeList from './ChargeList';
 import { getAllCharges, deleteSingleCharge } from '../../redux/actions/financialActions';
@@ -68,6 +69,9 @@ const Charges = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: 'Charges',
       headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: { borderBottomColor: color.PRIMARY, backgroundColor: color.PRIMARY },
+      headerTitleStyle: { color: color.WHITE },
+      headerTintColor: color.WHITE,
     }),
   },
 });

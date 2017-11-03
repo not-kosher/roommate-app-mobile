@@ -2,6 +2,7 @@ import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import * as color from '../../styles/common';
 import Bills from './Bills';
 import Charges from './Charges';
 
@@ -38,6 +39,16 @@ const FinancialNav = TabNavigator(
   },
   {
     lazy: true,
+    tabBarOptions: {
+      // labelStyle: {
+      //   color: color.PRIMARY,
+      // },
+      tabStyle: {
+        backgroundColor: color.WHITE,
+      },
+      inactiveTintColor: color.TEXT_L_GRAY,
+      activeTintColor: color.PRIMARY,
+    },
   },
 );
 

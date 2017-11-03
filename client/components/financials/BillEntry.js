@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import { Card, Button } from 'react-native-elements'; 
 
+import * as color from '../../styles/common';
+
 const numbersToMonths = {
   '01': 'Jan',
   '02': 'Feb',
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 100,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: color.BG_D_GRAY,
     marginTop: 2.5,
     marginBottom: 2.5,
     marginLeft: 5,
@@ -52,16 +54,28 @@ const styles = StyleSheet.create({
   billTotalText: {
     fontWeight: '600',
     fontSize: 25,
+    color: color.TEXT_D_GRAY,
   },
   billHeader: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: '600',
+    fontSize: 18,
+    color: color.TEXT_D_GRAY,
+  },
+  billInfoRow: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  billInfoLabel: {
+    color: color.TEXT_L_GRAY,
+  },
+  billInfo: {
+    color: color.TEXT_D_GRAY,
   },
   button: {
     padding: 5,
     height: 20,
     marginTop: 5,
-    backgroundColor: '#47a398',
+    backgroundColor: color.PRIMARY,
   },
 });
 
@@ -72,8 +86,14 @@ const BillEntry = ({ bill, deleteBill, userId }) => {
         <View style={styles.billEntry}>
           <View style={styles.billDetails}>
             <Text style={styles.billHeader}>{bill.text}</Text>
-            <Text>{`Poster: ${bill.userName}`}</Text>
-            <Text>{`Due Date: ${numbersToMonths[bill.dueDate.slice(5, 7)]} ${bill.dueDate.slice(8, 10)}`}</Text>
+            <View style={styles.billInfoRow}>
+              <Text style={styles.billInfoLabel}>Poster: </Text>
+              <Text style={styles.billInfo}>{bill.userName}</Text>
+            </View>
+            <View style={styles.billInfoRow}>
+              <Text style={styles.billInfoLabel}>Due Date: </Text>
+              <Text style={styles.billInfo}>{`${numbersToMonths[bill.dueDate.slice(5, 7)]} ${bill.dueDate.slice(8, 10)}`}</Text>
+            </View>
           </View>
           <View style={styles.billTotal}>
             <Text style={styles.billTotalText}>{`$${bill.total}`}</Text>

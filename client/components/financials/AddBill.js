@@ -27,17 +27,23 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     flexDirection: 'row',
-    margin: 5,
     marginTop: 20,
   },
   label: {
     flex: 1,
   },
-  roomieInput: {
-    flex: 1,
+  roomieLabel: {
+    flex: 2,
+    alignItems: 'flex-end',
+  },
+  roomieLabelText: {
+    fontWeight: 'normal',
   },
   input: {
     flex: 2,
+  },
+  roomieInput: {
+    flex: 1,
   },
   button: {
     backgroundColor: color.PRIMARY,
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.BG_L_GRAY,
   },
   checkboxLabel: {
-    flex: 1,
+    flex: 3,
     alignItems: 'flex-end',
   },
   dateButton: {
@@ -174,8 +180,13 @@ class AddBill extends Component {
           this.state[roomie.id] = '';
           return (
             <View key={roomie.id} style={styles.inputContainer}>
-              <View style={{ flex: 0.5, flexDirection: 'column' }} />
-              <FormLabel style={styles.label}>{roomie.firstName}:</FormLabel>
+              <View style={{ flex: 1, flexDirection: 'column' }} />
+              <FormLabel
+                containerStyle={styles.roomieLabel}
+                labelStyle={styles.roomieLabelText}
+              >
+                {roomie.firstName}:
+              </FormLabel>
               <FormInput
                 containerStyle={styles.roomieInput}
                 defaultValue={this.state.share}
@@ -220,12 +231,10 @@ class AddBill extends Component {
             containerViewStyle={styles.dateButton}
           />
         </View>
-        <View style={styles.inputContainer}>
-          <FormLabel style={styles.checkboxLabel}>Recurring bill?</FormLabel>
+        <View style={{ flex: 1, margin: 10 }}>
           <CheckBox
-            left
-            iconRight
-            containerStyle={{ flex: 1, backgroundColor: color.BG_L_GRAY, borderWidth: 0 }}
+            center
+            title="Recurring bill?"
             checkedColor={color.PRIMARY}
             checked={this.state.recurring}
             onPress={() => {
@@ -233,6 +242,7 @@ class AddBill extends Component {
                 recurring: !(this.state.recurring),
               });
             }}
+            textStyle={{ color: '#88939d' }}
           />
         </View>
         <Button

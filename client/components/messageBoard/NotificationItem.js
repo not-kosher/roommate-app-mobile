@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'center',
     marginLeft: 5,
+    flexDirection: 'row',
+  },
+  usernameText: {
+    fontSize: 14,
+    color: TEXT_D_GRAY,
+    fontWeight: '600',
   },
   text: {
     fontSize: 14,
@@ -58,7 +64,8 @@ const NotificationItem = ({ notification }) => (
     <View
       style={styles.textContainer}
     >
-      <Text style={styles.text}>{notification.text}</Text>
+      <Text style={styles.usernameText}>{notification.username}</Text>
+      <Text style={styles.text}>{` ${notification.text}`}</Text>
     </View>
   </View>
 );

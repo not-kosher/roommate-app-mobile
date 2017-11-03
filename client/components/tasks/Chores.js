@@ -13,6 +13,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 import axios from '../../lib/customAxios';
+import socket from '../../socket/index';
 import HouseNavBack from '../HouseNavBack';
 import * as color from '../../styles/common';
 
@@ -22,7 +23,7 @@ import ChoreList from './ChoreList';
 const styles = StyleSheet.create({
   choresContainer: {
     flex: 1,
-    backgroundColor: color.WHITE,
+    backgroundColor: color.BG_L_GRAY,
   },
   choresListContainer: {
     flex: 6,
@@ -77,6 +78,7 @@ class ChoresView extends Component {
     this.postChore = this.postChore.bind(this);
     this.claimChore = this.claimChore.bind(this);
     this.completeChore = this.completeChore.bind(this);
+    this.sendNotification = this.sendNotification.bind(this);
   }
   componentWillMount() {
     this.getChores();
@@ -109,8 +111,10 @@ class ChoresView extends Component {
       type: 'chore',
     })
       .then((chore) => {
+        this.sendNotification();
         const newChore = chore.data[0];
         newChore.poster = this.props.firstName;
+        newChore.posterImage = this.props.userImage;
         this.state.chores.push(newChore);
         this.setState({
           addingChore: !this.state.addingChore,
@@ -141,6 +145,16 @@ class ChoresView extends Component {
       })
       .catch(err => console.log('Error deleting task', err));
   }
+  sendNotification() {
+    const choreNotification = {
+      houseId: this.props.houseId,
+      userId: this.props.userId,
+      type: 'chore',
+      text: `has added ${this.state.text} to chores`,
+      username: this.props.firstName,
+    };
+    socket.emit('addNotification', choreNotification);
+  }
   render() {
     return (
       <View style={styles.choresContainer}>
@@ -151,6 +165,7 @@ class ChoresView extends Component {
             firstName={this.props.firstName}
             completeChore={this.completeChore}
             userId={this.props.userId}
+            userImage={this.props.userImage}
           />
         </View>
         <Divider style={styles.divider} />
@@ -187,6 +202,7 @@ const mapStateToProps = (store) => {
     roomies: store.house.roomies,
     houseId: store.user.houseId,
     userId: store.user.id,
+    userImage: store.user.imageUrl,
   };
 };
 

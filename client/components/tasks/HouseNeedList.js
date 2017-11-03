@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName, userId}) => {
+const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName, userId, userImage}) => {
   return (
     <ScrollView style={styles.needListContainer}>
       {
@@ -26,6 +26,7 @@ const HouseNeedList = ({ houseNeeds, claimNeed, completeNeed, firstName, userId}
               completeNeed={completeNeed}
               firstName={firstName}
               userId={userId}
+              userImage={userImage}
             />
           );
         })

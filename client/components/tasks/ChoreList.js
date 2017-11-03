@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChoreList = ({ chores, claimChore, firstName, completeChore, userId }) => {
+const ChoreList = ({ chores, claimChore, firstName, completeChore, userId, userImage }) => {
   return (
     <ScrollView style={styles.choreListContainer}>
       {
@@ -25,6 +25,7 @@ const ChoreList = ({ chores, claimChore, firstName, completeChore, userId }) => 
               firstName={firstName}
               completeChore={completeChore}
               userId={userId}
+              userImage={userImage}
             />
           );
         })

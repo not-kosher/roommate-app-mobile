@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 8,
     height: 35,
-    backgroundColor: color.PRIMARY,
   },
 });
 
@@ -156,10 +155,11 @@ class ChoreEntry extends Component {
               <Button
                 title="CLAIM"
                 color={color.WHITE}
+                backgroundColor={color.PRIMARY}
                 fontSize={18}
                 buttonStyle={styles.button}
                 onPress={() => {
-                  this.setState({ chore: { ...this.state.chore, ...{ claimer: this.props.firstName, claimerId: this.props.userId } } });
+                  this.setState({ chore: { ...this.state.chore, ...{ claimer: this.props.firstName, claimerId: this.props.userId, claimerImage: this.props.userImage} } });
                   this.props.claimChore(this.state.chore.id);
                 }}
               />

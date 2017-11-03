@@ -159,7 +159,7 @@ class HouseNeedEntry extends Component {
                 buttonStyle={styles.button}
                 onPress={() => {
                   this.props.claimNeed(this.state.need.id);
-                  this.setState({ need: { ...this.state.need, ...{ claimer: this.props.firstName, claimerId: this.props.userId } } });
+                  this.setState({ need: { ...this.state.need, ...{ claimer: this.props.firstName, claimerId: this.props.userId, claimerImage: this.props.userImage } } });
                 }}
               />
             }

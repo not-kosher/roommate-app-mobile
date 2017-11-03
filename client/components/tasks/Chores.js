@@ -114,6 +114,7 @@ class ChoresView extends Component {
         this.sendNotification();
         const newChore = chore.data[0];
         newChore.poster = this.props.firstName;
+        newChore.posterImage = this.props.userImage;
         this.state.chores.push(newChore);
         this.setState({
           addingChore: !this.state.addingChore,

@@ -112,6 +112,7 @@ class HouseNeedsView extends Component {
       .then((need) => {
         const newNeed = need.data[0];
         newNeed.poster = this.props.firstName;
+        newNeed.posterImage = this.props.userImage;
         this.state.houseNeeds.push(newNeed);
         this.setState({
           addingneed: !this.state.addingneed,
@@ -152,6 +153,7 @@ class HouseNeedsView extends Component {
             firstName={this.props.firstName}
             userId={this.props.userId}
             completeNeed={this.completeNeed}
+            userImage={this.props.userImage}
           />
         </View>
         <Divider style={styles.divider} />
@@ -188,6 +190,7 @@ const mapStateToProps = (store) => {
     roomies: store.house.roomies,
     houseId: store.user.houseId,
     userId: store.user.id,
+    userImage: store.user.imageUrl,
   };
 };
 

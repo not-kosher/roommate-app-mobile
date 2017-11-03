@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
 
 const CustomAvatar = (props) => {
   const { user } = props.currentMessage;
+  const firstInitial = user.name.split(' ')[0][0];
+  const lastInitial = user.name.split(' ')[1][0];
+  
   return (
     <View style={styles.avatarContainer}>
       {user.avatar ?
@@ -23,7 +26,7 @@ const CustomAvatar = (props) => {
         <Avatar
           medium
           rounded
-          title={user.name[0]}
+          title={`${firstInitial}${lastInitial}`}
         />
       }
     </View>

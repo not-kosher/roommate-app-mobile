@@ -83,7 +83,7 @@ class GeneralMessagesView extends Component {
           onSend={messages => this.onSend(messages)}
           user={{
             _id: this.props.userId,
-            name: this.props.firstName,
+            name: `${this.props.firstName} ${this.props.lastName}`,
             avatar: this.props.imageUrl,
           }}
           renderAvatar={this.renderAvatar}

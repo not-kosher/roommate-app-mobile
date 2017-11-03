@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 
 const MessageView = (props) => {
   const isOtherUser = !(props.currentMessage.user.name === props.user.name);
+  const firstName = props.currentMessage.user.name.split(' ')[0];
 
   return (
     <View style={styles.messageContainer}>
@@ -42,7 +43,7 @@ const MessageView = (props) => {
       <View style={styles.bubbleContainer}>
         {isOtherUser &&
           <Text style={styles.nameText}>
-            {props.currentMessage.user.name}
+            {firstName}
           </Text>
         }
         {props.renderBubble(props)}

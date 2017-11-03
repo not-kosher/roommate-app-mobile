@@ -11,7 +11,7 @@ export const getMessages = (houseId, roomies) => (
             if (roomie.id === message.userId) {
               user = {
                 _id: roomie.id,
-                name: roomie.firstName,
+                name: `${roomie.firstName} ${roomie.lastName}`,
                 avatar: roomie.imageUrl,
               };
             }

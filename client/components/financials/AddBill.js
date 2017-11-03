@@ -14,6 +14,7 @@ import {
   Button,
 } from 'react-native-elements';
 
+import * as color from '../../styles/common';
 import socket from '../../socket/index';
 import axios from '../../lib/customAxios';
 import { createBill, createCharge, getAllCharges } from '../../redux/actions/financialActions';
@@ -21,6 +22,7 @@ import { createBill, createCharge, getAllCharges } from '../../redux/actions/fin
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
+    backgroundColor: color.BG_L_GRAY,
   },
   inputContainer: {
     flex: 1,
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   button: {
-    backgroundColor: '#47a398',
+    backgroundColor: color.PRIMARY,
     margin: 5,
   },
 });
@@ -56,13 +58,12 @@ class AddBill extends Component {
     this.roomieAmmounts = {};
 
     this.state = {
-      recurring: true,
+      recurring: false,
       roomieAmmounts: {},
       date: new Date(),
       billName: '',
       total: '',
       setDate: false,
-      called: 'nope',
     };
 
     this.submitFinancial = this.submitFinancial.bind(this);
@@ -119,19 +120,18 @@ class AddBill extends Component {
     }
   }
   sendNotification() {
-    this.setState({ called: 'you don did it' });
     const billNotification = {
       houseId: this.props.houseId,
       userId: this.props.userId,
       type: 'bill',
-      text: `${this.props.firstName} has added a bill of $${this.state.total} for ${this.state.billName}!`,
+      text: `has added a bill of $${this.state.total} for ${this.state.billName}!`,
+      username: this.props.firstName,
     };
     socket.emit('addNotification', billNotification);
   }
   render() {
     return (
       <ScrollView style={styles.formContainer}>
-        <Text>{JSON.stringify(this.state.called)}</Text>
         <View style={styles.inputContainer}>
           <FormLabel style={styles.roomieLabel}>Bill name:</FormLabel>
           <FormInput
@@ -144,7 +144,7 @@ class AddBill extends Component {
           <FormInput
             containerStyle={styles.input}
             onChangeText={(total) => {
-              this.setState({ total: total });
+              this.setState({ total });
               this.setState({ share: (total / this.props.roomies.length).toFixed(2) });
               this.props.roomies.forEach((roomie) => {
                 this.roomieAmmounts[roomie.id] = (total / this.props.roomies.length).toFixed(2);
@@ -156,14 +156,14 @@ class AddBill extends Component {
           this.state[roomie.id] = '';
           return (
             <View key={roomie.id} style={styles.inputContainer}>
-            <View style={{flex: 0.5, flexDirection: 'column'}}/>
+              <View style={{ flex: 0.5, flexDirection: 'column' }} />
               <FormLabel style={styles.roomieLabel}>{roomie.firstName}:</FormLabel>
               <FormInput
                 containerStyle={styles.roomieInput}
                 defaultValue={this.state.share}
                 onChangeText={ammount => this.roomieAmmounts[roomie.id] = ammount}
               />
-            <View style={{flex: 0.5, flexDirection: 'column'}}/>
+              <View style={{ flex: 0.5, flexDirection: 'column' }} />
             </View>);
         })}
         {this.state.setDate &&
@@ -172,7 +172,7 @@ class AddBill extends Component {
               date={this.state.date}
               minimumDate={this.state.date}
               mode="date"
-              onDateChange={date => this.setState({ date: date })}
+              onDateChange={date => this.setState({ date })}
             />
             <Button
               title="Done"
@@ -183,20 +183,19 @@ class AddBill extends Component {
             />
           </View>
         }
-        {!this.state.setDate &&
-          <Button
-            title="Add Due Date"
-            onPress={() => {
-              this.setState({ setDate: !this.state.setDate });
-            }}
-            buttonStyle={styles.button}
-          />
-        }
+        <Button
+          title={this.state.date.toLocaleDateString()}
+          onPress={() => {
+            this.setState({ setDate: !this.state.setDate });
+          }}
+          buttonStyle={styles.button}
+        />
         <CheckBox
           center
-          containerStyle={{ backgroundColor: 'whitesmoke' }}
-          title="Recurring"
-          checkedColor="#47a398"
+          iconRight
+          containerStyle={{ backgroundColor: color.BG_L_GRAY, borderWidth: 0 }}
+          title="This is a recurring bill"
+          checkedColor={color.PRIMARY}
           checked={this.state.recurring}
           onPress={() => {
             this.setState({

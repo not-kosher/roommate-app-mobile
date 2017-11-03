@@ -14,6 +14,7 @@ import { StackNavigator } from 'react-navigation';
 
 import axios from '../../lib/customAxios';
 import HouseNavBack from '../HouseNavBack';
+import socket from '../../socket/index';
 import * as color from '../../styles/common';
 
 import HouseNeedList from './HouseNeedList';
@@ -22,7 +23,7 @@ import HouseNeedList from './HouseNeedList';
 const styles = StyleSheet.create({
   needsContainer: {
     flex: 1,
-    backgroundColor: color.WHITE,
+    backgroundColor: color.BG_L_GRAY,
   },
   needsListContainer: {
     flex: 6,
@@ -76,6 +77,7 @@ class HouseNeedsView extends Component {
     this.postNeed = this.postNeed.bind(this);
     this.claimNeed = this.claimNeed.bind(this);
     this.completeNeed = this.completeNeed.bind(this);
+    this.sendNotification = this.sendNotification.bind(this);
   }
   componentWillMount() {
     this.getNeeds();
@@ -112,11 +114,13 @@ class HouseNeedsView extends Component {
       .then((need) => {
         const newNeed = need.data[0];
         newNeed.poster = this.props.firstName;
+        newNeed.posterImage = this.props.userImage;
         this.state.houseNeeds.push(newNeed);
         this.setState({
           addingneed: !this.state.addingneed,
           houseNeeds: this.state.houseNeeds,
         });
+        this.sendNotification();
       })
       .catch(err => console.log('Error posting task', err));
   }
@@ -142,6 +146,16 @@ class HouseNeedsView extends Component {
       })
       .catch(err => console.log('Error deleting task', err));
   }
+  sendNotification() {
+    const needNotification = {
+      houseId: this.props.houseId,
+      userId: this.props.userId,
+      type: 'house needs',
+      text: `has added ${this.state.text} to house needs`,
+      username: this.props.firstName,
+    };
+    socket.emit('addNotification', needNotification);
+  }
   render() {
     return (
       <View style={styles.needsContainer}>
@@ -152,6 +166,7 @@ class HouseNeedsView extends Component {
             firstName={this.props.firstName}
             userId={this.props.userId}
             completeNeed={this.completeNeed}
+            userImage={this.props.userImage}
           />
         </View>
         <Divider style={styles.divider} />
@@ -188,6 +203,7 @@ const mapStateToProps = (store) => {
     roomies: store.house.roomies,
     houseId: store.user.houseId,
     userId: store.user.id,
+    userImage: store.user.imageUrl,
   };
 };
 

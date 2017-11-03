@@ -106,7 +106,6 @@ class AddBill extends Component {
       })
         .then((result) => {
           this.createBill(result.data[0].id);
-          this.sendNotification();
           this.props.navigation.goBack();
         })
         .catch(err => this.setState({ success: JSON.stringify(err) }));

@@ -19,7 +19,7 @@ import { getAllBills, deleteBill, deleteAllChargesForBill, getAllCharges } from 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.WHITE,
+    backgroundColor: color.BG_L_GRAY,
   },
   billListContainer: {
     flex: 1,

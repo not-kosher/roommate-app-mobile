@@ -100,11 +100,11 @@ class EditProfile extends Component {
       return (
         <View style={styles.editContainer}>
           <View style={styles.avatar}>
-            {this.props.imageUrl ?
+            {this.state.user.imageUrl ?
               <Avatar
                 xlarge
                 rounded
-                source={{ uri: this.props.imageUrl }}
+                source={{ uri: this.state.user.imageUrl }}
                 onPress={this.uploadPicture}
               />
               :

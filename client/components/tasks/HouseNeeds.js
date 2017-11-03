@@ -194,14 +194,23 @@ const mapStateToProps = (store) => {
 const HouseNeedsViewRedux = connect(mapStateToProps, null)(HouseNeedsView);
 
 
-const HouseNeeds = StackNavigator({
-  HouseNeeds: {
-    screen: HouseNeedsViewRedux,
+const HouseNeeds = StackNavigator(
+  {
+    HouseNeeds: {
+      screen: HouseNeedsViewRedux,
+      navigationOptions: ({ navigation }) => ({
+        title: 'HouseNeeds',
+        headerLeft: <HouseNavBack navigation={navigation} />,
+      }),
+    },
+  },
+  {
     navigationOptions: ({ navigation }) => ({
-      title: 'HouseNeeds',
-      headerLeft: <HouseNavBack navigation={navigation} />,
+      headerStyle: { borderBottomColor: color.PRIMARY, backgroundColor: color.PRIMARY },
+      headerTitleStyle: { color: color.WHITE },
+      headerTintColor: color.WHITE,
     }),
   },
-});
+);
 
 export default HouseNeeds;

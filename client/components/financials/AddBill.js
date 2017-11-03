@@ -5,7 +5,7 @@ import {
   DatePickerIOS,
   ScrollView,
   StyleSheet,
-  Text,
+  Modal,
 } from 'react-native';
 import {
   CheckBox,
@@ -28,26 +28,38 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     margin: 5,
-  },
-  roomieLabel: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  roomieInput: {
-    flex: 1,
-    flexDirection: 'column',
+    marginBottom: 10,
+    marginTop: 10,
   },
   label: {
     flex: 1,
-    flexDirection: 'column',
+  },
+  roomieInput: {
+    flex: 1,
   },
   input: {
     flex: 2,
-    flexDirection: 'column',
   },
   button: {
     backgroundColor: color.PRIMARY,
     margin: 5,
+  },
+  dateButton: {
+    flex: 2,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: `${color.BG_D_GRAY}50`,
+  },
+  modalspacer: {
+    flex: 1,
+  },
+  datePicker: {
+    flex: 1,
+    backgroundColor: color.BG_L_GRAY,
+    marginRight: 10,
+    marginLeft: 10,
+    marginTop: 40,
   },
 });
 
@@ -133,14 +145,14 @@ class AddBill extends Component {
     return (
       <ScrollView style={styles.formContainer}>
         <View style={styles.inputContainer}>
-          <FormLabel style={styles.roomieLabel}>Bill name:</FormLabel>
+          <FormLabel style={styles.label}>Bill name:</FormLabel>
           <FormInput
             containerStyle={styles.input}
             onChangeText={name => this.setState({ billName: name })}
           />
         </View>
         <View style={styles.inputContainer}>
-          <FormLabel style={styles.roomieLabel}>Total: </FormLabel>
+          <FormLabel style={styles.label}>Total: </FormLabel>
           <FormInput
             containerStyle={styles.input}
             onChangeText={(total) => {
@@ -157,7 +169,7 @@ class AddBill extends Component {
           return (
             <View key={roomie.id} style={styles.inputContainer}>
               <View style={{ flex: 0.5, flexDirection: 'column' }} />
-              <FormLabel style={styles.roomieLabel}>{roomie.firstName}:</FormLabel>
+              <FormLabel style={styles.label}>{roomie.firstName}:</FormLabel>
               <FormInput
                 containerStyle={styles.roomieInput}
                 defaultValue={this.state.share}
@@ -166,30 +178,42 @@ class AddBill extends Component {
               <View style={{ flex: 0.5, flexDirection: 'column' }} />
             </View>);
         })}
-        {this.state.setDate &&
-          <View>
-            <DatePickerIOS
-              date={this.state.date}
-              minimumDate={this.state.date}
-              mode="date"
-              onDateChange={date => this.setState({ date })}
-            />
-            <Button
-              title="Done"
-              onPress={() => {
-                this.setState({ setDate: !this.state.setDate });
-              }}
-              buttonStyle={styles.button}
-            />
+        <Modal
+          transparent
+          animationType="slide"
+          visible={this.state.setDate}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalspacer} />
+            <View style={styles.datePicker}>
+              <DatePickerIOS
+                date={this.state.date}
+                minimumDate={new Date()}
+                mode="date"
+                onDateChange={date => this.setState({ date })}
+              />
+              <Button
+                title="Done"
+                onPress={() => {
+                  this.setState({ setDate: !this.state.setDate });
+                }}
+                buttonStyle={styles.button}
+              />
+            </View>
           </View>
-        }
-        <Button
-          title={this.state.date.toLocaleDateString()}
-          onPress={() => {
-            this.setState({ setDate: !this.state.setDate });
-          }}
-          buttonStyle={styles.button}
-        />
+        </Modal>
+        <View style={styles.inputContainer}>
+          <FormLabel style={styles.label}>Due Date</FormLabel>
+          <Button
+            title={this.state.date.toLocaleDateString()}
+            icon={{ name: 'edit' }}
+            onPress={() => {
+              this.setState({ setDate: !this.state.setDate });
+            }}
+            buttonStyle={styles.dateButton}
+            containerViewStyle={styles.dateButton}
+          />
+        </View>
         <CheckBox
           center
           iconRight

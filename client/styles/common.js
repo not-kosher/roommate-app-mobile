@@ -1,0 +1,15 @@
+export const PRIMARY = '#62aaa4';
+export const PRIMARY_D1 = '#559092';
+export const PRIMARY_D2 = '#528d88';
+export const PRIMARY_D3 = '#59a6a0';
+export const TEXT_L_GRAY = '#bdbdbd';
+export const TEXT_M_GRAY = '#383838';
+export const TEXT_D_GRAY = '#262626';
+export const BG_L_GRAY = '#f7f7f7';
+export const BG_M_GRAY = '#dddddd';
+export const BG_D_GRAY = '#262626';
+export const DIV_GRAY = '#d3d3d3';
+export const WHITE = '#ffffff';
+export const BLACK = '#000000';
+export const RED = '#d8363c';
+export const GREEN = '#488b33';

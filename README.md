@@ -8,7 +8,7 @@ Abodie is your one stop shop for everything you need to coordinate and communica
 Video demo coming soon!
 
 ### Screenshots
-![alt text](https://drive.google.com/file/d/1vE4nc6DrBMRfl0H2YRxy-_th_73WIOlf/view?usp=sharing "Splash Screen")
+![alt text](https://doc-14-2c-docs.googleusercontent.com/docs/securesc/64p2l99e2ev8m1h2suhvn8hbtf4vsr2i/mf7bqhqvet95boog9gjkfa6e2015t08s/1510113600000/15146866260338862431/15146866260338862431/13PLmR_qDSsprRT2G8iYgXZBPVX3zlMTE?e=view&nonce=gf5c2js4mp9u6&user=15146866260338862431&hash=a48f6v5odrf6efg4a3pbtrplpdfu348p "Splash Screen")
 ![alt text](https://drive.google.com/file/d/16_gTZ8zx89ARqu71IzrLvQ2F6mOXDyD-/view?usp=sharing "Financials Screen")
 ![alt text](https://drive.google.com/file/d/13PLmR_qDSsprRT2G8iYgXZBPVX3zlMTE/view?usp=sharing "Menu Options")
 
